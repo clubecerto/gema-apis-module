@@ -18,15 +18,15 @@ const CategoriesGrid = ({ history: { push } }) => {
       sx={{ my: 1 }}
     >
       {
-        categoriesList.map(({ category_id, category_name }) => (
+        categoriesList.map(({ categoria_id, categoria_nome }) => (
           <Grid
             item
-            key={ category_name }
+            key={ categoria_nome }
             xs={4}
           >
             <Button
               color= "success"
-              name={ category_id }
+              name={ categoria_id }
               onClick={ handleClickCategory }
               sx={{
                 color: "white",
@@ -36,7 +36,7 @@ const CategoriesGrid = ({ history: { push } }) => {
               variant="contained"
               type="button"
             >
-              { category_name }
+              { categoria_nome }
             </Button>
           </Grid>
         ))
