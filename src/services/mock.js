@@ -1,29 +1,29 @@
 export const categoriesList = [
   {
-    category_name: 'Category 1',
-    category_id: '1',
-    integrations: [
+    categoria_nome: 'Category 1',
+    categoria_id: '1',
+    integracoes: [
       {
-        integration_id: '1',
-        integration_name: 'Integration 1',
+        integracao_id: '1',
+        api_empresa: 'Empresa 1',
         status: 1,
         cron: 0,
-        manager: {
-          name: 'responsável pela conta',
+        responsavel: {
+          nome: 'responsável pela conta',
           email: 'responsavel@email.com',
-          phone: ['999999999', '988888888'],
+          telefone: ['999999999', '988888888'],
         },
-        attachments: 'link para o arquivo',
-        clients: [
+        anexo: 'link para o arquivo',
+        clientes: [
           {
             id: '1',
             nome: 'Cliente 1',
             status: 1,
             cron: 0,
-            manager: {
-              name: 'responsável pela conta',
+            responsavel: {
+              nome: 'responsável pela conta',
               email: 'responsavel@email.com',
-              phone: ['999999999', '988888888'],
+              telefone: ['999999999', '988888888'],
             },
             host: 'Host',
             token: '123456abcdef',
@@ -41,13 +41,13 @@ export const categoriesList = [
           },
           {
             id: '2',
-            client_name: 'Cliente 2',
+            nome: 'Cliente 2',
             status: 1,
             cron: 0,
-            manager: {
-              name: 'responsável pela conta',
+            responsavel: {
+              nome: 'responsável pela conta',
               email: 'responsavel@email.com',
-              phone: ['999999999', '988888888'],
+              telefone: ['999999999', '988888888'],
             },
             host: 'Host',
             token: '123456abcdef',
@@ -66,26 +66,26 @@ export const categoriesList = [
         ],
       },
       {
-        integration_id: '2',
-        integration_name: 'Integration 2',
-        status: 0,
-        cron: 1,
-        manager: {
-          name: 'responsável pela conta',
+        integracao_id: '2',
+        api_empresa: 'Empresa 2',
+        status: 1,
+        cron: 0,
+        responsavel: {
+          nome: 'responsável pela conta',
           email: 'responsavel@email.com',
-          phone: ['999999999', '988888888'],
+          telefone: ['999999999', '988888888'],
         },
-        attachments: 'link para o arquivo',
-        clients: [
+        anexo: 'link para o arquivo',
+        clientes: [
           {
             id: '3',
-            client_name: 'Cliente 3',
-            status: 0,
+            nome: 'Cliente 3',
+            status: 1,
             cron: 0,
-            manager: {
-              name: 'responsável pela conta',
+            responsavel: {
+              nome: 'responsável pela conta',
               email: 'responsavel@email.com',
-              phone: ['999999999', '988888888'],
+              telefone: ['999999999', '988888888'],
             },
             host: 'Host',
             token: '123456abcdef',
@@ -103,13 +103,13 @@ export const categoriesList = [
           },
           {
             id: '4',
-            client_name: 'Cliente 4',
-            status: 0,
+            nome: 'Cliente 4',
+            status: 1,
             cron: 0,
-            manager: {
-              name: 'responsável pela conta',
+            responsavel: {
+              nome: 'responsável pela conta',
               email: 'responsavel@email.com',
-              phone: ['999999999', '988888888'],
+              telefone: ['999999999', '988888888'],
             },
             host: 'Host',
             token: '123456abcdef',
@@ -125,15 +125,35 @@ export const categoriesList = [
             plano: 'plano(contrato)',
             produto: 'produto(pacote)',
           },
+        ],
+      },
+    ],
+  },
+  {
+    categoria_nome: 'Category 2',
+    categoria_id: '2',
+    integracoes: [
+      {
+        integracao_id: '3',
+        api_empresa: 'Empresa 3',
+        status: 1,
+        cron: 0,
+        responsavel: {
+          nome: 'responsável pela conta',
+          email: 'responsavel@email.com',
+          telefone: ['999999999', '988888888'],
+        },
+        anexo: 'link para o arquivo',
+        clientes: [
           {
             id: '5',
-            client_name: 'Cliente 5',
-            status: 0,
+            nome: 'Cliente 5',
+            status: 1,
             cron: 0,
-            manager: {
-              name: 'responsável pela conta',
+            responsavel: {
+              nome: 'responsável pela conta',
               email: 'responsavel@email.com',
-              phone: ['999999999', '988888888'],
+              telefone: ['999999999', '988888888'],
             },
             host: 'Host',
             token: '123456abcdef',
@@ -149,29 +169,15 @@ export const categoriesList = [
             plano: 'plano(contrato)',
             produto: 'produto(pacote)',
           },
-        ],
-      },
-      {
-        integration_id: '3',
-        integration_name: 'Integration 3',
-        status: 0,
-        cron: 0,
-        manager: {
-          name: 'responsável pela conta',
-          email: 'responsavel@email.com',
-          phone: ['999999999', '988888888'],
-        },
-        attachments: 'link para o arquivo',
-        clients: [
           {
             id: '6',
-            client_name: 'Cliente 6',
-            status: 0,
+            nome: 'Cliente 6',
+            status: 1,
             cron: 0,
-            manager: {
-              name: 'responsável pela conta',
+            responsavel: {
+              nome: 'responsável pela conta',
               email: 'responsavel@email.com',
-              phone: ['999999999', '988888888'],
+              telefone: ['999999999', '988888888'],
             },
             host: 'Host',
             token: '123456abcdef',
@@ -190,29 +196,26 @@ export const categoriesList = [
         ],
       },
       {
-        integration_id: '4',
-        integration_name: 'Integration 4',
+        integracao_id: '4',
+        api_empresa: 'Empresa 4',
         status: 1,
-        cron: 1,
-        manager: {
-          name: 'responsável pela conta',
+        cron: 0,
+        responsavel: {
+          nome: 'responsável pela conta',
           email: 'responsavel@email.com',
-          phone: ['999999999', '988888888'],
+          telefone: ['999999999', '988888888'],
         },
-        attachments: {
-          type: 'tipo de anexo',
-          link: 'link para o arquivo',
-        },
-        clients: [
+        anexo: 'link para o arquivo',
+        clientes: [
           {
             id: '7',
-            client_name: 'Cliente 7',
-            status: 0,
+            nome: 'Cliente 7',
+            status: 1,
             cron: 0,
-            manager: {
-              name: 'responsável pela conta',
+            responsavel: {
+              nome: 'responsável pela conta',
               email: 'responsavel@email.com',
-              phone: ['999999999', '988888888'],
+              telefone: ['999999999', '988888888'],
             },
             host: 'Host',
             token: '123456abcdef',
@@ -230,61 +233,13 @@ export const categoriesList = [
           },
           {
             id: '8',
-            client_name: 'Cliente 8',
+            nome: 'Cliente 8',
             status: 1,
             cron: 0,
-            manager: {
-              name: 'responsável pela conta',
+            responsavel: {
+              nome: 'responsável pela conta',
               email: 'responsavel@email.com',
-              phone: ['999999999', '988888888'],
-            },
-            host: 'Host',
-            token: '123456abcdef',
-            username: 'username',
-            password: 'password',
-            client_id: '1',
-            client_Secret: 'secret',
-            grant_type: 'grant type',
-            ip: '123123123',
-            porta: '123123',
-            contra_senha: 'contra senha',
-            identificador: '123qwe',
-            plano: 'plano(contrato)',
-            produto: 'produto(pacote)',
-          },
-          {
-            id: '9',
-            client_name: 'Cliente 9',
-            status: 1,
-            cron: 0,
-            manager: {
-              name: 'responsável pela conta',
-              email: 'responsavel@email.com',
-              phone: ['999999999', '988888888'],
-            },
-            host: 'Host',
-            token: '123456abcdef',
-            username: 'username',
-            password: 'password',
-            client_id: '1',
-            client_Secret: 'secret',
-            grant_type: 'grant type',
-            ip: '123123123',
-            porta: '123123',
-            contra_senha: 'contra senha',
-            identificador: '123qwe',
-            plano: 'plano(contrato)',
-            produto: 'produto(pacote)',
-          },
-          {
-            id: '10',
-            client_name: 'Cliente 10',
-            status: 1,
-            cron: 0,
-            manager: {
-              name: 'responsável pela conta',
-              email: 'responsavel@email.com',
-              phone: ['999999999', '988888888'],
+              telefone: ['999999999', '988888888'],
             },
             host: 'Host',
             token: '123456abcdef',
