@@ -43,8 +43,8 @@ export const categoriesList = [
           {
             id: '2',
             nome: 'Cliente 2',
-            status: 1,
-            cron: 0,
+            status: 0,
+            cron: 1,
             responsavel: {
               nome: 'responsável pela conta',
               email: 'responsavel@email.com',
@@ -71,7 +71,7 @@ export const categoriesList = [
         integracao_id: '2',
         api_empresa: 'Empresa 2',
         status: 1,
-        cron: 0,
+        cron: 1,
         responsavel: {
           nome: 'responsável pela conta',
           email: 'responsavel@email.com',
@@ -82,7 +82,7 @@ export const categoriesList = [
           {
             id: '3',
             nome: 'Cliente 3',
-            status: 1,
+            status: 0,
             cron: 0,
             responsavel: {
               nome: 'responsável pela conta',

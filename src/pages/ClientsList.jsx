@@ -18,9 +18,6 @@ const ClientsList = ({ history: { location: { pathname } } }) => {
   const categoryId = pathname.split('/')[1].slice(1);
   const integrationId = pathname.split('/')[2].slice(1);
 
-  console.log(categoryId);
-  console.log(integrationId);
-
   return (
     <Table
       aria-label="simple table"
@@ -40,16 +37,18 @@ const ClientsList = ({ history: { location: { pathname } } }) => {
       <TableBody>
         {
           categoriesList
-            .find(({ category_id }) => category_id === categoryId).integrations
-            .find(({ integration_id }) => integration_id === integrationId).clients
-            .map(({ client_name, status }) => (
+            .find(({ categoria_id }) => categoria_id === categoryId).integracoes
+            .find(({ integracao_id }) => integracao_id === integrationId).clientes
+            .map(({ nome, status, cron }) => (
               <TableRow
-                key={ client_name }
+                key={ nome }
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <TableCell sx={{ py: 1 }} >{ client_name }</TableCell>
+                <TableCell sx={{ py: 1 }} >{ nome }</TableCell>
                 <TableCell sx={{ py: 1 }}>Pessoa 1</TableCell>
-                <TableCell align="center" sx={{ py: 1 }}>Sim</TableCell>
+                <TableCell align="center" sx={{ py: 1 }}>
+                  { !cron ? 'Não' : 'Sim' }
+                </TableCell>
                 <TableCell align="center" sx={{ py: 1 }}>
                   <Button
                     color="success"
@@ -67,22 +66,8 @@ const ClientsList = ({ history: { location: { pathname } } }) => {
                   }}
                 >
                   {
-                    !!status
+                    !status
                     ? (
-                      <Box
-                        sx={{
-                          backgroundColor: "green",
-                          color: "white",
-                          height: "36px",
-                          width: "90px",
-                          borderRadius: "20px",
-                          paddingTop: "8px",
-                        }}
-                      >
-                        ATIVO
-                      </Box>
-                    )
-                    : (
                       <Box
                         sx={{
                           backgroundColor: "red",
@@ -94,6 +79,20 @@ const ClientsList = ({ history: { location: { pathname } } }) => {
                         }}
                       >
                         INATIVO
+                      </Box>
+                    )
+                    : (
+                      <Box
+                        sx={{
+                          backgroundColor: "green",
+                          color: "white",
+                          height: "36px",
+                          width: "90px",
+                          borderRadius: "20px",
+                          paddingTop: "8px",
+                        }}
+                      >
+                        ATIVO
                       </Box>
                     )
                   }

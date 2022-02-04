@@ -10,7 +10,7 @@ import TextField from '@mui/material/TextField';
 const SearchBar = () => {
   const [inputClientSearch, setInputClientSearch] = useState('');
   const [inputCategorySearch, setInputCategorySearch] = useState('');
-  const [inputIntegrationSearch, setInputIntegrationSearch] = useState('');
+  const [inputIntegrationSearch, setInputIntegrationSearch] = useState('1');
 
   const { categoriesList } = useContext(APIsManagementContext);
 
@@ -51,12 +51,12 @@ const SearchBar = () => {
           onChange={ ({ target: { value } }) => setInputCategorySearch(value) }
         >
           {
-            categoriesList.map(({ category_id, category_name }) => (
+            categoriesList.map(({ categoria_id, categoria_nome }) => (
               <MenuItem
-                key={ category_name }
-                value={ category_id }
+                key={ categoria_nome }
+                value={ categoria_id }
               >
-                { category_name }
+                { categoria_nome }
               </MenuItem>
             ))
           }
@@ -75,13 +75,13 @@ const SearchBar = () => {
         >
           {
             !!inputCategorySearch && categoriesList
-              .find(({ category_id }) => category_id === inputCategorySearch).integrations
-              .map(({ integration_id, integration_name }) => (
+              .find(({ categoria_id }) => categoria_id === inputCategorySearch).integracoes
+              .map(({ integracao_id, api_empresa }) => (
                 <MenuItem
-                  key={ integration_name }
-                  value={ integration_id }
+                  key={ api_empresa }
+                  value={ integracao_id }
                 >
-                  { integration_name }
+                  { api_empresa }
                 </MenuItem>
               ))
           }

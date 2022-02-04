@@ -53,10 +53,10 @@ const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
         <TableBody>
           {
             categoriesList
-            .find(({ category_id }) => category_id === categoryId).integrations
-            .map(({ integration_id, integration_name, status, cron }) => (
+            .find(({ categoria_id }) => categoria_id === categoryId).integracoes
+            .map(({ integracao_id, api_empresa, status, cron }) => (
               <TableRow
-              key={ integration_name }
+              key={ api_empresa }
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                   <TableCell
@@ -64,12 +64,12 @@ const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
                     >
                     <Button
                       color="success"
-                      name={ integration_id }
+                      name={ integracao_id }
                       onClick={ handleClickIntegration }
                       variant="outlined"
                       type="button"
                     >
-                      { integration_name }
+                      { api_empresa }
                     </Button>
                   </TableCell>
                   <TableCell sx={{ py: 1 }}>Pessoa 1</TableCell>
@@ -80,7 +80,7 @@ const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
                     <Button
                       color="success"
                       variant="contained"
-                      onClick={ () => handleDetailsModal(integration_id) }
+                      onClick={ () => handleDetailsModal(integracao_id) }
                       >
                       Ver mais
                     </Button>
@@ -94,22 +94,8 @@ const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
                     }}
                   >
                     {
-                      !!status
+                      !status
                       ? (
-                        <Box
-                        sx={{
-                          backgroundColor: "green",
-                          color: "white",
-                          height: "36px",
-                            width: "90px",
-                            borderRadius: "20px",
-                            paddingTop: "8px",
-                          }}
-                          >
-                          ATIVO
-                        </Box>
-                      )
-                      : (
                         <Box
                         sx={{
                           backgroundColor: "red",
@@ -121,6 +107,20 @@ const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
                         }}
                         >
                           INATIVO
+                        </Box>
+                      )
+                      : (
+                        <Box
+                        sx={{
+                          backgroundColor: "green",
+                          color: "white",
+                          height: "36px",
+                            width: "90px",
+                            borderRadius: "20px",
+                            paddingTop: "8px",
+                          }}
+                          >
+                          ATIVO
                         </Box>
                       )
                     }

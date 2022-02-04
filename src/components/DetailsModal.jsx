@@ -17,8 +17,8 @@ const style = {
   width: '80%',
   maxWidth: '1000px',
   bgcolor: 'background.paper',
-  border: '2px solid green',
-  boxShadow: 24,
+  borderRadius: '10px',
+  boxShadow: 15,
   p: 4,
   textAlign: 'center',
 };
@@ -26,9 +26,9 @@ const style = {
 const DetailsModal = ({ type, isOpen, handleClose, id }) => {
   const { categoriesList } = useContext(APIsManagementContext);
 
-  /// fazer requisição para buscar detalhes da integração específica
+  /// talvez fazer requisição para buscar detalhes da integração específica
   const renderDetails = () => {
-    const integrationSelected = categoriesList[0].integrations[id - 1];
+    const integrationSelected = categoriesList[0].integracoes[id - 1];
     const detailsToRender = Object.keys(integrationSelected)
       .filter((key) => key !== 'integration_id' && key !== 'clients');
     console.log(integrationSelected);
