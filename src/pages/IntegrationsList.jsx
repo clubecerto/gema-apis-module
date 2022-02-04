@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react';
 import APIsManagementContext from '../context/APIsManagementContext';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import DetailsModal from '../components/DetailsModal';
+import IntegrationDetailsModal from '../components/IntegrationDetailsModal';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -29,12 +29,12 @@ const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
 
   return (
     <>
-      <DetailsModal
-        type="integrationDetails"
-        id={ modalIntegrationId }
+      { !!isDetailsModalOpen && <IntegrationDetailsModal
+        categoryId = { categoryId }
+        integrationId={ modalIntegrationId }
         isOpen={ isDetailsModalOpen }
         handleClose={ handleDetailsModal }
-      />
+      /> }
       <Table
         aria-label="simple table"
         sx={{ my: 1 }}

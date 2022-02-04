@@ -10,7 +10,7 @@ import TextField from '@mui/material/TextField';
 const SearchBar = () => {
   const [inputClientSearch, setInputClientSearch] = useState('');
   const [inputCategorySearch, setInputCategorySearch] = useState('');
-  const [inputIntegrationSearch, setInputIntegrationSearch] = useState('1');
+  const [inputIntegrationSearch, setInputIntegrationSearch] = useState('');
 
   const { categoriesList } = useContext(APIsManagementContext);
 

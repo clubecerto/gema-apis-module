@@ -140,7 +140,7 @@ export const categoriesList = [
       {
         integracao_id: '3',
         api_empresa: 'Empresa 3',
-        status: 1,
+        status: 0,
         cron: 0,
         responsavel: {
           nome: 'responsável pela conta',
@@ -152,7 +152,7 @@ export const categoriesList = [
           {
             id: '5',
             nome: 'Cliente 5',
-            status: 1,
+            status: 0,
             cron: 0,
             responsavel: {
               nome: 'responsável pela conta',
@@ -177,7 +177,7 @@ export const categoriesList = [
           {
             id: '6',
             nome: 'Cliente 6',
-            status: 1,
+            status: 0,
             cron: 0,
             responsavel: {
               nome: 'responsável pela conta',
@@ -268,157 +268,3 @@ export const categoriesList = [
     ],
   },
 ];
-
-// ANTIGO
-// {
-//   category_name: 'Category 2',
-//   category_id: '2',
-//   integrations: [
-//     {
-//       integration_name: 'Integration 2.1',
-//       integration_id: '1',
-//       status: 1,
-//       cron: 1,
-//       manager: {
-//         name: 'responsável pela conta',
-//         email: 'responsavel@email.com',
-//         phone: ['999999999', '988888888'],
-//       },
-//       attachments: {
-//         type: 'tipo de anexo',
-//         link: 'link para o arquivo',
-//       },
-//       clients: [
-//         {
-//           client_name: 'Cliente 2.1',
-//           client_id: '1',
-//           status: 1,
-//         },
-//         {
-//           client_name: 'Cliente 2',
-//           client_id: '2',
-//           status: 1,
-//         },
-//       ],
-//     },
-//     {
-//       integration_name: 'Integration 2',
-//       integration_id: '2',
-//       status: 1,
-//       cron: 1,
-//       manager: {
-//         name: 'responsável pela conta',
-//         email: 'responsavel@email.com',
-//         phone: ['999999999', '988888888'],
-//       },
-//       attachments: {
-//         type: 'tipo de anexo',
-//         link: 'link para o arquivo',
-//       },
-//       clients: [
-//         {
-//           client_name: 'Cliente 3',
-//           client_id: '3',
-//           status: 1,
-//         },
-//         {
-//           client_name: 'Cliente 4',
-//           client_id: '4',
-//           status: 1,
-//         },
-//         {
-//           client_name: 'Cliente 5',
-//           client_id: '5',
-//           status: 1,
-//         },
-//       ],
-//     },
-//   ],
-// },
-// {
-//   category_name: 'Category 3',
-//   category_id: '3',
-//   integrations: [
-//     {
-//       integration_name: 'Integration 3.1',
-//       integration_id: '1',
-//       status: 1,
-//       cron: 1,
-//       manager: {
-//         name: 'responsável pela conta',
-//         email: 'responsavel@email.com',
-//         phone: ['999999999', '988888888'],
-//       },
-//       attachments: {
-//         type: 'tipo de anexo',
-//         link: 'link para o arquivo',
-//       },
-//       clients: [
-//         {
-//           client_name: 'Cliente 3.1',
-//           client_id: '1',
-//           status: 1,
-//         },
-//         {
-//           client_name: 'Cliente 2',
-//           client_id: '2',
-//           status: 1,
-//         },
-//       ],
-//     },
-//     {
-//       integration_name: 'Integration 2',
-//       integration_id: '2',
-//       status: 1,
-//       cron: 1,
-//       manager: {
-//         name: 'responsável pela conta',
-//         email: 'responsavel@email.com',
-//         phone: ['999999999', '988888888'],
-//       },
-//       attachments: {
-//         type: 'tipo de anexo',
-//         link: 'link para o arquivo',
-//       },
-//       clients: [
-//         {
-//           client_name: 'Cliente 3',
-//           client_id: '3',
-//           status: 1,
-//         },
-//         {
-//           client_name: 'Cliente 4',
-//           client_id: '4',
-//           status: 1,
-//         },
-//         {
-//           client_name: 'Cliente 5',
-//           client_id: '5',
-//           status: 1,
-//         },
-//       ],
-//     },
-//     {
-//       integration_name: 'Integration 3',
-//       integration_id: '3',
-//       status: 1,
-//       cron: 1,
-//       manager: {
-//         name: 'responsável pela conta',
-//         email: 'responsavel@email.com',
-//         phone: ['999999999', '988888888'],
-//       },
-//       attachments: {
-//         type: 'tipo de anexo',
-//         link: 'link para o arquivo',
-//       },
-//       clients: [
-//         {
-//           client_name: 'Cliente 6',
-//           client_id: '6',
-//           status: 0,
-//         },
-//       ],
-//     },
-//   ],
-// },
