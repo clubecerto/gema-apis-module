@@ -29,31 +29,26 @@ const DetailsModal = ({ type, isOpen, handleClose, id }) => {
   /// talvez fazer requisição para buscar detalhes da integração específica
   const renderDetails = () => {
     const integrationSelected = categoriesList[0].integracoes[id - 1];
+  
     const detailsToRender = Object.keys(integrationSelected)
-      .filter((key) => key !== 'integration_id' && key !== 'clients');
+      .filter((key) => key !== 'integracao_id' && key !== 'clientes');
     console.log(integrationSelected);
+
     return (
       <Container>
         {
           detailsToRender.map((detail) => {
-            switch (detail) {
-            // case 'status':
-            //   return (
-
-            //   ),
-            default:
-              return (
-                <Box>
-                  <Typography>
-                    { `${detail}: ${ integrationSelected[detail] }` }
-                  </Typography>
-                </Box>
-              );
-            };
-          })
+            const formattedDetail = detail.split('_').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+            return (
+              <Box>
+                <Typography>
+                  { `${formattedDetail}: ${ integrationSelected[detail] }` }
+                </Typography>
+              </Box>
+            )})
         }
       </Container>
-    )
+    );
   };
 
   return (
@@ -74,9 +69,6 @@ const DetailsModal = ({ type, isOpen, handleClose, id }) => {
             Detalhes
           </Typography>
           { !!id && renderDetails() }
-          <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-            { id }
-          </Typography>
         </Box>
       </Fade>
     </Modal>
