@@ -12,7 +12,10 @@ const SearchBar = () => {
   const [inputCategorySearch, setInputCategorySearch] = useState('');
   const [inputIntegrationSearch, setInputIntegrationSearch] = useState('');
 
-  const { categoriesList } = useContext(APIsManagementContext);
+  const {
+    categoriesList,
+    integrationsList,
+  } = useContext(APIsManagementContext);
 
   const handleSubmitClientSearch = (event) => {
     event.preventDefault();
@@ -74,8 +77,8 @@ const SearchBar = () => {
           value={ inputIntegrationSearch }
         >
           {
-            !!inputCategorySearch && categoriesList
-              .find(({ categoria_id }) => categoria_id === inputCategorySearch).integracoes
+            !!inputCategorySearch && integrationsList
+              .filter(({ categoria_id }) => categoria_id === inputCategorySearch)
               .map(({ integracao_id, api_empresa }) => (
                 <MenuItem
                   key={ api_empresa }

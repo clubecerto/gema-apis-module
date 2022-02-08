@@ -14,7 +14,7 @@ const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [modalIntegrationId, setModalIntegrationId] = useState('');
 
-  const { categoriesList } = useContext(APIsManagementContext);
+  const { integrationsList } = useContext(APIsManagementContext);
 
   const categoryId = pathname.slice(2);
 
@@ -38,7 +38,7 @@ const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
       <Table
         aria-label="simple table"
         sx={{ my: 1 }}
-        >
+      >
         <TableHead>
           <TableRow>
             { /* nome responsavel, contato, anexos, status, cron */ }
@@ -52,77 +52,77 @@ const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
 
         <TableBody>
           {
-            categoriesList
-            .find(({ categoria_id }) => categoria_id === categoryId).integracoes
-            .map(({ integracao_id, api_empresa, status, cron }) => (
-              <TableRow
-              key={ api_empresa }
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                  <TableCell
-                    sx={{ py: 1 }}
+            integrationsList
+              .filter(({ categoria_id }) => categoria_id === categoryId)
+              .map(({ integracao_id, api_empresa, responsavel, status, cron }) => (
+                <TableRow
+                key={ api_empresa }
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                    <TableCell
+                      sx={{ py: 1 }}
                     >
-                    <Button
-                      color="success"
-                      name={ integracao_id }
-                      onClick={ handleClickIntegration }
-                      variant="outlined"
-                      type="button"
-                    >
-                      { api_empresa }
-                    </Button>
-                  </TableCell>
-                  <TableCell sx={{ py: 1 }}>Pessoa 1</TableCell>
-                  <TableCell align="center" sx={{ py: 1 }}>
-                    { !cron ? 'Não' : 'Sim' }
-                  </TableCell>
-                  <TableCell align="center" sx={{ py: 1 }}>
-                    <Button
-                      color="success"
-                      variant="contained"
-                      onClick={ () => handleDetailsModal(integracao_id) }
+                      <Button
+                        color="success"
+                        name={ integracao_id }
+                        onClick={ handleClickIntegration }
+                        variant="outlined"
+                        type="button"
                       >
-                      Ver mais
-                    </Button>
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    sx={{
-                      py: 1,
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
-                  >
-                    {
-                      !status
-                      ? (
-                        <Box
-                        sx={{
-                          backgroundColor: "red",
-                          color: "white",
-                          height: "36px",
-                          width: "90px",
-                          borderRadius: "20px",
-                          paddingTop: "8px",
-                        }}
-                        >
-                          INATIVO
-                        </Box>
-                      )
-                      : (
-                        <Box
-                        sx={{
-                          backgroundColor: "green",
-                          color: "white",
-                          height: "36px",
+                        { api_empresa }
+                      </Button>
+                    </TableCell>
+                    <TableCell sx={{ py: 1 }}>{ responsavel }</TableCell>
+                    <TableCell align="center" sx={{ py: 1 }}>
+                      { !cron ? 'Não' : 'Sim' }
+                    </TableCell>
+                    <TableCell align="center" sx={{ py: 1 }}>
+                      <Button
+                        color="success"
+                        variant="contained"
+                        onClick={ () => handleDetailsModal(integracao_id) }
+                      >
+                        Ver mais
+                      </Button>
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      sx={{
+                        py: 1,
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                    >
+                      {
+                        !status
+                        ? (
+                          <Box
+                          sx={{
+                            backgroundColor: "red",
+                            color: "white",
+                            height: "36px",
                             width: "90px",
                             borderRadius: "20px",
                             paddingTop: "8px",
                           }}
                           >
-                          ATIVO
-                        </Box>
-                      )
+                            INATIVO
+                          </Box>
+                        )
+                        : (
+                          <Box
+                          sx={{
+                            backgroundColor: "green",
+                            color: "white",
+                            height: "36px",
+                              width: "90px",
+                              borderRadius: "20px",
+                              paddingTop: "8px",
+                            }}
+                            >
+                            ATIVO
+                          </Box>
+                        )
                     }
                   </TableCell>
                 </TableRow>
