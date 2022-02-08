@@ -1,12 +1,15 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+
+import getIntegration from '../services';
 
 import APIsManagementContext from '../context/APIsManagementContext';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Link from '@mui/material/Link';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Typography from '@mui/material/Typography';
-import { Button, Link } from '@mui/material';
 
 // ESTILIZAÇÃO DO MODAL
 const style = {
@@ -20,16 +23,16 @@ const style = {
   borderRadius: '10px',
   boxShadow: 15,
   p: 3,
-  backgroundColor: '#f5f6fa'
+  backgroundColor: '#f5f6fa',
 };
 
 const IntegrationDetailsModal = ({ isOpen, handleClose, integrationId, categoryId }) => {
+  const [integrationSelected, setIntegrationSelected] = useState('');
   const { categoriesList } = useContext(APIsManagementContext);
-
-  // ARMAZENA DADOS DA INTEGRAÇÃO SELECIONADA
-  const integrationSelected = categoriesList
-    .find(({ categoria_id }) => categoria_id === categoryId).integracoes
-    .find(({ integracao_id }) => integracao_id === integrationId);
+  // RECUPERA DADOS DA INTEGRAÇÃO ESCOLHIDA E SALVA DO ESTADO
+  useEffect(() => {
+    setIntegrationSelected(getIntegration(integrationId));
+  }, []);
 
   return (
     <Modal
@@ -63,9 +66,21 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, integrationId, categoryI
               id="transition-modal-title"
               variant="h4"
               component="h2"
-              sx={{ color: "white", flexGrow: 1 }}
+              sx={{
+                color: "white",
+                flexGrow: 1,
+                display: "flex",
+                alignItems: "baseline",
+              }}
             >
               { integrationSelected.api_empresa }
+              <Typography
+                id="transition-modal-title"
+                variant="subtitle2"
+                sx={{ color: "white", ml: 1 }}
+              >
+                { categoriesList.find((category) => category.categoria_id === categoryId).categoria_nome }
+              </Typography>
             </Typography>
 
             { /* VISUALIZAÇÃO DA ROTINA CRON */ }
@@ -140,7 +155,7 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, integrationId, categoryI
                 borderRadius: "15px",
               }}>
                 <Typography>
-                  Nome: { integrationSelected.responsavel.nome }
+                  Nome: { !!integrationSelected && integrationSelected.responsavel.nome }
                 </Typography>
               </Box>
               <Box sx={{
@@ -152,11 +167,11 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, integrationId, categoryI
                 borderRadius: "15px",
               }}>
                 <Typography>
-                  Email: { integrationSelected.responsavel.email }
+                  Email: { !!integrationSelected && integrationSelected.responsavel.email }
                 </Typography>
               </Box>
               {
-                integrationSelected.responsavel.telefone.map((telefone) => (
+                !!integrationSelected && integrationSelected.responsavel.telefone.map((telefone) => (
                   <Box sx={{
                     backgroundColor: "#f5f6fa",
                     border: "1px solid green",
