@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 
-import getIntegration from '../services';
+import { getIntegration } from '../services';
 
 import APIsManagementContext from '../context/APIsManagementContext';
 import Backdrop from '@mui/material/Backdrop';
@@ -26,9 +26,10 @@ const style = {
   backgroundColor: '#f5f6fa',
 };
 
-const IntegrationDetailsModal = ({ isOpen, handleClose, integrationId, categoryId }) => {
+const IntegrationDetailsModal = ({ isOpen, handleClose, integrationId }) => {
   const [integrationSelected, setIntegrationSelected] = useState('');
   const { categoriesList } = useContext(APIsManagementContext);
+
   // RECUPERA DADOS DA INTEGRAÇÃO ESCOLHIDA E SALVA DO ESTADO
   useEffect(() => {
     setIntegrationSelected(getIntegration(integrationId));
@@ -76,10 +77,11 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, integrationId, categoryI
               { integrationSelected.api_empresa }
               <Typography
                 id="transition-modal-title"
-                variant="subtitle2"
+                variant="subtitle1"
+                component="p"
                 sx={{ color: "white", ml: 1 }}
               >
-                { categoriesList.find((category) => category.categoria_id === categoryId).categoria_nome }
+                { !!integrationSelected && categoriesList.find((category) => category.categoria_id === integrationSelected.categoria_id).categoria_nome }
               </Typography>
             </Typography>
 
@@ -172,14 +174,17 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, integrationId, categoryI
               </Box>
               {
                 !!integrationSelected && integrationSelected.responsavel.telefone.map((telefone) => (
-                  <Box sx={{
-                    backgroundColor: "#f5f6fa",
-                    border: "1px solid green",
-                    p: 2,
-                    mx: 1,
-                    mt: 1,
-                    borderRadius: "15px",
-                  }}>
+                  <Box
+                    key={ telefone }
+                    sx={{
+                      backgroundColor: "#f5f6fa",
+                      border: "1px solid green",
+                      p: 2,
+                      mx: 1,
+                      mt: 1,
+                      borderRadius: "15px",
+                    }}
+                  >
                     <Typography>
                       Telefone: { telefone }
                     </Typography>

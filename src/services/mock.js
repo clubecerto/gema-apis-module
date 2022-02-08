@@ -176,6 +176,7 @@ export const client_1 = {
   status: 1,
   cron: 0,
   integracao_id: '1',
+  categoria_id: '1',
   responsavel: {
     nome: 'responsável pela conta',
     email: 'responsavel@email.com',
@@ -203,6 +204,7 @@ export const client_2 = {
   status: 0,
   cron: 1,
   integracao_id: '1',
+  categoria_id: '1',
   responsavel: {
     nome: 'responsável pela conta',
     email: 'responsavel@email.com',
@@ -230,6 +232,7 @@ export const client_3 = {
   status: 0,
   cron: 0,
   integracao_id: '2',
+  categoria_id: '1',
   responsavel: {
     nome: 'responsável pela conta',
     email: 'responsavel@email.com',
@@ -257,6 +260,7 @@ export const client_4 = {
   status: 1,
   cron: 0,
   integracao_id: '2',
+  categoria_id: '1',
   responsavel: {
     nome: 'responsável pela conta',
     email: 'responsavel@email.com',
@@ -284,6 +288,7 @@ export const client_5 = {
   status: 0,
   cron: 0,
   integracao_id: '3',
+  categoria_id: '2',
   responsavel: {
     nome: 'responsável pela conta',
     email: 'responsavel@email.com',
@@ -311,6 +316,7 @@ export const client_6 = {
   status: 0,
   cron: 0,
   integracao_id: '3',
+  categoria_id: '2',
   responsavel: {
     nome: 'responsável pela conta',
     email: 'responsavel@email.com',
@@ -338,6 +344,7 @@ export const client_7 = {
   status: 1,
   cron: 0,
   integracao_id: '4',
+  categoria_id: '2',
   responsavel: {
     nome: 'responsável pela conta',
     email: 'responsavel@email.com',
@@ -365,6 +372,7 @@ export const client_8 = {
   status: 1,
   cron: 0,
   integracao_id: '4',
+  categoria_id: '2',
   responsavel: {
     nome: 'responsável pela conta',
     email: 'responsavel@email.com',

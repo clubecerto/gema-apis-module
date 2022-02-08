@@ -13,23 +13,21 @@ import TableRow from '@mui/material/TableRow';
 
 const ClientsList = ({ history: { location: { pathname } } }) => {
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
-  const [modalIntegrationId, setModalIntegrationId] = useState('');
+  const [modalClientId, setModalClientId] = useState('');
 
   const { clientsList } = useContext(APIsManagementContext);
 
-  const categoryId = pathname.split('/')[1].slice(1);
   const integrationId = pathname.split('/')[2].slice(1);
 
-  const handleDetailsModal = (integrationId) => {
-    setModalIntegrationId(integrationId)
+  const handleDetailsModal = (clientId) => {
+    setModalClientId(clientId)
     setIsDetailsModalOpen(!isDetailsModalOpen);
   }
 
   return (
     <>
       { !!isDetailsModalOpen && <ClientDetailsModal
-        categoryId = { categoryId }
-        integrationId={ modalIntegrationId }
+        clientId={ modalClientId }
         isOpen={ isDetailsModalOpen }
         handleClose={ handleDetailsModal }
       /> }
@@ -39,7 +37,6 @@ const ClientsList = ({ history: { location: { pathname } } }) => {
       >
         <TableHead>
           <TableRow>
-            {/* contato(email, telefone), informações email, botão editar */}
             <TableCell>Cliente</TableCell>
             <TableCell>Reponsável</TableCell>
             <TableCell align="center" sx={{ width: "80px" }}>Cron</TableCell>

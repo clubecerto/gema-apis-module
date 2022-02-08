@@ -30,7 +30,6 @@ const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
   return (
     <>
       { !!isDetailsModalOpen && <IntegrationDetailsModal
-        categoryId = { categoryId }
         integrationId={ modalIntegrationId }
         isOpen={ isDetailsModalOpen }
         handleClose={ handleDetailsModal }
@@ -41,7 +40,6 @@ const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
       >
         <TableHead>
           <TableRow>
-            { /* nome responsavel, contato, anexos, status, cron */ }
             <TableCell>API Empresa</TableCell>
             <TableCell>Responsável</TableCell>
             <TableCell align="center" sx={{ width: "80px" }}>Cron</TableCell>
