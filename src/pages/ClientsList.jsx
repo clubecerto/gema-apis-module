@@ -20,7 +20,7 @@ const ClientsList = ({ history: { location: { pathname } } }) => {
   const integrationId = pathname.split('/')[2].slice(1);
 
   const handleDetailsModal = (clientId) => {
-    setModalClientId(clientId)
+    setModalClientId(clientId);
     setIsDetailsModalOpen(!isDetailsModalOpen);
   }
 

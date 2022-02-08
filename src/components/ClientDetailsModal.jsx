@@ -17,8 +17,8 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '80%',
-  maxWidth: '1000px',
+  width: '90%',
+  maxWidth: '1200px',
   bgcolor: 'background.paper',
   borderRadius: '10px',
   boxShadow: 15,
@@ -34,6 +34,20 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, clientId }) => {
   useEffect(() => {
     setClientSelected(getClient(clientId));
   }, []);
+
+  const checkKey = (key) => {
+    const keysToNotBeRendered = [
+      'id',
+      'nome',
+      'status',
+      'cron',
+      'integracao_id',
+      'categoria_id',
+      'responsavel',
+    ];
+    return !(keysToNotBeRendered
+      .some((forbiddenKey) => key === forbiddenKey));
+  };
 
   return (
     <Modal
@@ -147,78 +161,186 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, clientId }) => {
           </Box>
 
           { /* CORPO DO MODAL */ }
-          <Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
 
-            { /* INFORMAÇÕES DO RESPONSÁVEL */ }
-            <Box sx={{
-              backgroundColor: "white",
-              boxShadow: "0px 0px 15px 0px rgb(88 88 88 / 20%)",
-              p: 2,
-              mt: 2,
-              borderRadius: "15px",
-            }}>
-              <Typography sx={{ mb: 1 }}>
-                Responsável
-              </Typography>
+            { /* COLUNA 1 */ }
+            <Box sx={{ width: "32%" }}>
+              { /* INFORMAÇÕES DO RESPONSÁVEL */ }
               <Box sx={{
-                backgroundColor: "#f5f6fa",
-                border: "1px solid green",
+                backgroundColor: "white",
+                boxShadow: "0px 0px 15px 0px rgb(88 88 88 / 20%)",
                 p: 2,
-                mx: 1,
-                mt: 1,
+                mt: 2,
                 borderRadius: "15px",
               }}>
-                <Typography>
-                  Nome: { !!clientSelected && clientSelected.responsavel.nome }
+                <Typography sx={{ mb: 1 }}>
+                  Responsável
                 </Typography>
+                <Box sx={{
+                  backgroundColor: "#f5f6fa",
+                  border: "1px solid green",
+                  p: 2,
+                  mx: 1,
+                  mt: 2,
+                  borderRadius: "15px",
+                }}>
+                  <Typography>
+                    Nome: { !!clientSelected && clientSelected.responsavel.nome }
+                  </Typography>
+                </Box>
+                <Box sx={{
+                  backgroundColor: "#f5f6fa",
+                  border: "1px solid green",
+                  p: 2,
+                  mx: 1,
+                  mt: 1,
+                  borderRadius: "15px",
+                }}>
+                  <Typography>
+                    Email: { !!clientSelected && clientSelected.responsavel.email }
+                  </Typography>
+                </Box>
+                {
+                  !!clientSelected && clientSelected.responsavel.telefone.map((telefone) => (
+                    <Box
+                      key={ telefone }
+                      sx={{
+                        backgroundColor: "#f5f6fa",
+                        border: "1px solid green",
+                        p: 2,
+                        mx: 1,
+                        mt: 1,
+                        borderRadius: "15px",
+                      }}
+                    >
+                      <Typography>
+                        Telefone: { telefone }
+                      </Typography>
+                    </Box>
+                  ))
+                }
               </Box>
+
+              { /* ACESSO AO ANEXO */ }
               <Box sx={{
-                backgroundColor: "#f5f6fa",
-                border: "1px solid green",
+                backgroundColor: "white",
+                boxShadow: "0px 0px 15px 0px rgb(88 88 88 / 20%)",
                 p: 2,
-                mx: 1,
-                mt: 1,
+                mt: 2,
                 borderRadius: "15px",
               }}>
-                <Typography>
-                  Email: { !!clientSelected && clientSelected.responsavel.email }
+                <Typography sx={{ mb: 2 }}>
+                  Anexos
                 </Typography>
+                <Link href={ clientSelected.anexo } underline="none" target="_blank">
+                  <Button type='' variant="contained" color="success">Baixar arquivo</Button>
+                </Link>
               </Box>
-              {
-                !!clientSelected && clientSelected.responsavel.telefone.map((telefone) => (
-                  <Box
-                    key={ telefone }
-                    sx={{
-                      backgroundColor: "#f5f6fa",
-                      border: "1px solid green",
-                      p: 2,
-                      mx: 1,
-                      mt: 1,
-                      borderRadius: "15px",
-                    }}
-                  >
-                    <Typography>
-                      Telefone: { telefone }
-                    </Typography>
-                  </Box>
-                ))
-              }
             </Box>
 
-            { /* ACESSO AO ANEXO */ }
-            <Box sx={{
-              backgroundColor: "white",
-              boxShadow: "0px 0px 15px 0px rgb(88 88 88 / 20%)",
-              p: 2,
-              mt: 2,
-              borderRadius: "15px",
-            }}>
-              <Typography sx={{ mb: 1 }}>
-                Anexos
-              </Typography>
-              <Link href={ clientSelected.anexo } underline="none" target="_blank">
-                <Button type='' variant="contained" color="success">Baixar arquivo</Button>
-              </Link>
+            { /* COLUNA 2 */ }
+            <Box
+              sx={{
+                width: "65%",
+                backgroundColor: "white",
+                boxShadow: "0px 0px 15px 0px rgb(88 88 88 / 20%)",
+                borderRadius: "15px",
+                p: 2,
+                mt: 2,
+              }}
+            >
+            <Typography sx={{ mb: 1 }}>
+              Informações
+            </Typography>
+
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                { /* COLUNA 2.1 */ }
+                <Box sx={{ width: "50%" }}>
+
+                  { /* DADOS DO CLIENTE */ }
+                  <Box>
+                    {
+                      Object.keys(clientSelected).map((key, index) => {
+                        const shouldRender = checkKey(key);
+                        if (
+                          shouldRender
+                          && clientSelected[key] !== null
+                          && index < 14
+                        ) {
+
+                          // SUBSTITUI UNDERSCORES POR ESPAÇOS E COLOCA LETRA MAIÚSCULA NA PRIMEIRA LETRA DAS PALAVRAS QUE FORMAM A KEY
+                          const formattedKey = key.split('_').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+                          return (
+                            <Box
+                              key={ key }
+                              sx={{
+                                backgroundColor: "#f5f6fa",
+                                border: "1px solid green",
+                                p: 2,
+                                mx: 1,
+                                mt: 1,
+                                borderRadius: "15px",
+                              }}
+                            >
+                              <Typography>
+                                { !!clientSelected && `${formattedKey}: ${clientSelected[key]}` }
+                              </Typography>
+                            </Box>
+                          );
+                        };
+                      })
+                    }
+                  </Box>
+                </Box>
+
+                { /* COLUNA 2.2 */ }
+                <Box sx={{ width: "50%" }}>
+                  { /* DADOS DO CLIENTE */ }
+                  <Box>
+                    {
+                      Object.keys(clientSelected).map((key, index) => {
+                        const shouldRender = checkKey(key);
+                        if (
+                          shouldRender
+                          && clientSelected[key] !== null
+                          && index >= 14
+                        ) {
+
+                          // SUBSTITUI UNDERSCORES POR ESPAÇOS E COLOCA LETRA MAIÚSCULA NA PRIMEIRA LETRA DAS PALAVRAS QUE FORMAM A KEY
+                          const formattedKey = key.split('_').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+                          return (
+                            <Box
+                              key={ key }
+                              sx={{
+                                backgroundColor: "#f5f6fa",
+                                border: "1px solid green",
+                                p: 2,
+                                mx: 1,
+                                mt: 1,
+                                borderRadius: "15px",
+                              }}
+                            >
+                              <Typography>
+                                { !!clientSelected && `${formattedKey}: ${clientSelected[key]}` }
+                              </Typography>
+                            </Box>
+                          );
+                        };
+                      })
+                    }
+                  </Box>
+                </Box>
+              </Box>
             </Box>
           </Box>
         </Box>
