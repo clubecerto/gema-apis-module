@@ -21,7 +21,7 @@ const SearchBar = () => {
   };
 
   return (
-    <Box>
+    <Box sx={{ flexGrow: 1, mr: 3 }}>
       <form
         onSubmit={ handleSubmitClientSearch }
         style={{
