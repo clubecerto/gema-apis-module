@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 
 import APIsManagementContext from '../context/APIsManagementContext';
+
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 
@@ -25,10 +26,11 @@ const CategoriesGrid = ({ history: { push } }) => {
             xs={4}
           >
             <Button
-              color= "success"
+              color= "primary"
               name={ categoria_id }
               onClick={ handleClickCategory }
               sx={{
+                borderRadius: "10px",
                 color: "white",
                 py: 2,
                 width: "100%",

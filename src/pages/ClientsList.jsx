@@ -1,8 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 
 import APIsManagementContext from '../context/APIsManagementContext';
+
 import Box from '@mui/system/Box';
 import Button from '@mui/material/Button';
+import ClientDetailsModal from '../components/ClientDetailsModal';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -11,97 +13,115 @@ import TableRow from '@mui/material/TableRow';
 
 
 const ClientsList = ({ history: { location: { pathname } } }) => {
-  const {
-    categoriesList,
-  } = useContext(APIsManagementContext);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+  const [modalClientId, setModalClientId] = useState('');
 
-  const categoryId = pathname.split('/')[1].slice(1);
+  const { clientsList } = useContext(APIsManagementContext);
+
+  // CAPTURA ID DA INTEGRAÇÃO SELECIONADA POR MEIO DO URL
   const integrationId = pathname.split('/')[2].slice(1);
 
-  return (
-    <Table
-      aria-label="simple table"
-      sx={{ my: 1 }}
-    >
-      <TableHead>
-        <TableRow>
-          {/* contato(email, telefone), informações email, botão editar */}
-          <TableCell>Cliente</TableCell>
-          <TableCell>Reponsável</TableCell>
-          <TableCell align="center" sx={{ width: "80px" }}>Cron</TableCell>
-          <TableCell align="center" sx={{ width: "140px" }}>Detalhes</TableCell>
-          <TableCell align="center" sx={{ width: "120px" }}>Status</TableCell>
-        </TableRow>
-      </TableHead>
+  const handleDetailsModal = (clientId) => {
+    setIsDetailsModalOpen(!isDetailsModalOpen);
+    setModalClientId(clientId);
+  }
 
-      <TableBody>
-        {
-          categoriesList
-            .find(({ categoria_id }) => categoria_id === categoryId).integracoes
-            .find(({ integracao_id }) => integracao_id === integrationId).clientes
-            .map(({ nome, status, cron }) => (
-              <TableRow
-                key={ nome }
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell sx={{ py: 1 }} >{ nome }</TableCell>
-                <TableCell sx={{ py: 1 }}>Pessoa 1</TableCell>
-                <TableCell align="center" sx={{ py: 1 }}>
-                  { !cron ? 'Não' : 'Sim' }
-                </TableCell>
-                <TableCell align="center" sx={{ py: 1 }}>
-                  <Button
-                    color="success"
-                    variant="contained"
+  return (
+    <>
+      { !!isDetailsModalOpen && <ClientDetailsModal
+        clientId={ modalClientId }
+        handleClose={ handleDetailsModal }
+        isOpen={ isDetailsModalOpen }
+      /> }
+      <Table
+        aria-label="simple table"
+        sx={{
+          backgroundColor: "white",
+          borderRadius: "10px",
+          boxShadow: "0px 0px 15px 0px rgb(88 88 88 / 20%)",
+          my: 3,
+        }}
+      >
+        <TableHead>
+          <TableRow>
+            <TableCell sx={{ fontWeight: "600" }}>Cliente</TableCell>
+            <TableCell sx={{ fontWeight: "600" }}>Reponsável</TableCell>
+            <TableCell align="center" sx={{ fontWeight: "600", width: "80px" }}>Cron</TableCell>
+            <TableCell align="center" sx={{ fontWeight: "600", width: "140px" }}>Detalhes</TableCell>
+            <TableCell align="center" sx={{ fontWeight: "600", width: "120px" }}>Status</TableCell>
+          </TableRow>
+        </TableHead>
+
+        <TableBody>
+          {
+            clientsList
+              .filter(({ integracao_id }) => integracao_id === integrationId)
+                .map(({ nome, status, cron, responsavel, id }) => (
+                  <TableRow
+                    key={ nome }
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
-                    Ver mais
-                  </Button>
-                </TableCell>
-                <TableCell
-                  align="center"
-                  sx={{
-                    py: 1,
-                    display: "flex",
-                    justifyContent: "center",
-                  }}
-                >
-                  {
-                    !status
-                    ? (
-                      <Box
-                        sx={{
-                          backgroundColor: "red",
-                          color: "white",
-                          height: "36px",
-                          width: "90px",
-                          borderRadius: "20px",
-                          paddingTop: "8px",
-                        }}
+                    <TableCell sx={{ py: 1 }} >{ nome }</TableCell>
+                    <TableCell sx={{ py: 1 }}>{ responsavel }</TableCell>
+                    <TableCell align="center" sx={{ py: 1 }}>
+                      { !cron ? 'Não' : 'Sim' }
+                    </TableCell>
+                    <TableCell align="center" sx={{ py: 1 }}>
+                      <Button
+                        color="primary"
+                        variant="contained"
+                        onClick={ () => handleDetailsModal(id) }
+                        sx={{ borderRadius: "10px" }}
                       >
-                        INATIVO
-                      </Box>
-                    )
-                    : (
-                      <Box
-                        sx={{
-                          backgroundColor: "green",
-                          color: "white",
-                          height: "36px",
-                          width: "90px",
-                          borderRadius: "20px",
-                          paddingTop: "8px",
-                        }}
-                      >
-                        ATIVO
-                      </Box>
-                    )
-                  }
-                </TableCell>
-              </TableRow>
-          ))
-        }
-      </TableBody>
-    </Table>
+                        Ver mais
+                      </Button>
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        py: 1,
+                      }}
+                    >
+                      {
+                        !status
+                        ? (
+                          <Box
+                            sx={{
+                              backgroundColor: "#b40803",
+                              borderRadius: "20px",
+                              color: "white",
+                              height: "36px",
+                              paddingTop: "8px",
+                              width: "90px",
+                            }}
+                          >
+                            INATIVO
+                          </Box>
+                        )
+                        : (
+                          <Box
+                            sx={{
+                              backgroundColor: "#00964f",
+                              borderRadius: "20px",
+                              color: "white",
+                              height: "36px",
+                              paddingTop: "8px",
+                              width: "90px",
+                            }}
+                          >
+                            ATIVO
+                          </Box>
+                        )
+                      }
+                    </TableCell>
+                  </TableRow>
+              ))
+          }
+        </TableBody>
+      </Table>
+    </>
   );
 };
 
