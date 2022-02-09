@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react';
 
 import APIsManagementContext from '../context/APIsManagementContext';
+
 import Box from '@mui/system/Box';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import SearchIcon from '@mui/icons-material/Search';
-import TextField from '@mui/material/TextField';
 import StyledInput from './StyledInput';
 
 const SearchBar = () => {
@@ -13,11 +13,9 @@ const SearchBar = () => {
   const [inputCategorySearch, setInputCategorySearch] = useState('');
   const [inputIntegrationSearch, setInputIntegrationSearch] = useState('');
 
-  const {
-    categoriesList,
-    integrationsList,
-  } = useContext(APIsManagementContext);
+  const { categoriesList, integrationsList, } = useContext(APIsManagementContext);
 
+  // BUSCA POR CLIENTE, LÓGICA PENDENTE AGUARDANDO API
   const handleSubmitClientSearch = (event) => {
     event.preventDefault();
   };
@@ -39,23 +37,23 @@ const SearchBar = () => {
           color="primary"
           label="Buscar cliente"
           name="search-client"
-          size="small"
-          type="text"
-          variant="outlined"
-          sx={{ flexGrow: 1, mr: 2 }}
-          value={ inputClientSearch }
           onChange={ ({ target: { value } }) => setInputClientSearch(value) }
+          size="small"
+          sx={{ flexGrow: 1, mr: 2 }}
+          type="text"
+          value={ inputClientSearch }
+          variant="outlined"
         />
         <StyledInput
           color="primary"
           label="Categorias"
           name="categories"
+          onChange={ ({ target: { value } }) => setInputCategorySearch(value) }
           select
           size="small"
-          variant="outlined"
           sx={{ width: "200px", mr: 2 }}
           value={ inputCategorySearch }
-          onChange={ ({ target: { value } }) => setInputCategorySearch(value) }
+          variant="outlined"
         >
           {
             categoriesList.map(({ categoria_id, categoria_nome }) => (
@@ -76,9 +74,9 @@ const SearchBar = () => {
           onChange={ ({ target: { value } }) => setInputIntegrationSearch(value) }
           select
           size="small"
-          variant="outlined"
           sx={{ width: "200px", mr: 2 }}
           value={ inputIntegrationSearch }
+          variant="outlined"
         >
           {
             !!inputCategorySearch && integrationsList
@@ -94,10 +92,10 @@ const SearchBar = () => {
           }
         </StyledInput>
         <Button
+          color="primary"
+          sx={{ borderRadius: "10px", height: "40px" }}
           type="submit"
           variant="contained"
-          color="primary"
-          sx={{ height: "40px", borderRadius: "10px" }}
         >
           <SearchIcon />
         </Button>

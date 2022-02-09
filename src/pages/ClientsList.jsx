@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 
 import APIsManagementContext from '../context/APIsManagementContext';
+
 import Box from '@mui/system/Box';
 import Button from '@mui/material/Button';
 import ClientDetailsModal from '../components/ClientDetailsModal';
@@ -17,19 +18,20 @@ const ClientsList = ({ history: { location: { pathname } } }) => {
 
   const { clientsList } = useContext(APIsManagementContext);
 
+  // CAPTURA ID DA INTEGRAÇÃO SELECIONADA POR MEIO DO URL
   const integrationId = pathname.split('/')[2].slice(1);
 
   const handleDetailsModal = (clientId) => {
-    setModalClientId(clientId);
     setIsDetailsModalOpen(!isDetailsModalOpen);
+    setModalClientId(clientId);
   }
 
   return (
     <>
       { !!isDetailsModalOpen && <ClientDetailsModal
         clientId={ modalClientId }
-        isOpen={ isDetailsModalOpen }
         handleClose={ handleDetailsModal }
+        isOpen={ isDetailsModalOpen }
       /> }
       <Table
         aria-label="simple table"
@@ -44,9 +46,9 @@ const ClientsList = ({ history: { location: { pathname } } }) => {
           <TableRow>
             <TableCell sx={{ fontWeight: "600" }}>Cliente</TableCell>
             <TableCell sx={{ fontWeight: "600" }}>Reponsável</TableCell>
-            <TableCell align="center" sx={{ width: "80px", fontWeight: "600" }}>Cron</TableCell>
-            <TableCell align="center" sx={{ width: "140px", fontWeight: "600" }}>Detalhes</TableCell>
-            <TableCell align="center" sx={{ width: "120px", fontWeight: "600" }}>Status</TableCell>
+            <TableCell align="center" sx={{ fontWeight: "600", width: "80px" }}>Cron</TableCell>
+            <TableCell align="center" sx={{ fontWeight: "600", width: "140px" }}>Detalhes</TableCell>
+            <TableCell align="center" sx={{ fontWeight: "600", width: "120px" }}>Status</TableCell>
           </TableRow>
         </TableHead>
 
@@ -77,9 +79,9 @@ const ClientsList = ({ history: { location: { pathname } } }) => {
                     <TableCell
                       align="center"
                       sx={{
-                        py: 1,
                         display: "flex",
                         justifyContent: "center",
+                        py: 1,
                       }}
                     >
                       {
@@ -88,11 +90,11 @@ const ClientsList = ({ history: { location: { pathname } } }) => {
                           <Box
                             sx={{
                               backgroundColor: "#b40803",
+                              borderRadius: "20px",
                               color: "white",
                               height: "36px",
-                              width: "90px",
-                              borderRadius: "20px",
                               paddingTop: "8px",
+                              width: "90px",
                             }}
                           >
                             INATIVO
@@ -102,11 +104,11 @@ const ClientsList = ({ history: { location: { pathname } } }) => {
                           <Box
                             sx={{
                               backgroundColor: "#00964f",
+                              borderRadius: "20px",
                               color: "white",
                               height: "36px",
-                              width: "90px",
-                              borderRadius: "20px",
                               paddingTop: "8px",
+                              width: "90px",
                             }}
                           >
                             ATIVO

@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 
 import APIsManagementContext from '../context/APIsManagementContext';
+
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import IntegrationDetailsModal from '../components/IntegrationDetailsModal';
@@ -16,6 +17,7 @@ const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
 
   const { integrationsList } = useContext(APIsManagementContext);
 
+  // CAPTURA ID DA CATEGORIA SELECIONADA POR MEIO DO URL
   const categoryId = pathname.slice(2);
 
   const handleClickIntegration = ({ target: { name } }) => {
@@ -30,9 +32,9 @@ const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
   return (
     <>
       { !!isDetailsModalOpen && <IntegrationDetailsModal
+        handleClose={ handleDetailsModal }
         integrationId={ modalIntegrationId }
         isOpen={ isDetailsModalOpen }
-        handleClose={ handleDetailsModal }
       /> }
       <Table
         aria-label="simple table"
@@ -47,9 +49,9 @@ const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
           <TableRow>
             <TableCell sx={{ fontWeight: "600" }}>API Empresa</TableCell>
             <TableCell sx={{ fontWeight: "600" }}>Responsável</TableCell>
-            <TableCell align="center" sx={{ width: "80px", fontWeight: "600" }}>Cron</TableCell>
-            <TableCell align="center" sx={{ width: "140px", fontWeight: "600" }}>Detalhes</TableCell>
-            <TableCell align="center" sx={{ width: "120px", fontWeight: "600" }}>Status</TableCell>
+            <TableCell align="center" sx={{ fontWeight: "600", width: "80px" }}>Cron</TableCell>
+            <TableCell align="center" sx={{ fontWeight: "600", width: "140px" }}>Detalhes</TableCell>
+            <TableCell align="center" sx={{ fontWeight: "600", width: "120px" }}>Status</TableCell>
           </TableRow>
         </TableHead>
 
@@ -71,8 +73,8 @@ const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
                         name={ integracao_id }
                         onClick={ handleClickIntegration }
                         sx={{ borderRadius: "10px" }}
-                        variant="outlined"
                         type="button"
+                        variant="outlined"
                       >
                         { api_empresa }
                       </Button>
@@ -84,9 +86,9 @@ const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
                     <TableCell align="center" sx={{ py: 1 }}>
                       <Button
                         color="primary"
-                        variant="contained"
                         onClick={ () => handleDetailsModal(integracao_id) }
                         sx={{ borderRadius: "10px" }}
+                        variant="contained"
                       >
                         Ver mais
                       </Button>
@@ -94,9 +96,9 @@ const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
                     <TableCell
                       align="center"
                       sx={{
-                        py: 1,
                         display: "flex",
                         justifyContent: "center",
+                        py: 1,
                       }}
                     >
                       {
@@ -105,11 +107,11 @@ const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
                           <Box
                           sx={{
                             backgroundColor: "#b40803",
+                            borderRadius: "20px",
                             color: "white",
                             height: "36px",
-                            width: "90px",
-                            borderRadius: "20px",
                             paddingTop: "8px",
+                            width: "90px",
                           }}
                           >
                             INATIVO
@@ -117,15 +119,15 @@ const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
                         )
                         : (
                           <Box
-                          sx={{
-                            backgroundColor: "#00964f",
-                            color: "white",
-                            height: "36px",
-                              width: "90px",
+                            sx={{
+                              backgroundColor: "#00964f",
                               borderRadius: "20px",
+                              color: "white",
+                              height: "36px",
                               paddingTop: "8px",
+                              width: "90px",
                             }}
-                            >
+                          >
                             ATIVO
                           </Box>
                         )

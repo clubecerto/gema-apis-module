@@ -15,9 +15,9 @@ const PageTitle = () => {
       }}
     >
       <Typography
+        component="h1"
         fontWeight="600"
         variant="h4"
-        component="h1"
       >
         API's
       </Typography>

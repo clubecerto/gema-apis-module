@@ -11,9 +11,7 @@ ReactDOM.render(
     <HashRouter>
       <CssBaseline />
       <GlobalStyles
-          styles={{
-            body: { backgroundColor: "#f5f6fa" },
-          }}
+          styles={{ body: { backgroundColor: "#f5f6fa" } }}
         />
       <App />
     </HashRouter>
