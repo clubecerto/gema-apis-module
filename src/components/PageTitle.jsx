@@ -7,7 +7,7 @@ const PageTitle = () => {
   return (
     <Container
       sx={{
-        backgroundColor: "green",
+        backgroundColor: "#00964f",
         borderRadius: "10px",
         color: "white",
         my: 3,
@@ -15,6 +15,7 @@ const PageTitle = () => {
       }}
     >
       <Typography
+        fontWeight="600"
         variant="h4"
         component="h1"
       >

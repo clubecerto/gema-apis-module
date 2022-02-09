@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import SearchIcon from '@mui/icons-material/Search';
 import TextField from '@mui/material/TextField';
+import StyledInput from './StyledInput';
 
 const SearchBar = () => {
   const [inputClientSearch, setInputClientSearch] = useState('');
@@ -26,24 +27,27 @@ const SearchBar = () => {
       <form
         onSubmit={ handleSubmitClientSearch }
         style={{
+          backgroundColor: "white",
+          borderRadius: "10px",
+          boxShadow: "0px 0px 15px 0px rgb(88 88 88 / 20%)",
           display: "flex",
           justifyContent: "space-between",
+          padding: "16px",
         }}
       >
-        <TextField
-          color="success"
-          
+        <StyledInput
+          color="primary"
           label="Buscar cliente"
           name="search-client"
           size="small"
           type="text"
           variant="outlined"
-          sx={{ flexGrow: 1, mr: 2, borderRadius: "2px" }}
+          sx={{ flexGrow: 1, mr: 2 }}
           value={ inputClientSearch }
           onChange={ ({ target: { value } }) => setInputClientSearch(value) }
         />
-        <TextField
-          color="success"
+        <StyledInput
+          color="primary"
           label="Categorias"
           name="categories"
           select
@@ -63,9 +67,9 @@ const SearchBar = () => {
               </MenuItem>
             ))
           }
-        </TextField>
-        <TextField
-          color="success"
+        </StyledInput>
+        <StyledInput
+          color="primary"
           disabled={ !inputCategorySearch }
           label="Integração"
           name="integracao"
@@ -88,12 +92,12 @@ const SearchBar = () => {
                 </MenuItem>
               ))
           }
-        </TextField>
+        </StyledInput>
         <Button
           type="submit"
           variant="contained"
-          color="success"
-          sx={{ height: "40px" }}
+          color="primary"
+          sx={{ height: "40px", borderRadius: "10px" }}
         >
           <SearchIcon />
         </Button>

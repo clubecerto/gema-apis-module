@@ -33,15 +33,20 @@ const ClientsList = ({ history: { location: { pathname } } }) => {
       /> }
       <Table
         aria-label="simple table"
-        sx={{ my: 1 }}
+        sx={{
+          backgroundColor: "white",
+          borderRadius: "10px",
+          boxShadow: "0px 0px 15px 0px rgb(88 88 88 / 20%)",
+          my: 3,
+        }}
       >
         <TableHead>
           <TableRow>
-            <TableCell>Cliente</TableCell>
-            <TableCell>Reponsável</TableCell>
-            <TableCell align="center" sx={{ width: "80px" }}>Cron</TableCell>
-            <TableCell align="center" sx={{ width: "140px" }}>Detalhes</TableCell>
-            <TableCell align="center" sx={{ width: "120px" }}>Status</TableCell>
+            <TableCell sx={{ fontWeight: "600" }}>Cliente</TableCell>
+            <TableCell sx={{ fontWeight: "600" }}>Reponsável</TableCell>
+            <TableCell align="center" sx={{ width: "80px", fontWeight: "600" }}>Cron</TableCell>
+            <TableCell align="center" sx={{ width: "140px", fontWeight: "600" }}>Detalhes</TableCell>
+            <TableCell align="center" sx={{ width: "120px", fontWeight: "600" }}>Status</TableCell>
           </TableRow>
         </TableHead>
 
@@ -61,9 +66,10 @@ const ClientsList = ({ history: { location: { pathname } } }) => {
                     </TableCell>
                     <TableCell align="center" sx={{ py: 1 }}>
                       <Button
-                        color="success"
+                        color="primary"
                         variant="contained"
                         onClick={ () => handleDetailsModal(id) }
+                        sx={{ borderRadius: "10px" }}
                       >
                         Ver mais
                       </Button>
@@ -81,7 +87,7 @@ const ClientsList = ({ history: { location: { pathname } } }) => {
                         ? (
                           <Box
                             sx={{
-                              backgroundColor: "red",
+                              backgroundColor: "#b40803",
                               color: "white",
                               height: "36px",
                               width: "90px",
@@ -95,7 +101,7 @@ const ClientsList = ({ history: { location: { pathname } } }) => {
                         : (
                           <Box
                             sx={{
-                              backgroundColor: "green",
+                              backgroundColor: "#00964f",
                               color: "white",
                               height: "36px",
                               width: "90px",

@@ -67,7 +67,7 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, clientId }) => {
           { /* HEADER DO MODAL */ }
           <Box
             sx={{
-              backgroundColor: "green",
+              backgroundColor: "#00964f",
               borderRadius: "10px",
               p: 2,
               display: "flex",
@@ -81,6 +81,7 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, clientId }) => {
               id="transition-modal-title"
               variant="h4"
               component="h2"
+              fontWeight="600"
               sx={{
                 color: "white",
                 flexGrow: 1,
@@ -113,7 +114,7 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, clientId }) => {
 
             { /* VISUALIZAÇÃO DA ROTINA CRON */ }
             <Box sx={{
-              backgroundColor: "#f5f6fa",
+              backgroundColor: "#efefef",
               borderRadius: "10px",
               p: 1,
               ml: 1,
@@ -133,11 +134,11 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, clientId }) => {
               !clientSelected.status
               ? (
                 <Box sx={{
-                  backgroundColor: "#f5f6fa",
+                  backgroundColor: "white",
                   borderRadius: "10px",
                   p: 1,
                   width: "130px",
-                  color: "red",
+                  color: "#b40803",
                   ml: 1,
                   textAlign: "center",
                 }}>
@@ -146,11 +147,11 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, clientId }) => {
               )
               : (
                 <Box sx={{
-                  backgroundColor: "#f5f6fa",
+                  backgroundColor: "white",
                   borderRadius: "10px",
                   p: 1,
                   width: "130px",
-                  color: "green",
+                  color: "#00964f",
                   ml: 1,
                   textAlign: "center",
                 }}>
@@ -178,12 +179,11 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, clientId }) => {
                 mt: 2,
                 borderRadius: "15px",
               }}>
-                <Typography sx={{ mb: 1 }}>
+                <Typography fontWeight="600" sx={{ mb: 1 }}>
                   Responsável
                 </Typography>
                 <Box sx={{
-                  backgroundColor: "#f5f6fa",
-                  border: "1px solid green",
+                  backgroundColor: "#efefef",
                   p: 2,
                   mx: 1,
                   mt: 2,
@@ -194,8 +194,7 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, clientId }) => {
                   </Typography>
                 </Box>
                 <Box sx={{
-                  backgroundColor: "#f5f6fa",
-                  border: "1px solid green",
+                  backgroundColor: "#efefef",
                   p: 2,
                   mx: 1,
                   mt: 1,
@@ -210,8 +209,7 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, clientId }) => {
                     <Box
                       key={ telefone }
                       sx={{
-                        backgroundColor: "#f5f6fa",
-                        border: "1px solid green",
+                        backgroundColor: "#efefef",
                         p: 2,
                         mx: 1,
                         mt: 1,
@@ -234,11 +232,18 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, clientId }) => {
                 mt: 2,
                 borderRadius: "15px",
               }}>
-                <Typography sx={{ mb: 2 }}>
+                <Typography fontWeight="600" sx={{ mb: 2 }}>
                   Anexos
                 </Typography>
                 <Link href={ clientSelected.anexo } underline="none" target="_blank">
-                  <Button type='' variant="contained" color="success">Baixar arquivo</Button>
+                  <Button 
+                    type=''
+                    variant="contained"
+                    color="primary"
+                    sx={{ borderRadius: "10px" }}
+                  >
+                    Baixar arquivo
+                  </Button>
                 </Link>
               </Box>
             </Box>
@@ -254,7 +259,7 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, clientId }) => {
                 mt: 2,
               }}
             >
-            <Typography sx={{ mb: 1 }}>
+            <Typography fontWeight="600" sx={{ mb: 1 }}>
               Informações
             </Typography>
 
@@ -284,8 +289,7 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, clientId }) => {
                             <Box
                               key={ key }
                               sx={{
-                                backgroundColor: "#f5f6fa",
-                                border: "1px solid green",
+                                backgroundColor: "#efefef",
                                 p: 2,
                                 mx: 1,
                                 mt: 1,
@@ -322,8 +326,7 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, clientId }) => {
                             <Box
                               key={ key }
                               sx={{
-                                backgroundColor: "#f5f6fa",
-                                border: "1px solid green",
+                                backgroundColor: "#efefef",
                                 p: 2,
                                 mx: 1,
                                 mt: 1,

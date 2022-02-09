@@ -25,10 +25,11 @@ const CategoriesGrid = ({ history: { push } }) => {
             xs={4}
           >
             <Button
-              color= "success"
+              color= "primary"
               name={ categoria_id }
               onClick={ handleClickCategory }
               sx={{
+                borderRadius: "10px",
                 color: "white",
                 py: 2,
                 width: "100%",
