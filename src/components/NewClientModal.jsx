@@ -27,7 +27,7 @@ const style = {
   width: '90%',
 };
 
-const IntegrationDetailsModal = ({ isOpen, handleClose, clientId }) => {
+const NewClientModal = ({ isOpen, handleClose, clientId }) => {
   const [clientSelected, setClientSelected] = useState('');
 
   const { categoriesList, integrationsList } = useContext(APIsManagementContext);
@@ -49,7 +49,6 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, clientId }) => {
       'nome',
       'responsavel',
       'status',
-      'anexo',
     ];
     return !(keysToNotBeRendered
       .some((forbiddenKey) => key === forbiddenKey));
@@ -123,81 +122,49 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, clientId }) => {
             </Typography>
 
             { /* VISUALIZAÇÃO DA ROTINA CRON */ }
-            {
-              !clientSelected.cron
-              ? (
-                <Box
-                  sx={{
-                    backgroundColor: "white",
-                    borderRadius: "20px",
-                    color: "#b40803",
-                    fontSize: "0.875rem",
-                    fontWeight: "600",
-                    height: "36px",
-                    paddingTop: "8px",
-                    textAlign: "center",
-                    width: "120px",
-                  }}
-                >
-                  CRON: NÃO
-                </Box>
-              )
-              : (
-                <Box
-                  sx={{
-                    backgroundColor: "white",
-                    borderRadius: "20px",
-                    color: "#00964f",
-                    fontSize: "0.875rem",
-                    fontWeight: "600",
-                    height: "36px",
-                    paddingTop: "8px",
-                    textAlign: "center",
-                    width: "120px",
-                  }}
-                >
-                  SIM
-                </Box>
-              )
-            }
+            <Box sx={{
+              backgroundColor: "#efefef",
+              borderRadius: "10px",
+              ml: 1,
+              p: 1,
+              textAlign: "center",
+              width: "100px",
+            }}>
+              <Typography
+                id="transition-modal-title"
+                variant="text"
+              >
+                { `Cron: ${!clientSelected.cron ? 'Não' : 'Sim'}` }
+              </Typography>
+            </Box>
 
             { /* VISUALIZAÇÃO DO STATUS */ }
             {
               !clientSelected.status
               ? (
-                <Box
-                  sx={{
-                    backgroundColor: "white",
-                    borderRadius: "20px",
-                    color: "#b40803",
-                    fontSize: "0.875rem",
-                    fontWeight: "600",
-                    height: "36px",
-                    ml: 1,
-                    paddingTop: "8px",
-                    textAlign: "center",
-                    width: "140px",
-                  }}
-                >
-                  STATUS: INATIVO
+                <Box sx={{
+                  backgroundColor: "white",
+                  borderRadius: "10px",
+                  color: "#b40803",
+                  ml: 1,
+                  p: 1,
+                  textAlign: "center",
+                  width: "130px",
+                }}>
+                  Status: Inativo
                 </Box>
               )
               : (
-                <Box
-                  sx={{
-                    backgroundColor: "white",
-                    borderRadius: "20px",
-                    color: "#00964f",
-                    fontSize: "0.875rem",
-                    fontWeight: "600",
-                    height: "36px",
-                    ml: 1,
-                    paddingTop: "8px",
-                    textAlign: "center",
-                    width: "140px",
-                  }}
-                >
-                  STATUS: ATIVO
+                <Box sx={{
+                  backgroundColor: "white",
+                  borderRadius: "10px",
+                  color: "#00964f",
+                  ml: 1,
+                  p: 1,
+                  textAlign: "center",
+                  width: "130px",
+                }}>
+                  Status: Ativo
                 </Box>
               )
             }
@@ -268,31 +235,27 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, clientId }) => {
               </Box>
 
               { /* ACESSO AO ANEXO */ }
-              {
-                !!(clientSelected.anexo) && (
-                  <Box sx={{
-                    backgroundColor: "white",
-                    borderRadius: "15px",
-                    boxShadow: "0px 0px 15px 0px rgb(88 88 88 / 20%)",
-                    mt: 2,
-                    p: 2,
-                  }}>
-                    <Typography fontWeight="600" sx={{ mb: 2 }}>
-                      Anexos
-                    </Typography>
-                    <Link href={ clientSelected.anexo } target="_blank" underline="none">
-                      <Button 
-                        color="primary"
-                        sx={{ borderRadius: "10px" }}
-                        type=''
-                        variant="contained"
-                      >
-                        Baixar arquivo
-                      </Button>
-                    </Link>
-                  </Box>
-                )
-              }
+              <Box sx={{
+                backgroundColor: "white",
+                borderRadius: "15px",
+                boxShadow: "0px 0px 15px 0px rgb(88 88 88 / 20%)",
+                mt: 2,
+                p: 2,
+              }}>
+                <Typography fontWeight="600" sx={{ mb: 2 }}>
+                  Anexos
+                </Typography>
+                <Link href={ clientSelected.anexo } target="_blank" underline="none">
+                  <Button 
+                    color="primary"
+                    sx={{ borderRadius: "10px" }}
+                    type=''
+                    variant="contained"
+                  >
+                    Baixar arquivo
+                  </Button>
+                </Link>
+              </Box>
             </Box>
 
             { /* COLUNA 2 */ }
@@ -399,4 +362,4 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, clientId }) => {
   );
 };
 
-export default IntegrationDetailsModal;
+export default NewClientModal;

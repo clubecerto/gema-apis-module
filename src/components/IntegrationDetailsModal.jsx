@@ -91,49 +91,81 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, integrationId }) => {
             </Typography>
 
             { /* VISUALIZAÇÃO DA ROTINA CRON */ }
-            <Box sx={{
-              backgroundColor: "white",
-              borderRadius: "10px",
-              ml: 1,
-              p: 1,
-              textAlign: "center",
-              width: "100px",
-            }}>
-              <Typography
-                id="transition-modal-title"
-                variant="text"
-              >
-                { `Cron: ${!integrationSelected.cron ? 'Não' : 'Sim'}` }
-              </Typography>
-            </Box>
+            {
+              !integrationSelected.cron
+              ? (
+                <Box
+                  sx={{
+                    backgroundColor: "white",
+                    borderRadius: "20px",
+                    color: "#b40803",
+                    fontSize: "0.875rem",
+                    fontWeight: "600",
+                    height: "36px",
+                    paddingTop: "8px",
+                    textAlign: "center",
+                    width: "120px",
+                  }}
+                >
+                  CRON: NÃO
+                </Box>
+              )
+              : (
+                <Box
+                  sx={{
+                    backgroundColor: "white",
+                    borderRadius: "20px",
+                    color: "#00964f",
+                    fontSize: "0.875rem",
+                    fontWeight: "600",
+                    height: "36px",
+                    paddingTop: "8px",
+                    textAlign: "center",
+                    width: "120px",
+                  }}
+                >
+                  SIM
+                </Box>
+              )
+            }
 
             { /* VISUALIZAÇÃO DO STATUS */ }
             {
               !integrationSelected.status
               ? (
-                <Box sx={{
-                  backgroundColor: "white",
-                  borderRadius: "10px",
-                  color: "#b40803",
-                  ml: 1,
-                  p: 1,
-                  textAlign: "center",
-                  width: "130px",
-                }}>
-                  Status: Inativo
+                <Box
+                  sx={{
+                    backgroundColor: "white",
+                    borderRadius: "20px",
+                    color: "#b40803",
+                    fontSize: "0.875rem",
+                    fontWeight: "600",
+                    height: "36px",
+                    ml: 1,
+                    paddingTop: "8px",
+                    textAlign: "center",
+                    width: "140px",
+                  }}
+                >
+                  STATUS: INATIVO
                 </Box>
               )
               : (
-                <Box sx={{
-                  backgroundColor: "white",
-                  borderRadius: "10px",
-                  color: "#00964f",
-                  p: 1,
-                  ml: 1,
-                  textAlign: "center",
-                  width: "130px",
-                }}>
-                  Status: Ativo
+                <Box
+                  sx={{
+                    backgroundColor: "white",
+                    borderRadius: "20px",
+                    color: "#00964f",
+                    fontSize: "0.875rem",
+                    fontWeight: "600",
+                    height: "36px",
+                    ml: 1,
+                    paddingTop: "8px",
+                    textAlign: "center",
+                    width: "140px",
+                  }}
+                >
+                  STATUS: ATIVO
                 </Box>
               )
             }

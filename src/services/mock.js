@@ -196,6 +196,7 @@ export const client_1 = {
   tombamento: 'tombamento',
   plano: 'plano(contrato)',
   produto: 'produto(pacote)',
+  anexo: 'caminho do anexo',
 };
 
 export const client_2 = {

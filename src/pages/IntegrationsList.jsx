@@ -49,8 +49,8 @@ const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
           <TableRow>
             <TableCell sx={{ fontWeight: "600" }}>API Empresa</TableCell>
             <TableCell sx={{ fontWeight: "600" }}>Responsável</TableCell>
-            <TableCell align="center" sx={{ fontWeight: "600", width: "80px" }}>Cron</TableCell>
             <TableCell align="center" sx={{ fontWeight: "600", width: "140px" }}>Detalhes</TableCell>
+            <TableCell align="center" sx={{ fontWeight: "600", width: "120px" }}>Cron</TableCell>
             <TableCell align="center" sx={{ fontWeight: "600", width: "120px" }}>Status</TableCell>
           </TableRow>
         </TableHead>
@@ -81,9 +81,6 @@ const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
                     </TableCell>
                     <TableCell sx={{ py: 1 }}>{ responsavel }</TableCell>
                     <TableCell align="center" sx={{ py: 1 }}>
-                      { !cron ? 'Não' : 'Sim' }
-                    </TableCell>
-                    <TableCell align="center" sx={{ py: 1 }}>
                       <Button
                         color="primary"
                         onClick={ () => handleDetailsModal(integracao_id) }
@@ -96,8 +93,44 @@ const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
                     <TableCell
                       align="center"
                       sx={{
-                        display: "flex",
-                        justifyContent: "center",
+                        py: 1,
+                      }}
+                    >
+                      {
+                        !cron
+                        ? (
+                          <Box
+                          sx={{
+                            backgroundColor: "#b40803",
+                            borderRadius: "20px",
+                            color: "white",
+                            height: "36px",
+                            paddingTop: "8px",
+                            width: "90px",
+                          }}
+                          >
+                            NÃO
+                          </Box>
+                        )
+                        : (
+                          <Box
+                            sx={{
+                              backgroundColor: "#00964f",
+                              borderRadius: "20px",
+                              color: "white",
+                              height: "36px",
+                              paddingTop: "8px",
+                              width: "90px",
+                            }}
+                          >
+                            SIM
+                          </Box>
+                        )
+                    }
+                  </TableCell>
+                  <TableCell
+                      align="center"
+                      sx={{
                         py: 1,
                       }}
                     >

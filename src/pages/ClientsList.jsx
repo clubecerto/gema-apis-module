@@ -24,7 +24,7 @@ const ClientsList = ({ history: { location: { pathname } } }) => {
   const handleDetailsModal = (clientId) => {
     setIsDetailsModalOpen(!isDetailsModalOpen);
     setModalClientId(clientId);
-  }
+  };
 
   return (
     <>
@@ -46,8 +46,8 @@ const ClientsList = ({ history: { location: { pathname } } }) => {
           <TableRow>
             <TableCell sx={{ fontWeight: "600" }}>Cliente</TableCell>
             <TableCell sx={{ fontWeight: "600" }}>Reponsável</TableCell>
-            <TableCell align="center" sx={{ fontWeight: "600", width: "80px" }}>Cron</TableCell>
             <TableCell align="center" sx={{ fontWeight: "600", width: "140px" }}>Detalhes</TableCell>
+            <TableCell align="center" sx={{ fontWeight: "600", width: "120px" }}>Cron</TableCell>
             <TableCell align="center" sx={{ fontWeight: "600", width: "120px" }}>Status</TableCell>
           </TableRow>
         </TableHead>
@@ -64,9 +64,6 @@ const ClientsList = ({ history: { location: { pathname } } }) => {
                     <TableCell sx={{ py: 1 }} >{ nome }</TableCell>
                     <TableCell sx={{ py: 1 }}>{ responsavel }</TableCell>
                     <TableCell align="center" sx={{ py: 1 }}>
-                      { !cron ? 'Não' : 'Sim' }
-                    </TableCell>
-                    <TableCell align="center" sx={{ py: 1 }}>
                       <Button
                         color="primary"
                         variant="contained"
@@ -78,11 +75,43 @@ const ClientsList = ({ history: { location: { pathname } } }) => {
                     </TableCell>
                     <TableCell
                       align="center"
-                      sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        py: 1,
-                      }}
+                      sx={{ py: 1 }}
+                    >
+                      {
+                        !cron
+                        ? (
+                          <Box
+                            sx={{
+                              backgroundColor: "#b40803",
+                              borderRadius: "20px",
+                              color: "white",
+                              height: "36px",
+                              paddingTop: "8px",
+                              width: "90px",
+                            }}
+                          >
+                            NÃO
+                          </Box>
+                        )
+                        : (
+                          <Box
+                            sx={{
+                              backgroundColor: "#00964f",
+                              borderRadius: "20px",
+                              color: "white",
+                              height: "36px",
+                              paddingTop: "8px",
+                              width: "90px",
+                            }}
+                          >
+                            SIM
+                          </Box>
+                        )
+                      }
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      sx={{ py: 1 }}
                     >
                       {
                         !status
