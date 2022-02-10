@@ -37,7 +37,7 @@ const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
         isOpen={ isDetailsModalOpen }
       /> }
       <Table
-        aria-label="simple table"
+        aria-label="integrations list table"
         sx={{
           backgroundColor: "white",
           borderRadius: "10px",

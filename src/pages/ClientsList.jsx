@@ -34,7 +34,7 @@ const ClientsList = ({ history: { location: { pathname } } }) => {
         isOpen={ isDetailsModalOpen }
       /> }
       <Table
-        aria-label="simple table"
+        aria-label="client list table"
         sx={{
           backgroundColor: "white",
           borderRadius: "10px",
