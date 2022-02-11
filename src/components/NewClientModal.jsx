@@ -4,16 +4,17 @@ import { getClient } from '../services';
 
 import APIsManagementContext from '../context/APIsManagementContext';
 
-import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
-import Fade from '@mui/material/Fade';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormGroup from '@mui/material/FormGroup';
 import MenuItem from '@mui/material/MenuItem';
-import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import StyledInput from './StyledInput';
-import { FormControlLabel, FormGroup } from '@mui/material';
+import StyledDialog from './StyledDialog';
 
 // ESTILIZAÇÃO DO MODAL
 const style = {
@@ -342,160 +343,157 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
   };
 
   return (
-    <Modal
-      aria-labelledby="transition-modal-title"
-      aria-describedby="transition-modal-description"
-      BackdropComponent={Backdrop}
-      BackdropProps={{
-        timeout: 500,
-      }}
-      closeAfterTransition
-      onClose={ () => handleClose(clientId)}
-      open={isOpen}
+    <StyledDialog
+    open={isOpen}
+    onClose={() => handleClose(clientId)}
+    scroll={"paper"}
+    maxWidth="lg"
+    fullWidth
+    sx={{ borderRadius: "20px" }}
+    aria-labelledby="scroll-dialog-title"
+    aria-describedby="scroll-dialog-description"
     >
-      <Fade in={isOpen}>
-        <Box sx={style}>
 
-          { /* HEADER DO MODAL */ }
-          <Box
-            sx={{
-              alignItems: "center",
-              backgroundColor: "#00964f",
-              borderRadius: "10px",
-              color: "white",
-              display: "flex",
-              justifyContent: "space-between",
-              mb: 2,
-              p: 2,
-            }}
+      <DialogTitle sx={{ mt: 1 }} id="scroll-dialog-title">
+        <Box
+          sx={{
+            alignItems: "center",
+            backgroundColor: "#00964f",
+            borderRadius: "10px",
+            color: "white",
+            display: "flex",
+            justifyContent: "space-between",
+            p: 2,
+          }}
+        >
+          <Typography
+            component="h1"
+            fontWeight="600"
+            pl={1}
+            variant="h4"
           >
-            <Typography
-              component="h1"
-              fontWeight="600"
-              pl={1}
-              variant="h4"
-            >
-              Novo Cliente
-            </Typography>
+            Novo Cliente
+          </Typography>
 
-            { /*CAMPOS PARA SELECIONAR CATGORIA E INTEGRAÇÃO */ }
-            <form
-              onSubmit={ handleHeaderSubmit }
+          { /*CAMPOS PARA SELECIONAR CATGORIA E INTEGRAÇÃO */ }
+          <form
+            onSubmit={ handleHeaderSubmit }
+          >
+            <StyledInput
+              color="darkBG"
+              label="Categorias"
+              name="categories"
+              onChange={ ({ target: { name, value } }) => setNewClientInputs({ ...newClientInputs, categoria_id: value }) }
+              select
+              size="small"
+              sx={{ mr: 2, width: "200px" }}
+              value={ newClientInputs.categoria_id }
+              variant="outlined"
             >
-              <StyledInput
-                color="darkBG"
-                label="Categorias"
-                name="categories"
-                onChange={ ({ target: { name, value } }) => setNewClientInputs({ ...newClientInputs, categoria_id: value }) }
-                select
-                size="small"
-                sx={{ mr: 2, width: "200px" }}
-                value={ newClientInputs.categoria_id }
-                variant="outlined"
-              >
-                {
-                  categoriesList.map(({ categoria_id, categoria_nome }) => (
+              {
+                categoriesList.map(({ categoria_id, categoria_nome }) => (
+                  <MenuItem
+                    key={ categoria_nome }
+                    value={ categoria_id }
+                  >
+                    { categoria_nome }
+                  </MenuItem>
+                ))
+              }
+            </StyledInput>
+            <StyledInput
+              color="darkBG"
+              disabled={ !newClientInputs.categoria_id }
+              label="Integração"
+              name="integracao"
+              onChange={ ({ target: { name, value } }) => setNewClientInputs({ ...newClientInputs, integracao_id: value }) }
+              select
+              size="small"
+              sx={{ width: "200px", mr: 2 }}
+              value={ newClientInputs.integracao_id }
+              variant="outlined"
+            >
+              {
+                !!newClientInputs.categoria_id && integrationsList
+                  .filter(({ categoria_id }) => categoria_id === newClientInputs.categoria_id)
+                  .map(({ integracao_id, api_empresa }) => (
                     <MenuItem
-                      key={ categoria_nome }
-                      value={ categoria_id }
+                      key={ api_empresa }
+                      value={ integracao_id }
                     >
-                      { categoria_nome }
+                      { api_empresa }
                     </MenuItem>
                   ))
-                }
-              </StyledInput>
-              <StyledInput
-                color="darkBG"
-                disabled={ !newClientInputs.categoria_id }
-                label="Integração"
-                name="integracao"
-                onChange={ ({ target: { name, value } }) => setNewClientInputs({ ...newClientInputs, integracao_id: value }) }
-                select
-                size="small"
-                sx={{ width: "200px", mr: 2 }}
-                value={ newClientInputs.integracao_id }
-                variant="outlined"
-              >
-                {
-                  !!newClientInputs.categoria_id && integrationsList
-                    .filter(({ categoria_id }) => categoria_id === newClientInputs.categoria_id)
-                    .map(({ integracao_id, api_empresa }) => (
-                      <MenuItem
-                        key={ api_empresa }
-                        value={ integracao_id }
-                      >
-                        { api_empresa }
-                      </MenuItem>
-                    ))
-                }
-              </StyledInput>
-              <Button
-                color="darkBG"
-                disabled={ !newClientInputs.integracao_id }
-                sx={{ borderRadius: "10px", color:"#00964f", height: "40px" }}
-                type="submit"
-                variant="contained"
-              >
-                Continuar
-              </Button>
-            </form>
-          </Box>
+              }
+            </StyledInput>
+            <Button
+              color="darkBG"
+              disabled={ !newClientInputs.integracao_id }
+              sx={{ borderRadius: "10px", color:"#00964f", height: "40px" }}
+              type="submit"
+              variant="contained"
+            >
+              Continuar
+            </Button>
+          </form>
+        </Box>
+      </DialogTitle>
 
-          { /* CORPO DO MODAL */ }
-          { requiredFields.length > 0 && (
+      <DialogContent sx={{ mb: 0.5 }}>
+        { requiredFields.length > 0 && (
+          <Box
+            fullWidth
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+
             <Box
-              fullWidth
               sx={{
+                backgroundColor: "white",
+                borderRadius: "20px",
+                boxShadow: "0px 0px 15px 0px rgb(88 88 88 / 20%)",
                 display: "flex",
                 justifyContent: "space-between",
-                // padding: "16px",
+                mt: 1.5,
+                padding: "16px",
+                width: "66%",
               }}
             >
-
-              <Box
-                sx={{
-                  backgroundColor: "white",
-                  borderRadius: "10px",
-                  boxShadow: "0px 0px 15px 0px rgb(88 88 88 / 20%)",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  padding: "16px",
-                  width: "66%",
-                }}
-              >
-                { /* COLUNA 1 */ }
-                <Box sx={{ width: "50%" }}>
-                  { renderClientData_C1() }
-                </Box>
-
-                { /* COLUNA 2 */ }
-                <Box sx={{ width: "50%", pt: 4 }}>
-                  { renderClientData_C2() }
-                </Box>
+              { /* COLUNA 1 */ }
+              <Box sx={{ width: "50%" }}>
+                { renderClientData_C1() }
               </Box>
 
-              <Box
-                sx={{
-                  backgroundColor: "white",
-                  borderRadius: "10px",
-                  boxShadow: "0px 0px 15px 0px rgb(88 88 88 / 20%)",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  ml: 2,
-                  padding: "16px",
-                  width: "33%",
-                }}
-              >
-                { /* COLUNA 3 */ }
-                <Box sx={{ width: "100%" }}>
-                  { renderClientManagerData() }
-                </Box>
+              { /* COLUNA 2 */ }
+              <Box sx={{ width: "50%", pt: 4 }}>
+                { renderClientData_C2() }
               </Box>
-            </Box>)
-          }
-        </Box>
-      </Fade>
-    </Modal>
+            </Box>
+
+            <Box
+              sx={{
+                backgroundColor: "white",
+                borderRadius: "20px",
+                boxShadow: "0px 0px 15px 0px rgb(88 88 88 / 20%)",
+                display: "flex",
+                justifyContent: "space-between",
+                ml: 2,
+                mt: 1.5,
+                padding: "16px",
+                width: "32%",
+              }}
+            >
+              { /* COLUNA 3 */ }
+              <Box sx={{ width: "100%" }}>
+                { renderClientManagerData() }
+              </Box>
+            </Box>
+          </Box>)
+        }
+      </DialogContent>
+    </StyledDialog>
   );
 };
 
