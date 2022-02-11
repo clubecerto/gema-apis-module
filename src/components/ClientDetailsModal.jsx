@@ -212,90 +212,6 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, clientId }) => {
           >
 
             { /* COLUNA 1 */ }
-            <Box sx={{ width: "32%" }}>
-
-              { /* INFORMAÇÕES DO RESPONSÁVEL */ }
-              <Box sx={{
-                backgroundColor: "white",
-                borderRadius: "15px",
-                boxShadow: "0px 0px 15px 0px rgb(88 88 88 / 20%)",
-                mt: 2,
-                p: 2,
-              }}>
-                <Typography fontWeight="600" sx={{ mb: 1 }}>
-                  Responsável
-                </Typography>
-                <Box sx={{
-                  backgroundColor: "#efefef",
-                  borderRadius: "15px",
-                  mt: 2,
-                  mx: 1,
-                  p: 2,
-                }}>
-                  <Typography>
-                    Nome: { !!clientSelected && clientSelected.responsavel.nome }
-                  </Typography>
-                </Box>
-                <Box sx={{
-                  backgroundColor: "#efefef",
-                  borderRadius: "15px",
-                  mx: 1,
-                  mt: 1,
-                  p: 2,
-                }}>
-                  <Typography>
-                    Email: { !!clientSelected && clientSelected.responsavel.email }
-                  </Typography>
-                </Box>
-                {
-                  !!clientSelected && clientSelected.responsavel.telefone.map((telefone) => (
-                    <Box
-                      key={ telefone }
-                      sx={{
-                        backgroundColor: "#efefef",
-                        borderRadius: "15px",
-                        mt: 1,
-                        mx: 1,
-                        p: 2,
-                      }}
-                    >
-                      <Typography>
-                        Telefone: { telefone }
-                      </Typography>
-                    </Box>
-                  ))
-                }
-              </Box>
-
-              { /* ACESSO AO ANEXO */ }
-              {
-                !!(clientSelected.anexo) && (
-                  <Box sx={{
-                    backgroundColor: "white",
-                    borderRadius: "15px",
-                    boxShadow: "0px 0px 15px 0px rgb(88 88 88 / 20%)",
-                    mt: 2,
-                    p: 2,
-                  }}>
-                    <Typography fontWeight="600" sx={{ mb: 2 }}>
-                      Anexos
-                    </Typography>
-                    <Link href={ clientSelected.anexo } target="_blank" underline="none">
-                      <Button 
-                        color="primary"
-                        sx={{ borderRadius: "10px" }}
-                        type=''
-                        variant="contained"
-                      >
-                        Baixar arquivo
-                      </Button>
-                    </Link>
-                  </Box>
-                )
-              }
-            </Box>
-
-            { /* COLUNA 2 */ }
             <Box
               sx={{
                 backgroundColor: "white",
@@ -391,6 +307,90 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, clientId }) => {
                   </Box>
                 </Box>
               </Box>
+            </Box>
+
+            { /* COLUNA 2 */ }
+            <Box sx={{ width: "32%" }}>
+
+              { /* INFORMAÇÕES DO RESPONSÁVEL */ }
+              <Box sx={{
+                backgroundColor: "white",
+                borderRadius: "15px",
+                boxShadow: "0px 0px 15px 0px rgb(88 88 88 / 20%)",
+                mt: 2,
+                p: 2,
+              }}>
+                <Typography fontWeight="600" sx={{ mb: 1 }}>
+                  Responsável
+                </Typography>
+                <Box sx={{
+                  backgroundColor: "#efefef",
+                  borderRadius: "15px",
+                  mt: 2,
+                  mx: 1,
+                  p: 2,
+                }}>
+                  <Typography>
+                    Nome: { !!clientSelected && clientSelected.responsavel.nome }
+                  </Typography>
+                </Box>
+                <Box sx={{
+                  backgroundColor: "#efefef",
+                  borderRadius: "15px",
+                  mx: 1,
+                  mt: 1,
+                  p: 2,
+                }}>
+                  <Typography>
+                    Email: { !!clientSelected && clientSelected.responsavel.email }
+                  </Typography>
+                </Box>
+                {
+                  !!clientSelected && clientSelected.responsavel.telefone.map((telefone) => (
+                    <Box
+                      key={ telefone }
+                      sx={{
+                        backgroundColor: "#efefef",
+                        borderRadius: "15px",
+                        mt: 1,
+                        mx: 1,
+                        p: 2,
+                      }}
+                    >
+                      <Typography>
+                        Telefone: { telefone }
+                      </Typography>
+                    </Box>
+                  ))
+                }
+              </Box>
+
+              { /* ACESSO AO ANEXO */ }
+              {
+                !!(clientSelected.anexo) && (
+                  <Box sx={{
+                    backgroundColor: "white",
+                    borderRadius: "15px",
+                    boxShadow: "0px 0px 15px 0px rgb(88 88 88 / 20%)",
+                    mt: 2,
+                    p: 2,
+                  }}>
+                    <Typography fontWeight="600" sx={{ mb: 2 }}>
+                      Anexos
+                    </Typography>
+                    <Link href={ clientSelected.anexo } target="_blank" underline="none">
+                      <Button 
+                        color="primary"
+                        sx={{ borderRadius: "10px" }}
+                        type=''
+                        variant="contained"
+                      >
+                        Baixar arquivo
+                      </Button>
+                    </Link>
+                  </Box>
+                )
+              }
             </Box>
           </Box>
         </Box>

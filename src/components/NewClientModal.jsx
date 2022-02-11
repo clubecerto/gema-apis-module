@@ -113,8 +113,8 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
   const renderClientData_C1 = () => {
     return (
       <>
-        <Typography sx={{ mx: 1, px: 1, pb: 1 }}>
-          Dados do cliente
+        <Typography sx={{ mr: 1, pb: 1, fontWeight: "600" }}>
+          Informações
         </Typography>
         <Box
           sx={{
@@ -268,8 +268,8 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
   const renderClientManagerData = () => {
     return (
       <>
-        <Typography sx={{ mx: 1, px: 1, pb: 1 }}>
-          Responsável pelo cliente
+        <Typography sx={{ mr: 1, pb: 1, fontWeight: "600" }}>
+          Responsável
         </Typography>
         <Box
           sx={{
