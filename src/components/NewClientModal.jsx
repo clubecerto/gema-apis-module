@@ -7,10 +7,16 @@ import APIsManagementContext from '../context/APIsManagementContext';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import DeleteIcon from '@mui/icons-material/Delete';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
+import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import StyledInput from './StyledInput';
@@ -31,13 +37,14 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
     },
     plano: null,
     produto: null,
-    tombamento: 0,
+    tombamento: false,
   };
 
   const [newClientInputs, setNewClientInputs] = useState(INITIAL_NEW_CLIENT_STATE);
   const [requiredFields, setRequiredFields] = useState([]);
   const [checkboxChecked, setCheckboxChecked] = useState('');
   const [isExtraInputDisplayed, setIsExtraInputDisplayed] = useState(false);
+  const [extraInputValue, setExtraInputValue] = useState('');
 
   const { categoriesList, integrationsList, } = useContext(APIsManagementContext);
 
@@ -101,6 +108,40 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
     };
   }
 
+  // RESETA PLANOS/PRODUTOS NO ESTADO
+  const resetExtraInputValues = (name) => {
+    switch (name) {
+    case 'plano':
+      setNewClientInputs((current) => ({
+        ...current,
+        produto: null,
+        tombamento: false,
+      }));
+      break;
+    case 'produto':
+      setNewClientInputs((current) => ({
+        ...current,
+        plano: null,
+        tombamento: false,
+      }));
+      break;
+    default:
+      setNewClientInputs((current) => ({
+        ...current,
+        plano: null,
+        produto: null,
+      }));
+      break;
+    };
+    
+    setNewClientInputs((current) => ({
+      ...current,
+      plano: null,
+      produto: null,
+      tombamento: false,
+    }));
+  };
+
   // LIDA COM MUDANÇAS NOS CHECKBOX
   const handleCheckbox = ({ target: { name }}) => {
     if (checkboxChecked === name) {
@@ -109,6 +150,28 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
       setCheckboxChecked(name);
     };
     extraFieldHandler(name);
+    resetExtraInputValues(name);
+    // if (name === 'tombamento') {
+    //   setNewClientInputs((current) => ({
+    //     ...current,
+    //     tombamento: !current.tombamento,
+    //   }));
+    // };
+  };
+
+  // ADICIONA NOVO PLANO/PRODUTO AO ESTADO 
+  const submitNewExtraInputValue = () => {
+    if (!newClientInputs[checkboxChecked]) {
+      setNewClientInputs({
+        ...newClientInputs,
+        [checkboxChecked]: [extraInputValue],
+      });
+    } else {
+      setNewClientInputs((current) => ({
+        ...current,
+        [checkboxChecked]: [...current[checkboxChecked], extraInputValue],
+      }));
+    };
   };
 
   // RENDERIZA A PRIMEIRA COLUNA DE INPUTS
@@ -207,7 +270,9 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
             p: 2,
           }}
         >
-          <FormGroup mb={2}>
+
+          { /* CHECKBOX PARA ESCOLHA PLANO/PRODUTO/TOMBAMENTO */ }
+          <FormGroup>
             <FormControlLabel
             control={<Checkbox
               checked={ checkboxChecked === "plano" }
@@ -225,19 +290,57 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
               onChange={ handleCheckbox }
             />} label="Tombamento" />
           </FormGroup>
+
+          { /* LISTA DOS VALORES DOS INPUTS RELACIONADOS A PLANO/PRODUTO */ }
+          {
+            !!newClientInputs[checkboxChecked]
+            && newClientInputs[checkboxChecked] !== 'tombamento'
+            && (
+              <List dense>
+                {
+                  newClientInputs[checkboxChecked].map((item) => (
+                    <ListItem
+                      secondaryAction={
+                        <IconButton edge="end" color="error" aria-label="delete">
+                          <DeleteIcon />
+                        </IconButton>
+                      }
+                      sx={{ backgroundColor: "white", borderRadius: "10px", mb: 1 }}
+                    >
+                      <ListItemText primary={ item } />
+                    </ListItem>
+                  ))
+                }
+              </List>
+            )
+          }
+
+          { /* INPUT RELACIONADO A PLANO/PRODUTO */ }
           { 
-            isExtraInputDisplayed && <StyledInput
-              color="primary"
-              fullWidth
-              label={ checkboxChecked.charAt(0).toUpperCase() + checkboxChecked.slice(1) }
-              name={ checkboxChecked }
-              // onChange={  }
-              size="small"
-              sx={{ mt: 2 }}
-              type="text"
-              // value={  }
-              variant="outlined"
-            />
+            isExtraInputDisplayed && (
+              <Box sx={{ display: "flex", justifyContent: "space-between", mt: 1 }}>
+                <StyledInput
+                  color="primary"
+                  fullWidth
+                  label={ checkboxChecked.charAt(0).toUpperCase() + checkboxChecked.slice(1) }
+                  name={ checkboxChecked }
+                  onChange={ ({ target: { value } }) => setExtraInputValue(value) }
+                  size="small"
+                  type="text"
+                  value={ extraInputValue }
+                  variant="outlined"
+                />
+                <IconButton
+                  aria-label="done"
+                  color="primary"
+                  disabled={ !extraInputValue }
+                  onClick={ submitNewExtraInputValue }
+                  sx={{ ml: 1 }}
+                >
+                  <CheckCircleIcon />
+                </IconButton>
+              </Box>
+            )
           }
         </Box>
       </>
