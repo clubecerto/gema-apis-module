@@ -16,21 +16,6 @@ import Typography from '@mui/material/Typography';
 import StyledInput from './StyledInput';
 import StyledDialog from './StyledDialog';
 
-// ESTILIZAÇÃO DO MODAL
-const style = {
-  backgroundColor: '#f5f6fa',
-  bgcolor: 'background.paper',
-  borderRadius: '10px',
-  boxShadow: 15,
-  left: '50%',
-  maxWidth: '1200px',
-  p: 3,
-  position: 'absolute',
-  transform: 'translate(-50%, -50%)',
-  top: '50%',
-  width: '90%',
-};
-
 const NewClientModal = ({ isOpen, handleClose, clientId }) => {
   const INITIAL_NEW_CLIENT_STATE = {
     categoria_id: '',
@@ -44,10 +29,14 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
       telefone_1: '',
       telefone_2: '',
     },
+    plano: null,
+    produto: null,
+    tombamento: 0,
   };
 
   const [newClientInputs, setNewClientInputs] = useState(INITIAL_NEW_CLIENT_STATE)
   const [requiredFields, setRequiredFields] = useState([]);
+  const [checkboxChecked, setCheckboxChecked] = useState('');
 
   const { categoriesList, integrationsList, } = useContext(APIsManagementContext);
 
@@ -103,11 +92,10 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
   };
 
   // LIDA COM MUDANÇAS NOS CHECKBOX
-  const handleCheckbox = ({ target: { name, value }}) => {
-    setNewClientInputs({
-      ...newClientInputs,
-      tipo: value,
-    });
+  const handleCheckbox = ({ target: { name }}) => {
+    if (checkboxChecked === name) {
+      setCheckboxChecked('');
+    } else setCheckboxChecked(name);
   };
 
   // RENDERIZA A PRIMEIRA COLUNA DE INPUTS
@@ -120,7 +108,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
         <Box
           sx={{
             backgroundColor: "#efefef",
-            borderRadius: "15px",
+            borderRadius: "10px",
             mt: 1,
             mx: 1,
             p: 2,
@@ -142,7 +130,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
         <Box
           sx={{
             backgroundColor: "#efefef",
-            borderRadius: "15px",
+            borderRadius: "10px",
             mt: 1,
             mx: 1,
             p: 2,
@@ -160,7 +148,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
             value={ newClientInputs.status }
             variant="outlined"
           >
-            <MenuItem value="1">
+            <MenuItem sx={{ borderRadius: "10px" }} value="1">
               Ativo
             </MenuItem>
             <MenuItem value="0">
@@ -171,7 +159,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
         <Box
           sx={{
             backgroundColor: "#efefef",
-            borderRadius: "15px",
+            borderRadius: "10px",
             mt: 1,
             mx: 1,
             p: 2,
@@ -200,7 +188,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
         <Box
           sx={{
             backgroundColor: "#efefef",
-            borderRadius: "15px",
+            borderRadius: "10px",
             mt: 1,
             mx: 1,
             p: 1.5,
@@ -209,13 +197,18 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
         >
           <FormGroup>
             <FormControlLabel control={<Checkbox
-              //checked={  } // <- FALTA CONTROLAR O CHECKBOX
+              checked={ checkboxChecked === "plano" }
+              name="plano"
               onChange={ handleCheckbox }
             />} label="Plano" />
             <FormControlLabel control={<Checkbox
+              checked={ checkboxChecked === "produto" }
+              name="produto"
               onChange={ handleCheckbox }
             />} label="Produto" />
             <FormControlLabel control={<Checkbox
+              checked={ checkboxChecked === "tombamento" }
+              name="tombamento"
               onChange={ handleCheckbox }
             />} label="Tombamento" />
           </FormGroup>
@@ -239,7 +232,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
                 key={ key }
                 sx={{
                   backgroundColor: "#efefef",
-                  borderRadius: "15px",
+                  borderRadius: "10px",
                   mt: 1,
                   mx: 1,
                   p: 2,
@@ -275,7 +268,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
         <Box
           sx={{
             backgroundColor: "#efefef",
-            borderRadius: "15px",
+            borderRadius: "10px",
             mt: 1,
             mx: 1,
             p: 2,
@@ -297,7 +290,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
         <Box
           sx={{
             backgroundColor: "#efefef",
-            borderRadius: "15px",
+            borderRadius: "10px",
             mt: 1,
             mx: 1,
             p: 2,
@@ -319,7 +312,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
         <Box
           sx={{
             backgroundColor: "#efefef",
-            borderRadius: "15px",
+            borderRadius: "10px",
             mt: 1,
             mx: 1,
             p: 2,
@@ -344,16 +337,17 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
 
   return (
     <StyledDialog
-    open={isOpen}
-    onClose={() => handleClose(clientId)}
-    scroll={"paper"}
-    maxWidth="lg"
-    fullWidth
-    sx={{ borderRadius: "20px" }}
-    aria-labelledby="scroll-dialog-title"
-    aria-describedby="scroll-dialog-description"
+      open={isOpen}
+      onClose={() => handleClose(clientId)}
+      scroll={"paper"}
+      maxWidth="lg"
+      fullWidth
+      sx={{ borderRadius: "10px" }}
+      aria-labelledby="scroll-dialog-title"
+      aria-describedby="scroll-dialog-description"
     >
 
+      { /* HEADER DO MODAL */ }
       <DialogTitle sx={{ mt: 1 }} id="scroll-dialog-title">
         <Box
           sx={{
@@ -439,6 +433,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
         </Box>
       </DialogTitle>
 
+      { /* BODY DO MODAL */ }
       <DialogContent sx={{ mb: 0.5 }}>
         { requiredFields.length > 0 && (
           <Box
@@ -452,7 +447,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
             <Box
               sx={{
                 backgroundColor: "white",
-                borderRadius: "20px",
+                borderRadius: "10px",
                 boxShadow: "0px 0px 15px 0px rgb(88 88 88 / 20%)",
                 display: "flex",
                 justifyContent: "space-between",
@@ -475,7 +470,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
             <Box
               sx={{
                 backgroundColor: "white",
-                borderRadius: "20px",
+                borderRadius: "10px",
                 boxShadow: "0px 0px 15px 0px rgb(88 88 88 / 20%)",
                 display: "flex",
                 justifyContent: "space-between",

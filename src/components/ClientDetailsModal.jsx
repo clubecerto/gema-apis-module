@@ -47,7 +47,7 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
       scroll={"paper"}
       maxWidth="lg"
       fullWidth
-      sx={{ borderRadius: "20px" }}
+      sx={{ borderRadius: "10px" }}
       aria-labelledby="scroll-dialog-title"
       aria-describedby="scroll-dialog-description"
     >
@@ -195,7 +195,7 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
           <Box
             sx={{
               backgroundColor: "white",
-              borderRadius: "15px",
+              borderRadius: "10px",
               boxShadow: "0px 0px 15px 0px rgb(88 88 88 / 20%)",
               mt: 1.5,
               p: 2,
@@ -233,7 +233,7 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
                             key={ key }
                             sx={{
                               backgroundColor: "#efefef",
-                              borderRadius: "15px",
+                              borderRadius: "10px",
                               mt: 1,
                               mx: 1,
                               p: 2,
@@ -270,7 +270,7 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
                             key={ key }
                             sx={{
                               backgroundColor: "#efefef",
-                              borderRadius: "15px",
+                              borderRadius: "10px",
                               mt: 1,
                               mx: 1,
                               p: 2,
@@ -295,7 +295,7 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
             { /* INFORMAÇÕES DO RESPONSÁVEL */ }
             <Box sx={{
               backgroundColor: "white",
-              borderRadius: "15px",
+              borderRadius: "10px",
               boxShadow: "0px 0px 15px 0px rgb(88 88 88 / 20%)",
               mt: 1.5,
               p: 2,
@@ -305,7 +305,7 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
               </Typography>
               <Box sx={{
                 backgroundColor: "#efefef",
-                borderRadius: "15px",
+                borderRadius: "10px",
                 mt: 2,
                 mx: 1,
                 p: 2,
@@ -316,7 +316,7 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
               </Box>
               <Box sx={{
                 backgroundColor: "#efefef",
-                borderRadius: "15px",
+                borderRadius: "10px",
                 mx: 1,
                 mt: 1,
                 p: 2,
@@ -331,7 +331,7 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
                     key={ telefone }
                     sx={{
                       backgroundColor: "#efefef",
-                      borderRadius: "15px",
+                      borderRadius: "10px",
                       mt: 1,
                       mx: 1,
                       p: 2,
@@ -350,7 +350,7 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
               !!(clientSelected.anexo) && (
                 <Box sx={{
                   backgroundColor: "white",
-                  borderRadius: "15px",
+                  borderRadius: "10px",
                   boxShadow: "0px 0px 15px 0px rgb(88 88 88 / 20%)",
                   mt: 2,
                   p: 2,

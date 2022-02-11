@@ -29,7 +29,7 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, integrationId }) => {
       scroll={"paper"}
       maxWidth="md"
       fullWidth
-      sx={{ borderRadius: "20px" }}
+      sx={{ borderRadius: "10px" }}
       aria-labelledby="scroll-dialog-title"
       aria-describedby="scroll-dialog-description"
     >
@@ -156,7 +156,7 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, integrationId }) => {
       <DialogContent sx={{ mb: 0.5 }}>
         <Box sx={{
           backgroundColor: "white",
-          borderRadius: "15px",
+          borderRadius: "10px",
           boxShadow: "0px 0px 15px 0px rgb(88 88 88 / 20%)",
           mt: 1.5,
           p: 2,
@@ -166,7 +166,7 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, integrationId }) => {
           </Typography>
           <Box sx={{
             backgroundColor: "#efefef",
-            borderRadius: "15px",
+            borderRadius: "10px",
             mt: 1,
             mx: 1,
             p: 2,
@@ -177,7 +177,7 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, integrationId }) => {
           </Box>
           <Box sx={{
             backgroundColor: "#efefef",
-            borderRadius: "15px",
+            borderRadius: "10px",
             mt: 1,
             mx: 1,
             p: 2,
@@ -192,7 +192,7 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, integrationId }) => {
                 key={ telefone }
                 sx={{
                   backgroundColor: "#efefef",
-                  borderRadius: "15px",
+                  borderRadius: "10px",
                   mt: 1,
                   mx: 1,
                   p: 2,
@@ -209,7 +209,7 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, integrationId }) => {
         { /* ACESSO AO ANEXO */ }
         <Box sx={{
           backgroundColor: "white",
-          borderRadius: "15px",
+          borderRadius: "10px",
           boxShadow: "0px 0px 15px 0px rgb(88 88 88 / 20%)",
           mt: 2,
           p: 2,
