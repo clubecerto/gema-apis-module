@@ -197,6 +197,12 @@ export const client_1 = {
   tombamento: 'tombamento',
   plano: 'plano(contrato)',
   produto: 'produto(pacote)',
+  // a: 1,
+  // b:2,
+  // c: 3,
+  // d: 4,
+  // e: 5,
+  // f: 6,
   // anexo: 'caminho do anexo',
 };
 

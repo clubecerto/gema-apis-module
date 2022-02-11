@@ -7,10 +7,14 @@ import APIsManagementContext from '../context/APIsManagementContext';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
 import Fade from '@mui/material/Fade';
 import Link from '@mui/material/Link';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
+import StyledDialog from './StyledDialog';
 
 // ESTILIZAÇÃO DO MODAL
 const style = {
@@ -56,21 +60,17 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, clientId }) => {
   };
 
   return (
-    <Modal
-      aria-labelledby="transition-modal-title"
-      aria-describedby="transition-modal-description"
-      BackdropComponent={Backdrop}
-      BackdropProps={{
-        timeout: 500,
-      }}
-      closeAfterTransition
-      onClose={ () => handleClose(clientId)}
-      open={isOpen}
-    >
-      <Fade in={isOpen}>
-        <Box sx={style}>
-
-          { /* HEADER DO MODAL */ }
+    <StyledDialog
+        open={isOpen}
+        onClose={() => handleClose(clientId)}
+        scroll={"paper"}
+        maxWidth="lg"
+        fullWidth
+        sx={{ borderRadius: "20px" }}
+        aria-labelledby="scroll-dialog-title"
+        aria-describedby="scroll-dialog-description"
+      >
+        <DialogTitle sx={{ mt: 1 }} id="scroll-dialog-title">
           <Box
             sx={{
               alignItems: "center",
@@ -158,10 +158,9 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, clientId }) => {
                 >
                   SIM
                 </Box>
-              )
-            }
-
-            { /* VISUALIZAÇÃO DO STATUS */ }
+                )
+              }
+              { /* VISUALIZAÇÃO DA ROTINA CRON */ }
             {
               !clientSelected.status
               ? (
@@ -176,7 +175,7 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, clientId }) => {
                     ml: 1,
                     paddingTop: "8px",
                     textAlign: "center",
-                    width: "140px",
+                    width: "120px",
                   }}
                 >
                   STATUS: INATIVO
@@ -202,8 +201,8 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, clientId }) => {
               )
             }
           </Box>
-
-          { /* CORPO DO MODAL */ }
+        </DialogTitle>
+        <DialogContent sx={{ mb: 0.5 }}>
           <Box
             sx={{
               display: "flex",
@@ -217,7 +216,7 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, clientId }) => {
                 backgroundColor: "white",
                 borderRadius: "15px",
                 boxShadow: "0px 0px 15px 0px rgb(88 88 88 / 20%)",
-                mt: 2,
+                mt: 1.5,
                 p: 2,
                 width: "65%",
               }}
@@ -232,7 +231,7 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, clientId }) => {
                   justifyContent: "space-between",
                 }}
               >
-                { /* COLUNA 2.1 */ }
+                { /* COLUNA 1.1 */ }
                 <Box sx={{ width: "50%" }}>
 
                   { /* DADOS DO CLIENTE */ }
@@ -270,7 +269,7 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, clientId }) => {
                   </Box>
                 </Box>
 
-                { /* COLUNA 2.2 */ }
+                { /* COLUNA 1.2 */ }
                 <Box sx={{ width: "50%" }}>
                   { /* DADOS DO CLIENTE */ }
                   <Box>
@@ -317,7 +316,7 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, clientId }) => {
                 backgroundColor: "white",
                 borderRadius: "15px",
                 boxShadow: "0px 0px 15px 0px rgb(88 88 88 / 20%)",
-                mt: 2,
+                mt: 1.5,
                 p: 2,
               }}>
                 <Typography fontWeight="600" sx={{ mb: 1 }}>
@@ -393,9 +392,8 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, clientId }) => {
               }
             </Box>
           </Box>
-        </Box>
-      </Fade>
-    </Modal>
+        </DialogContent>
+      </StyledDialog>
   );
 };
 
