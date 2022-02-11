@@ -34,9 +34,10 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
     tombamento: 0,
   };
 
-  const [newClientInputs, setNewClientInputs] = useState(INITIAL_NEW_CLIENT_STATE)
+  const [newClientInputs, setNewClientInputs] = useState(INITIAL_NEW_CLIENT_STATE);
   const [requiredFields, setRequiredFields] = useState([]);
   const [checkboxChecked, setCheckboxChecked] = useState('');
+  const [isExtraInputDisplayed, setIsExtraInputDisplayed] = useState(false);
 
   const { categoriesList, integrationsList, } = useContext(APIsManagementContext);
 
@@ -91,11 +92,23 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
     });
   };
 
+  // DEFINE SE O INPUT ASSOCIADO AOS CHECKBOX É RENDERIZADO
+  const extraFieldHandler = (name) => {
+    if (name === 'tombamento' || name === checkboxChecked) {
+      setIsExtraInputDisplayed(false);
+    } else {
+      setIsExtraInputDisplayed(true);
+    };
+  }
+
   // LIDA COM MUDANÇAS NOS CHECKBOX
   const handleCheckbox = ({ target: { name }}) => {
     if (checkboxChecked === name) {
       setCheckboxChecked('');
-    } else setCheckboxChecked(name);
+    } else {
+      setCheckboxChecked(name);
+    };
+    extraFieldHandler(name);
   };
 
   // RENDERIZA A PRIMEIRA COLUNA DE INPUTS
@@ -191,12 +204,12 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
             borderRadius: "10px",
             mt: 1,
             mx: 1,
-            p: 1.5,
-            pl: 3,
+            p: 2,
           }}
         >
-          <FormGroup>
-            <FormControlLabel control={<Checkbox
+          <FormGroup mb={2}>
+            <FormControlLabel
+            control={<Checkbox
               checked={ checkboxChecked === "plano" }
               name="plano"
               onChange={ handleCheckbox }
@@ -212,6 +225,20 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
               onChange={ handleCheckbox }
             />} label="Tombamento" />
           </FormGroup>
+          { 
+            isExtraInputDisplayed && <StyledInput
+              color="primary"
+              fullWidth
+              label={ checkboxChecked.charAt(0).toUpperCase() + checkboxChecked.slice(1) }
+              name={ checkboxChecked }
+              // onChange={  }
+              size="small"
+              sx={{ mt: 2 }}
+              type="text"
+              // value={  }
+              variant="outlined"
+            />
+          }
         </Box>
       </>
     );
