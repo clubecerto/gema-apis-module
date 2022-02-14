@@ -6,14 +6,21 @@ import APIsManagementContext from '../context/APIsManagementContext';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import CancelIcon from '@mui/icons-material/Cancel';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import DoneIcon from '@mui/icons-material/Done';
+import EditIcon from '@mui/icons-material/Edit';
 import Link from '@mui/material/Link';
 import StyledDialog from './StyledDialog';
 import Typography from '@mui/material/Typography';
+import StyledInput from './StyledInput';
 
 const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
   const [clientSelected, setClientSelected] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
+  const [isSaveAndCancelButtonsDisplayed, setIsSaveAndCancelButtonsDisplayed] = useState(false);
 
   const { categoriesList, integrationsList } = useContext(APIsManagementContext);
 
@@ -115,6 +122,7 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
                   fontSize: "0.875rem",
                   fontWeight: "600",
                   height: "36px",
+                  mr: 1,
                   paddingTop: "8px",
                   textAlign: "center",
                   width: "120px",
@@ -132,6 +140,7 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
                   fontSize: "0.875rem",
                   fontWeight: "600",
                   height: "36px",
+                  mr: 1,
                   paddingTop: "8px",
                   textAlign: "center",
                   width: "120px",
@@ -141,6 +150,7 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
               </Box>
               )
             }
+
             { /* VISUALIZAÇÃO DA ROTINA STATUS */ }
           {
             !clientSelected.status
@@ -153,7 +163,7 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
                   fontSize: "0.875rem",
                   fontWeight: "600",
                   height: "36px",
-                  ml: 1,
+                  mr: 2,
                   paddingTop: "8px",
                   textAlign: "center",
                   width: "120px",
@@ -171,7 +181,7 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
                   fontSize: "0.875rem",
                   fontWeight: "600",
                   height: "36px",
-                  ml: 1,
+                  mr: 2,
                   paddingTop: "8px",
                   textAlign: "center",
                   width: "140px",
@@ -179,6 +189,50 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
               >
                 STATUS: ATIVO
               </Box>
+            )
+          }
+
+          { /* BOTÕES DE EDITAR, CANCELAR E SALVAR EDIÇÃO */ }
+          {
+            isSaveAndCancelButtonsDisplayed
+            ? (
+              <ButtonGroup>
+                <Button
+                  color="darkBG"
+                  endIcon={ <CancelIcon /> }
+                  // onClick={  }
+                  sx={{ borderRadius: "10px", color:"#b40803", height: "40px" }}
+                  type="button"
+                  variant="contained"
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  color="darkBG"
+                  endIcon={ <DoneIcon /> }
+                  // onClick={  }
+                  sx={{ borderRadius: "10px", color:"#00964f", height: "40px", width: "125px" }}
+                  type="button"
+                  variant="contained"
+                >
+                  Salvar
+                </Button>
+              </ButtonGroup>
+            )
+            : (
+              <Button
+                color="darkBG"
+                endIcon={ <EditIcon /> }
+                onClick={ () => {
+                  setIsEditing(true);
+                  setIsSaveAndCancelButtonsDisplayed(true)
+                } }
+                sx={{ borderRadius: "10px", color:"#00964f", height: "40px" }}
+                type="button"
+                variant="contained"
+              >
+                Editar
+              </Button>
             )
           }
         </Box>
@@ -239,9 +293,28 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
                               p: 2,
                             }}
                           >
-                            <Typography>
-                              { !!clientSelected && `${formattedKey}: ${clientSelected[key]}` }
-                            </Typography>
+                            {
+                              isEditing
+                              ? (
+                                <StyledInput
+                                  color="primary"
+                                  fullWidth
+                                  label={ formattedKey }
+                                  name={ key }
+                                  // onChange={  }
+                                  required
+                                  size="small"
+                                  type="text"
+                                  value={ clientSelected[key] }
+                                  variant="outlined"
+                                />
+                              )
+                              : (
+                                <Typography>
+                                  { !!clientSelected && `${formattedKey}: ${clientSelected[key]}` }
+                                </Typography>
+                              )
+                            }
                           </Box>
                         );
                       };
@@ -276,9 +349,28 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
                               p: 2,
                             }}
                           >
-                            <Typography>
-                              { !!clientSelected && `${formattedKey}: ${clientSelected[key]}` }
-                            </Typography>
+                            {
+                              isEditing
+                              ? (
+                                <StyledInput
+                                  color="primary"
+                                  fullWidth
+                                  label={ formattedKey }
+                                  name={ key }
+                                  // onChange={  }
+                                  required
+                                  size="small"
+                                  type="text"
+                                  value={ clientSelected[key] }
+                                  variant="outlined"
+                                />
+                              )
+                              : (
+                                <Typography>
+                                  { !!clientSelected && `${formattedKey}: ${clientSelected[key]}` }
+                                </Typography>
+                              )
+                            }
                           </Box>
                         );
                       };
@@ -310,9 +402,28 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
                 mx: 1,
                 p: 2,
               }}>
-                <Typography>
-                  Nome: { !!clientSelected && clientSelected.responsavel.nome }
-                </Typography>
+                {
+                  isEditing
+                  ? (
+                    <StyledInput
+                      color="primary"
+                      fullWidth
+                      label="Nome"
+                      name="nome"
+                      // onChange={  }
+                      required
+                      size="small"
+                      type="text"
+                      value={ !!clientSelected && clientSelected.responsavel.nome }
+                      variant="outlined"
+                    />
+                  )
+                  : (
+                    <Typography>
+                      Nome: { !!clientSelected && clientSelected.responsavel.nome }
+                    </Typography>
+                  )
+                }
               </Box>
               <Box sx={{
                 backgroundColor: "#efefef",
@@ -321,9 +432,28 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
                 mt: 1,
                 p: 2,
               }}>
-                <Typography>
-                  Email: { !!clientSelected && clientSelected.responsavel.email }
-                </Typography>
+                {
+                  isEditing
+                  ? (
+                    <StyledInput
+                      color="primary"
+                      fullWidth
+                      label="Email"
+                      name="email"
+                      // onChange={  }
+                      required
+                      size="small"
+                      type="text"
+                      value={ !!clientSelected && clientSelected.responsavel.email }
+                      variant="outlined"
+                    />
+                  )
+                  : (
+                    <Typography>
+                      Nome: { !!clientSelected && clientSelected.responsavel.email }
+                    </Typography>
+                  )
+                }
               </Box>
               {
                 !!clientSelected && clientSelected.responsavel.telefone.map((telefone) => (
@@ -337,9 +467,28 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
                       p: 2,
                     }}
                   >
-                    <Typography>
-                      Telefone: { telefone }
-                    </Typography>
+                    {
+                      isEditing
+                      ? (
+                        <StyledInput
+                          color="primary"
+                          fullWidth
+                          label="Telefone"
+                          name="telefone"
+                          // onChange={  }
+                          required
+                          size="small"
+                          type="text"
+                          value={ telefone }
+                          variant="outlined"
+                        />
+                      )
+                      : (
+                        <Typography>
+                          Nome: { telefone }
+                        </Typography>
+                      )
+                    }
                   </Box>
                 ))
               }
