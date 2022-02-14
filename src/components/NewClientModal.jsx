@@ -46,6 +46,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
   const [isExtraInputDisplayed, setIsExtraInputDisplayed] = useState(false);
   const [extraInputValue, setExtraInputValue] = useState('');
   const [newPhoneNumber, setNewPhoneNumber] = useState('');
+  const [isFinishButtonDisplayed, setIsFinishButtonDisplayed] = useState(false);
 
   const { categoriesList, integrationsList, } = useContext(APIsManagementContext);
 
@@ -79,7 +80,8 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
         !!firstIntegrationClient[key] && checkKey(key)
       ));
     setRequiredFields(requiredKeys);
-    requiredKeys.forEach((key) => setNewClientInputs((current) => ({ ...current, [key]: '' })))
+    requiredKeys.forEach((key) => setNewClientInputs((current) => ({ ...current, [key]: '' })));
+    setIsFinishButtonDisplayed(true);
   };
 
   // LIDA COM MUDANÇAS NOS INPUTS, SALVO EXCESSÕES (RESPONSÁVEL E CHECKBOX)
@@ -582,6 +584,11 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
     );
   };
 
+  // SALVA NOVO CLIENTE
+  const submitNewClient = () => {
+    console.log(newClientInputs);
+  };
+
   return (
     <StyledDialog
       open={isOpen}
@@ -667,15 +674,31 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
                   ))
               }
             </StyledInput>
-            <Button
-              color="darkBG"
-              disabled={ !newClientInputs.integracao_id }
-              sx={{ borderRadius: "10px", color:"#00964f", height: "40px" }}
-              type="submit"
-              variant="contained"
-            >
-              Continuar
-            </Button>
+            {
+              isFinishButtonDisplayed
+              ? (
+                <Button
+                  color="darkBG"
+                  onClick={ submitNewClient }
+                  sx={{ borderRadius: "10px", color:"#00964f", height: "40px" }}
+                  type="button"
+                  variant="contained"
+                >
+                  Finalizar
+                </Button>
+              )
+              : (
+                <Button
+                  color="darkBG"
+                  disabled={ !newClientInputs.integracao_id }
+                  sx={{ borderRadius: "10px", color:"#00964f", height: "40px" }}
+                  type="submit"
+                  variant="contained"
+                >
+                  Continuar
+                </Button>
+              )
+            }
           </form>
         </Box>
       </DialogTitle>
