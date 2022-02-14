@@ -63,6 +63,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
       'tombamento',
       'plano',
       'produto',
+      'anexo',
     ];
     return !(keysToNotBeRendered
       .some((forbiddenKey) => key === forbiddenKey));
@@ -151,27 +152,31 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
     };
     extraFieldHandler(name);
     resetExtraInputValues(name);
-    // if (name === 'tombamento') {
-    //   setNewClientInputs((current) => ({
-    //     ...current,
-    //     tombamento: !current.tombamento,
-    //   }));
-    // };
   };
 
   // ADICIONA NOVO PLANO/PRODUTO AO ESTADO 
   const submitNewExtraInputValue = () => {
     if (!newClientInputs[checkboxChecked]) {
-      setNewClientInputs({
-        ...newClientInputs,
+      setNewClientInputs((current) => ({
+        ...current,
         [checkboxChecked]: [extraInputValue],
-      });
+      }));
     } else {
       setNewClientInputs((current) => ({
         ...current,
         [checkboxChecked]: [...current[checkboxChecked], extraInputValue],
       }));
     };
+  };
+
+  // DELETA PLANO/PRODUTO DO ESTADO
+  const deleteExtraInputValue = ({ currentTarget: { name } }) => {
+    const newList = newClientInputs[checkboxChecked]
+      .filter((value) => value !== name);
+    setNewClientInputs((current) => ({
+      ...current,
+      [checkboxChecked]: newList,
+    }));
   };
 
   // RENDERIZA A PRIMEIRA COLUNA DE INPUTS
@@ -301,7 +306,13 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
                   newClientInputs[checkboxChecked].map((item) => (
                     <ListItem
                       secondaryAction={
-                        <IconButton edge="end" color="error" aria-label="delete">
+                        <IconButton
+                          aria-label="delete"
+                          color="error"
+                          edge="end"
+                          name={ item }
+                          onClick={ deleteExtraInputValue }
+                        >
                           <DeleteIcon />
                         </IconButton>
                       }
@@ -383,6 +394,32 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
               </Box>
             );
           })
+        }
+        {
+          (
+            <Box
+              sx={{
+                backgroundColor: "#efefef",
+                borderRadius: "10px",
+                mt: 1,
+                mx: 1,
+                p: 2,
+              }}
+            >
+              <StyledInput
+                color="primary"
+                fullWidth
+                InputLabelProps={{ shrink: true }}
+                label="Anexo"
+                name="anexo"
+                onChange={ handleInputChanges }
+                size="small"
+                type="file"
+                value={ newClientInputs.anexo }
+                variant="outlined"
+              />
+            </Box>
+          )
         }
       </>
     );
