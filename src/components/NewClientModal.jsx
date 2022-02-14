@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 
 import { getClient } from '../services';
 
@@ -11,6 +11,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import DoneIcon from '@mui/icons-material/Done';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import IconButton from '@mui/material/IconButton';
@@ -18,10 +19,10 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import Typography from '@mui/material/Typography';
 import StyledInput from './StyledInput';
 import StyledDialog from './StyledDialog';
-import { FormatListNumberedRounded } from '@mui/icons-material';
 
 const NewClientModal = ({ isOpen, handleClose, clientId }) => {
   const INITIAL_NEW_CLIENT_STATE = {
@@ -47,6 +48,9 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
   const [extraInputValue, setExtraInputValue] = useState('');
   const [newPhoneNumber, setNewPhoneNumber] = useState('');
   const [isFinishButtonDisplayed, setIsFinishButtonDisplayed] = useState(false);
+
+  const extraInput = useRef();
+  const phoneNumberInput = useRef();
 
   const { categoriesList, integrationsList, } = useContext(APIsManagementContext);
 
@@ -170,6 +174,8 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
         [checkboxChecked]: [...current[checkboxChecked], extraInputValue],
       }));
     };
+    setExtraInputValue('');
+    extraInput.current.focus();
   };
 
   // DELETA PLANO/PRODUTO DO ESTADO
@@ -201,6 +207,8 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
         },
       }));
     };
+    setNewPhoneNumber('');
+    phoneNumberInput.current.focus();
   };
 
   // DELETA NÚMERO DE TELEFONE DO ESTADO
@@ -233,6 +241,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
           }}
         >
           <StyledInput
+            autoFocus
             color="primary"
             fullWidth
             label="Nome do cliente"
@@ -374,6 +383,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
                   label={ checkboxChecked.charAt(0).toUpperCase() + checkboxChecked.slice(1) }
                   name={ checkboxChecked }
                   onChange={ ({ target: { value } }) => setExtraInputValue(value) }
+                  inputRef={ extraInput }
                   size="small"
                   type="text"
                   value={ extraInputValue }
@@ -559,6 +569,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
             <StyledInput
               color="primary"
               fullWidth
+              inputRef={ phoneNumberInput }
               label="Telefone"
               name="telefone"
               onChange={ ({ target: { value } }) => setNewPhoneNumber(value) }
@@ -631,7 +642,10 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
               color="darkBG"
               label="Categorias"
               name="categories"
-              onChange={ ({ target: { name, value } }) => setNewClientInputs({ ...newClientInputs, categoria_id: value }) }
+              onChange={ ({ target: { value } }) => {
+                setNewClientInputs({ ...newClientInputs, categoria_id: value, integracao_id: '' });
+                setIsFinishButtonDisplayed(false);
+              } }
               select
               size="small"
               sx={{ mr: 2, width: "200px" }}
@@ -654,7 +668,10 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
               disabled={ !newClientInputs.categoria_id }
               label="Integração"
               name="integracao"
-              onChange={ ({ target: { name, value } }) => setNewClientInputs({ ...newClientInputs, integracao_id: value }) }
+              onChange={ ({ target: { value } }) => {
+                setNewClientInputs({ ...newClientInputs, integracao_id: value });
+                setIsFinishButtonDisplayed(false);
+              } }
               select
               size="small"
               sx={{ width: "200px", mr: 2 }}
@@ -679,6 +696,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
               ? (
                 <Button
                   color="darkBG"
+                  endIcon={ <DoneIcon /> }
                   onClick={ submitNewClient }
                   sx={{ borderRadius: "10px", color:"#00964f", height: "40px" }}
                   type="button"
@@ -691,6 +709,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
                 <Button
                   color="darkBG"
                   disabled={ !newClientInputs.integracao_id }
+                  endIcon={ <NavigateNextIcon /> }
                   sx={{ borderRadius: "10px", color:"#00964f", height: "40px" }}
                   type="submit"
                   variant="contained"

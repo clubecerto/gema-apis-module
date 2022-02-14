@@ -34,6 +34,7 @@ const SearchBar = () => {
         }}
       >
         <StyledInput
+          autoFocus
           color="primary"
           label="Buscar cliente"
           name="search-client"
