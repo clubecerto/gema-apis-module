@@ -21,6 +21,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import StyledInput from './StyledInput';
 import StyledDialog from './StyledDialog';
+import { FormatListNumberedRounded } from '@mui/icons-material';
 
 const NewClientModal = ({ isOpen, handleClose, clientId }) => {
   const INITIAL_NEW_CLIENT_STATE = {
@@ -32,8 +33,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
     responsavel: {
       nome: '',
       email: '',
-      telefone_1: '',
-      telefone_2: '',
+      telefone: [],
     },
     plano: null,
     produto: null,
@@ -45,6 +45,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
   const [checkboxChecked, setCheckboxChecked] = useState('');
   const [isExtraInputDisplayed, setIsExtraInputDisplayed] = useState(false);
   const [extraInputValue, setExtraInputValue] = useState('');
+  const [newPhoneNumber, setNewPhoneNumber] = useState('');
 
   const { categoriesList, integrationsList, } = useContext(APIsManagementContext);
 
@@ -179,6 +180,40 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
     }));
   };
 
+  // ADICIONA NOVO NÚMERO DE TELEFONE AO ESTADO
+  const submitNewPhoneNumber = () => {
+    if (!newClientInputs.responsavel.telefone) {
+      setNewClientInputs((current) => ({
+        ...current,
+        responsavel: {
+          ...current.responsavel,
+          telefone: [newPhoneNumber],
+        },
+      }));
+    } else {
+      setNewClientInputs((current) => ({
+        ...current,
+        responsavel: {
+          ...current.responsavel,
+          telefone: [...current.responsavel.telefone, newPhoneNumber],
+        },
+      }));
+    };
+  };
+
+  // DELETA NÚMERO DE TELEFONE DO ESTADO
+  const deletePhoneNumber = ({ currentTarget: { name } }) => {
+    const newList = newClientInputs.responsavel.telefone
+      .filter((phoneNumber) => phoneNumber !== name);
+    setNewClientInputs((current) => ({
+      ...current,
+      responsavel: {
+        ...current.responsavel,
+        telefone: newList,
+      },
+    }));
+  };
+
   // RENDERIZA A PRIMEIRA COLUNA DE INPUTS
   const renderClientData_C1 = () => {
     return (
@@ -305,6 +340,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
                 {
                   newClientInputs[checkboxChecked].map((item) => (
                     <ListItem
+                      key={ item }
                       secondaryAction={
                         <IconButton
                           aria-label="delete"
@@ -444,7 +480,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
           <StyledInput
             color="primary"
             fullWidth
-            label="Nome do responsável"
+            label="Nome"
             name="nome"
             onChange={ handleManagerChanges }
             required
@@ -466,7 +502,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
           <StyledInput
             color="primary"
             fullWidth
-            label="Email do responsável"
+            label="Email"
             name="email"
             onChange={ handleManagerChanges }
             required
@@ -476,6 +512,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
             variant="outlined"
           />
         </Box>
+
         <Box
           sx={{
             backgroundColor: "#efefef",
@@ -485,18 +522,61 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
             p: 2,
           }}
         >
-          <StyledInput
-            color="primary"
-            fullWidth
-            label="Telefone do responsável"
-            name="telefone"
-            onChange={ handleManagerChanges }
-            required
-            size="small"
-            type="tel"
-            value={ newClientInputs.responsavel.telefone }
-            variant="outlined"
-          />
+          { /* LISTA DE TELEFONES ADICIONADOS */ }
+          {
+            !!newClientInputs.responsavel.telefone
+            && (
+              <List dense style={{ padding: 0 }}>
+                {
+                  newClientInputs.responsavel.telefone.map((numero) => (
+                    <ListItem
+                      key={ numero }
+                      secondaryAction={
+                        <IconButton
+                          aria-label="delete"
+                          color="error"
+                          edge="end"
+                          name={ numero }
+                          onClick={ deletePhoneNumber }
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      }
+                      sx={{ backgroundColor: "white", borderRadius: "10px", mb: 1 }}
+                    >
+                      <ListItemText primary={ numero } />
+                    </ListItem>
+                  ))
+                }
+              </List>
+            )
+          }
+
+          { /* INPUT DO TELEFONE */ }
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <StyledInput
+              color="primary"
+              fullWidth
+              label="Telefone"
+              name="telefone"
+              onChange={ ({ target: { value } }) => setNewPhoneNumber(value) }
+              required
+              size="small"
+              sx={{ mt: 1 }}
+              type="tel"
+              value={ newPhoneNumber }
+              variant="outlined"
+              />
+            <IconButton
+              aria-label="done"
+              color="primary"
+              disabled={ !newPhoneNumber }
+              onClick={ submitNewPhoneNumber }
+              sx={{ ml: 1, mt: 1 }}
+              >
+              <CheckCircleIcon />
+            </IconButton>
+          </Box>
         </Box>
       </>
     );
