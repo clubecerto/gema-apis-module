@@ -34,8 +34,10 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
   const [clientInEditing, setClientInEditing] = useState({});
   const [checkboxChecked, setCheckboxChecked] = useState('');
   const [planoProdutoInputValue, setPlanoProdutoInputValue] = useState('');
+  const [newPhoneNumber, setNewPhoneNumber] = useState('');
 
   const planoProdutoInput = useRef();
+  const phoneNumberInput = useRef();
 
   const { categoriesList, integrationsList } = useContext(APIsManagementContext);
 
@@ -55,7 +57,7 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
     };
   };
 
-  // EXECUTA A FUNÇÃO SETCHECKBOXACCORDINGTOCLIENTSELECTED AO PREENCHER O CLIENT SELECTED
+  // EXECUTA A FUNÇÃO SET "CHECKBOX ACCORDING TO CLIENT SELECTED" AO PREENCHER O CLIENT SELECTED
   useEffect(() => {
     setCheckboxAccordingToClientSelected();
   }, [clientSelected]);
@@ -95,6 +97,7 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
     };
   };
 
+  // LIDA COM MUDANÇAS NOS CAMPOS (EXCETO RESPONSÁVEL E PLANO/PRODUTO/TOMBAMENTO)
   const handleEdit = ({target: { name, value }}) => {
     setClientInEditing((current) => ({
       ...current,
@@ -102,6 +105,7 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
     }));
   };
 
+  // LIDA COM MUDANÇAS NOS CAMPOS DO RESPONSÁVEL (EXCETO TELEFONES)
   const handleManagerEdit = ({target: { name, value }}) => {
     if (name === 'telefone') {
       setClientInEditing((current) => ({
@@ -149,6 +153,7 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
     };
   };
 
+  // LIDA COM MUDANÇAS NOS CHECKBOX PLANO/PRODUTO/TOMBAMENTO
   const handleCheckbox = ({ target: { name } }) => {
     if (checkboxChecked === name) {
       setCheckboxChecked('');
@@ -175,12 +180,49 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
     planoProdutoInput.current.focus();
   };
 
+  // DELETA PLANO/PRODUTO DO ESTADO
   const deletePlanoProdutoInputValue = ({ currentTarget: { name } }) => {
     const newList = clientInEditing[checkboxChecked]
       .filter((value) => value !== name);
     setClientInEditing((current) => ({
       ...current,
       [checkboxChecked]: newList,
+    }));
+  };
+
+  // ADICIONA NOVO NÚMERO DE TELEFONE AO ESTADO
+  const submitNewPhoneNumber = () => {
+    if (!clientInEditing.responsavel.telefone) {
+      setClientInEditing((current) => ({
+        ...current,
+        responsavel: {
+          ...current.responsavel,
+          telefone: [newPhoneNumber],
+        },
+      }));
+    } else {
+      setClientInEditing((current) => ({
+        ...current,
+        responsavel: {
+          ...current.responsavel,
+          telefone: [...current.responsavel.telefone, newPhoneNumber],
+        },
+      }));
+    };
+    setNewPhoneNumber('');
+    phoneNumberInput.current.focus();
+  };
+
+  // DELETA NÚMERO DE TELEFONE DO ESTADO
+  const deletePhoneNumber = ({ currentTarget: { name } }) => {
+    const newList = clientInEditing.responsavel.telefone
+      .filter((phoneNumber) => phoneNumber !== name);
+    setClientInEditing((current) => ({
+      ...current,
+      responsavel: {
+        ...current.responsavel,
+        telefone: newList,
+      },
     }));
   };
 
@@ -451,7 +493,6 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
             <Typography fontWeight="600" sx={{ mb: 1 }}>
               Informações
             </Typography>
-
             <Box
               sx={{
                 display: "flex",
@@ -515,7 +556,7 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
 
               { /* COLUNA 1.2 */ }
               <Box sx={{ width: "50%" }}>
-                
+
                 { /* OBSERVAÇÕES */ }
                 <Box
                   sx={{
@@ -551,7 +592,7 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
                   }
                 </Box>
 
-                { /* CHECKBOX PARA ESCOLHA PLANO/PRODUTO/TOMBAMENTO */ }
+                { /* PLANO/PRODUTO/TOMBAMENTO */ }
                 <Box
                   sx={{
                     backgroundColor: "#efefef",
@@ -561,6 +602,8 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
                     p: 2,
                   }}
                 >
+
+                  { /* CHECKBOX PARA ESCOLHA PLANO/PRODUTO/TOMBAMENTO */ }
                   {
                     isEditing
                     ? (
@@ -601,7 +644,17 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
                       </FormGroup>
                     )
                   }
+
                   { /* LISTA DOS VALORES DOS INPUTS RELACIONADOS A PLANO/PRODUTO */ }
+                  {
+                    !!clientSelected[checkboxChecked]
+                    && checkboxChecked !== 'tombamento'
+                    && (
+                      <Typography sx={{ mt: 1 }}>
+                        { checkboxChecked.charAt(0).toUpperCase() + checkboxChecked.slice(1) + 's:' }
+                      </Typography>
+                    )
+                  }
                   {
                     isEditing
                     ? (
@@ -652,41 +705,41 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
                       )
                     )
                   }
-                </Box>
 
-                { /* INPUT RELACIONADO A PLANO/PRODUTO */ }
-                { 
-                  isEditing
-                  && !!clientInEditing
-                  && !!checkboxChecked
-                  && checkboxChecked !== 'tombamento'
-                  && (
-                    <Box sx={{ display: "flex", justifyContent: "space-between", mt: 1 }}>
-                      <StyledInput
-                        color="primary"
-                        fullWidth
-                        label={ checkboxChecked.charAt(0).toUpperCase() + checkboxChecked.slice(1) }
-                        multiline
-                        name={ checkboxChecked }
-                        onChange={ ({ target: { value } }) => setPlanoProdutoInputValue(value) }
-                        inputRef={ planoProdutoInput }
-                        size="small"
-                        type="text"
-                        value={ planoProdutoInputValue }
-                        variant="outlined"
-                      />
-                      <IconButton
-                        aria-label="done"
-                        color="primary"
-                        disabled={ !planoProdutoInputValue }
-                        onClick={ submitNewPlanoProdutoInputValue }
-                        sx={{ ml: 1 }}
-                      >
-                        <CheckCircleIcon />
-                      </IconButton>
-                    </Box>
-                  )
-                }
+                  { /* INPUT RELACIONADO A PLANO/PRODUTO */ }
+                  { 
+                    isEditing
+                    && !!clientInEditing
+                    && !!checkboxChecked
+                    && checkboxChecked !== 'tombamento'
+                    && (
+                      <Box sx={{ display: "flex", justifyContent: "space-between", mt: 1 }}>
+                        <StyledInput
+                          color="primary"
+                          fullWidth
+                          label={ checkboxChecked.charAt(0).toUpperCase() + checkboxChecked.slice(1) }
+                          multiline
+                          name={ checkboxChecked }
+                          onChange={ ({ target: { value } }) => setPlanoProdutoInputValue(value) }
+                          inputRef={ planoProdutoInput }
+                          size="small"
+                          type="text"
+                          value={ planoProdutoInputValue }
+                          variant="outlined"
+                        />
+                        <IconButton
+                          aria-label="done"
+                          color="primary"
+                          disabled={ !planoProdutoInputValue }
+                          onClick={ submitNewPlanoProdutoInputValue }
+                          sx={{ ml: 1 }}
+                        >
+                          <CheckCircleIcon />
+                        </IconButton>
+                      </Box>
+                    )
+                  }
+                </Box>
               </Box>
             </Box>
           </Box>
@@ -712,6 +765,7 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
                 mx: 1,
                 p: 2,
               }}>
+                { /* NOME DO RESPONSÁVEL */ }
                 {
                   isEditing
                   ? (
@@ -736,6 +790,7 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
                   )
                 }
               </Box>
+              { /* EMAIL DO REPONSÁVEL */ }
               <Box sx={{
                 backgroundColor: "#efefef",
                 borderRadius: "10px",
@@ -767,44 +822,97 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
                   )
                 }
               </Box>
-              {
-                !!clientSelected && clientSelected.responsavel.telefone.map((telefone, index) => (
-                  <Box
-                    key={ telefone }
-                    sx={{
-                      backgroundColor: "#efefef",
-                      borderRadius: "10px",
-                      mt: 1,
-                      mx: 1,
-                      p: 2,
-                    }}
-                  >
-                    {
-                      isEditing
-                      ? (
-                        <StyledInput
-                          color="primary"
-                          fullWidth
-                          label="Telefone"
-                          multiline
-                          name="telefone"
-                          onChange={ handleManagerEdit }
-                          required
-                          size="small"
-                          type="text"
-                          value={ clientInEditing.responsavel.telefone[index] }
-                          variant="outlined"
-                        />
-                      )
-                      : (
-                        <Typography sx={{ wordWrap: "break-word" }}>
-                          Telefone: { telefone }
-                        </Typography>
-                      )
-                    }
-                  </Box>
-                ))
-              }
+
+              { /* TELEFONES DO RESPONSÁVEL */ }
+              <Box
+                sx={{
+                  backgroundColor: "#efefef",
+                  borderRadius: "10px",
+                  mt: 1,
+                  mx: 1,
+                  p: 2,
+                }}
+              >
+                <Typography>
+                  Telefones:
+                </Typography>
+
+                { /* LISTA DE TELEFONES */ }
+                {
+                  isEditing
+                  ? (
+                    <List dense>
+                      {
+                        clientInEditing.responsavel.telefone.map((telefone) => (
+                          <ListItem
+                            key={ telefone }
+                            secondaryAction={
+                              <IconButton
+                                aria-label="delete"
+                                color="error"
+                                edge="end"
+                                name={ telefone }
+                                onClick={ deletePhoneNumber }
+                              >
+                                <DeleteIcon />
+                              </IconButton>
+                            }
+                            sx={{ backgroundColor: "white", borderRadius: "10px", mb: 1, wordWrap: "break-word" }}
+                          >
+                            <ListItemText primary={ telefone } />
+                          </ListItem>
+                        ))
+                      }
+                    </List>
+                  )
+                  : (
+                    <List dense>
+                      {
+                        !!clientSelected && clientSelected.responsavel.telefone.map((telefone) => (
+                          <ListItem
+                            key={ telefone }
+                            sx={{ backgroundColor: "white", borderRadius: "10px", mb: 1, wordWrap: "break-word" }}
+                          >
+                            <ListItemText primary={ telefone } />
+                          </ListItem>
+                        ))
+                      }
+                    </List>
+                  )
+                }
+
+                { /* INPUT DE TELEFONE */ }
+                { 
+                  isEditing
+                  && !!clientInEditing
+                  && (
+                    <Box sx={{ display: "flex", justifyContent: "space-between", mt: 1 }}>
+                      <StyledInput
+                        color="primary"
+                        fullWidth
+                        label="Telefone"
+                        multiline
+                        name="telefone"
+                        onChange={ ({ target: { value } }) => setNewPhoneNumber(value) }
+                        inputRef={ phoneNumberInput }
+                        size="small"
+                        type="tel"
+                        value={ newPhoneNumber }
+                        variant="outlined"
+                      />
+                      <IconButton
+                        aria-label="done"
+                        color="primary"
+                        disabled={ !newPhoneNumber }
+                        onClick={ submitNewPhoneNumber }
+                        sx={{ ml: 1 }}
+                      >
+                        <CheckCircleIcon />
+                      </IconButton>
+                    </Box>
+                  )
+                }
+              </Box>
             </Box>
 
             { /* ACESSO AO ANEXO */ }
