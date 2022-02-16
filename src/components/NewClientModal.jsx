@@ -44,12 +44,12 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
   const [newClientInputs, setNewClientInputs] = useState(INITIAL_NEW_CLIENT_STATE);
   const [requiredFields, setRequiredFields] = useState([]);
   const [checkboxChecked, setCheckboxChecked] = useState('');
-  const [isExtraInputDisplayed, setIsExtraInputDisplayed] = useState(false);
-  const [extraInputValue, setExtraInputValue] = useState('');
+  const [isPlanoProdutoInputDisplayed, setIsPlanoProdutoInputDisplayed] = useState(false);
+  const [planoProdutoInputValue, setPlanoProdutoInputValue] = useState('');
   const [newPhoneNumber, setNewPhoneNumber] = useState('');
   const [isFinishButtonDisplayed, setIsFinishButtonDisplayed] = useState(false);
 
-  const extraInput = useRef();
+  const planoProdutoInput = useRef();
   const phoneNumberInput = useRef();
 
   const { categoriesList, integrationsList, } = useContext(APIsManagementContext);
@@ -110,14 +110,14 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
   // DEFINE SE O INPUT ASSOCIADO AOS CHECKBOX É RENDERIZADO
   const extraFieldHandler = (name) => {
     if (name === 'tombamento' || name === checkboxChecked) {
-      setIsExtraInputDisplayed(false);
+      setIsPlanoProdutoInputDisplayed(false);
     } else {
-      setIsExtraInputDisplayed(true);
+      setIsPlanoProdutoInputDisplayed(true);
     };
-  }
+  };
 
   // RESETA PLANOS/PRODUTOS NO ESTADO
-  const resetExtraInputValues = (name) => {
+  const resetPlanoProdutoInputValues = (name) => {
     switch (name) {
     case 'plano':
       setNewClientInputs((current) => ({
@@ -158,28 +158,28 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
       setCheckboxChecked(name);
     };
     extraFieldHandler(name);
-    resetExtraInputValues(name);
+    resetPlanoProdutoInputValues(name);
   };
 
   // ADICIONA NOVO PLANO/PRODUTO AO ESTADO 
-  const submitNewExtraInputValue = () => {
+  const submitNewPlanoProdutoInputValue = () => {
     if (!newClientInputs[checkboxChecked]) {
       setNewClientInputs((current) => ({
         ...current,
-        [checkboxChecked]: [extraInputValue],
+        [checkboxChecked]: [planoProdutoInputValue],
       }));
     } else {
       setNewClientInputs((current) => ({
         ...current,
-        [checkboxChecked]: [...current[checkboxChecked], extraInputValue],
+        [checkboxChecked]: [...current[checkboxChecked], planoProdutoInputValue],
       }));
     };
-    setExtraInputValue('');
-    extraInput.current.focus();
+    setPlanoProdutoInputValue('');
+    planoProdutoInput.current.focus();
   };
 
   // DELETA PLANO/PRODUTO DO ESTADO
-  const deleteExtraInputValue = ({ currentTarget: { name } }) => {
+  const deletePlanoProdutoInputValue = ({ currentTarget: { name } }) => {
     const newList = newClientInputs[checkboxChecked]
       .filter((value) => value !== name);
     setNewClientInputs((current) => ({
@@ -359,7 +359,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
                           color="error"
                           edge="end"
                           name={ item }
-                          onClick={ deleteExtraInputValue }
+                          onClick={ deletePlanoProdutoInputValue }
                         >
                           <DeleteIcon />
                         </IconButton>
@@ -376,7 +376,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
 
           { /* INPUT RELACIONADO A PLANO/PRODUTO */ }
           { 
-            isExtraInputDisplayed && (
+            isPlanoProdutoInputDisplayed && (
               <Box sx={{ display: "flex", justifyContent: "space-between", mt: 1 }}>
                 <StyledInput
                   color="primary"
@@ -384,18 +384,18 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
                   label={ checkboxChecked.charAt(0).toUpperCase() + checkboxChecked.slice(1) }
                   multiline
                   name={ checkboxChecked }
-                  onChange={ ({ target: { value } }) => setExtraInputValue(value) }
-                  inputRef={ extraInput }
+                  onChange={ ({ target: { value } }) => setPlanoProdutoInputValue(value) }
+                  inputRef={ planoProdutoInput }
                   size="small"
                   type="text"
-                  value={ extraInputValue }
+                  value={ planoProdutoInputValue }
                   variant="outlined"
                 />
                 <IconButton
                   aria-label="done"
                   color="primary"
-                  disabled={ !extraInputValue }
-                  onClick={ submitNewExtraInputValue }
+                  disabled={ !planoProdutoInputValue }
+                  onClick={ submitNewPlanoProdutoInputValue }
                   sx={{ ml: 1 }}
                 >
                   <CheckCircleIcon />

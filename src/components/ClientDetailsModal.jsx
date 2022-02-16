@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 
 import { getClient } from '../services';
 
@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import CancelIcon from '@mui/icons-material/Cancel';
 import Checkbox from '@mui/material/Checkbox';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -25,7 +26,6 @@ import MenuItem from '@mui/material/MenuItem';
 import StyledDialog from './StyledDialog';
 import StyledInput from './StyledInput';
 import Typography from '@mui/material/Typography';
-import { useLayoutEffect } from 'react';
 
 const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
   const [clientSelected, setClientSelected] = useState('');
@@ -33,6 +33,9 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
   const [isSaveAndCancelButtonsDisplayed, setIsSaveAndCancelButtonsDisplayed] = useState(false);
   const [clientInEditing, setClientInEditing] = useState({});
   const [checkboxChecked, setCheckboxChecked] = useState('');
+  const [planoProdutoInputValue, setPlanoProdutoInputValue] = useState('');
+
+  const planoProdutoInput = useRef();
 
   const { categoriesList, integrationsList } = useContext(APIsManagementContext);
 
@@ -119,12 +122,66 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
     };
   };
 
+  // RESETA PLANOS/PRODUTOS NO ESTADO
+  const resetPlanoProdutoValues = (name) => {
+    switch (name) {
+    case 'plano':
+      setClientInEditing((current) => ({
+        ...current,
+        produto: null,
+        tombamento: false,
+      }));
+      break;
+    case 'produto':
+      setClientInEditing((current) => ({
+        ...current,
+        plano: null,
+        tombamento: false,
+      }));
+      break;
+    default:
+      setClientInEditing((current) => ({
+        ...current,
+        plano: null,
+        produto: null,
+      }));
+      break;
+    };
+  };
+
   const handleCheckbox = ({ target: { name } }) => {
     if (checkboxChecked === name) {
       setCheckboxChecked('');
     } else {
       setCheckboxChecked(name);
     };
+    resetPlanoProdutoValues(name);
+  };
+
+  // ADICIONA NOVO PLANO/PRODUTO AO ESTADO 
+  const submitNewPlanoProdutoInputValue = () => {
+    if (!clientInEditing[checkboxChecked]) {
+      setClientInEditing((current) => ({
+        ...current,
+        [checkboxChecked]: [planoProdutoInputValue],
+      }));
+    } else {
+      setClientInEditing((current) => ({
+        ...current,
+        [checkboxChecked]: [...current[checkboxChecked], planoProdutoInputValue],
+      }));
+    };
+    setPlanoProdutoInputValue('');
+    planoProdutoInput.current.focus();
+  };
+
+  const deletePlanoProdutoInputValue = ({ currentTarget: { name } }) => {
+    const newList = clientInEditing[checkboxChecked]
+      .filter((value) => value !== name);
+    setClientInEditing((current) => ({
+      ...current,
+      [checkboxChecked]: newList,
+    }));
   };
 
   const cancelEdit = () => {
@@ -548,12 +605,12 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
                   {
                     isEditing
                     ? (
-                      !!clientSelected[checkboxChecked]
+                      !!clientInEditing[checkboxChecked]
                       && checkboxChecked !== 'tombamento'
                       && (
                         <List dense>
                           {
-                            clientSelected[checkboxChecked].map((item) => (
+                            clientInEditing[checkboxChecked].map((item) => (
                               <ListItem
                                 key={ item }
                                 secondaryAction={
@@ -562,7 +619,7 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
                                     color="error"
                                     edge="end"
                                     name={ item }
-                                    // onClick={ deleteExtraInputValue }
+                                    onClick={ deletePlanoProdutoInputValue }
                                   >
                                     <DeleteIcon />
                                   </IconButton>
@@ -598,8 +655,12 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
                 </Box>
 
                 { /* INPUT RELACIONADO A PLANO/PRODUTO */ }
-                {/* { 
-                  isExtraInputDisplayed && (
+                { 
+                  isEditing
+                  && !!clientInEditing
+                  && !!checkboxChecked
+                  && checkboxChecked !== 'tombamento'
+                  && (
                     <Box sx={{ display: "flex", justifyContent: "space-between", mt: 1 }}>
                       <StyledInput
                         color="primary"
@@ -607,25 +668,25 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
                         label={ checkboxChecked.charAt(0).toUpperCase() + checkboxChecked.slice(1) }
                         multiline
                         name={ checkboxChecked }
-                        onChange={ ({ target: { value } }) => setExtraInputValue(value) }
-                        inputRef={ extraInput }
+                        onChange={ ({ target: { value } }) => setPlanoProdutoInputValue(value) }
+                        inputRef={ planoProdutoInput }
                         size="small"
                         type="text"
-                        value={ extraInputValue }
+                        value={ planoProdutoInputValue }
                         variant="outlined"
                       />
                       <IconButton
                         aria-label="done"
                         color="primary"
-                        disabled={ !extraInputValue }
-                        onClick={ submitNewExtraInputValue }
+                        disabled={ !planoProdutoInputValue }
+                        onClick={ submitNewPlanoProdutoInputValue }
                         sx={{ ml: 1 }}
                       >
                         <CheckCircleIcon />
                       </IconButton>
                     </Box>
                   )
-                } */}
+                }
               </Box>
             </Box>
           </Box>
