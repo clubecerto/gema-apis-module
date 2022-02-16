@@ -11,7 +11,7 @@ const customTheme = createTheme({
     error: {
       main: '#b40803',
     },
-    darkBG: {
+    whiteColor: {
       main: 'white',
     }
   },

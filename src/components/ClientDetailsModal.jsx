@@ -8,26 +8,54 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import CancelIcon from '@mui/icons-material/Cancel';
+import Checkbox from '@mui/material/Checkbox';
+import DeleteIcon from '@mui/icons-material/Delete';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import DoneIcon from '@mui/icons-material/Done';
 import EditIcon from '@mui/icons-material/Edit';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormGroup from '@mui/material/FormGroup';
+import IconButton from '@mui/material/IconButton';
 import Link from '@mui/material/Link';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import MenuItem from '@mui/material/MenuItem';
 import StyledDialog from './StyledDialog';
-import Typography from '@mui/material/Typography';
 import StyledInput from './StyledInput';
+import Typography from '@mui/material/Typography';
+import { useLayoutEffect } from 'react';
 
 const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
   const [clientSelected, setClientSelected] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [isSaveAndCancelButtonsDisplayed, setIsSaveAndCancelButtonsDisplayed] = useState(false);
+  const [clientInEditing, setClientInEditing] = useState({});
+  const [checkboxChecked, setCheckboxChecked] = useState('');
 
   const { categoriesList, integrationsList } = useContext(APIsManagementContext);
 
-  // RECUPERA DADOS DA INTEGRAÇÃO ESCOLHIDA E SALVA DO ESTADO
+  // RECUPERA DADOS DO CLIENTE ESCOLHIDA E SALVA DO ESTADO
   useEffect(() => {
     setClientSelected(getClient(clientId));
   }, []);
+
+  // SALVA O NOME DO CHECKBOX DO CLIENTSELECTED QUE TEM CONTEÚDO NO ESTADO CHECKBOXCHECKED
+  const setCheckboxAccordingToClientSelected = () => {
+    if (!!clientSelected.plano) {
+      setCheckboxChecked('plano');
+    } else if (!!clientSelected.produto) {
+      setCheckboxChecked('produto');
+    } else {
+      setCheckboxChecked('tombamento');
+    };
+  };
+
+  // EXECUTA A FUNÇÃO SETCHECKBOXACCORDINGTOCLIENTSELECTED AO PREENCHER O CLIENT SELECTED
+  useEffect(() => {
+    setCheckboxAccordingToClientSelected();
+  }, [clientSelected]);
 
   // VERIFICA SE A CHAVE PASSADA É UMA DAS QUE NÃO DEVE SER RENDERIZADA
   const checkKey = (key) => {
@@ -42,9 +70,71 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
       'responsavel',
       'status',
       'anexo',
+      'plano',
+      'produto',
+      'tombamento',
+      'observacoes',
     ];
     return !(keysToNotBeRendered
       .some((forbiddenKey) => key === forbiddenKey));
+  };
+
+  const startToEditClient = () => {
+    setIsEditing(true);
+    setIsSaveAndCancelButtonsDisplayed(true);
+    setClientInEditing(clientSelected);
+    if (!!clientSelected.plano) {
+      setCheckboxChecked('plano');
+    } else if (!!clientSelected.produto) {
+      setCheckboxChecked('produto');
+    } else {
+      setCheckboxChecked('tombamento');
+    };
+  };
+
+  const handleEdit = ({target: { name, value }}) => {
+    setClientInEditing((current) => ({
+      ...current,
+      [name]: value,
+    }));
+  };
+
+  const handleManagerEdit = ({target: { name, value }}) => {
+    if (name === 'telefone') {
+      setClientInEditing((current) => ({
+        ...current,
+        responsavel: {
+          ...current.responsavel,
+          telefone: [...current.responsavel.telefone, value],
+        },
+      }));
+    } else {
+      setClientInEditing((current) => ({
+        ...current,
+        responsavel: {
+          ...current.responsavel,
+          [name]: value,
+        },
+      }));
+    };
+  };
+
+  const handleCheckbox = ({ target: { name } }) => {
+    if (checkboxChecked === name) {
+      setCheckboxChecked('');
+    } else {
+      setCheckboxChecked(name);
+    };
+  };
+
+  const cancelEdit = () => {
+    setIsEditing(false);
+    setIsSaveAndCancelButtonsDisplayed(false);
+    setClientInEditing({})
+  };
+
+  const submitEdit = () => {
+    cancelEdit();
   };
 
   return (
@@ -58,6 +148,7 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
       aria-labelledby="scroll-dialog-title"
       aria-describedby="scroll-dialog-description"
     >
+      { /* HEADER DO MODAL */ }
       <DialogTitle sx={{ mt: 1 }} id="scroll-dialog-title">
         <Box
           sx={{
@@ -76,10 +167,11 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
             component="h2"
             fontWeight="600"
             sx={{
-              color: "white",
-              flexGrow: 1,
-              display: "flex",
               alignItems: "baseline",
+              color: "white",
+              display: "flex",
+              flexGrow: 1,
+              wordWrap: "break-word",
             }}
             variant="h4"
           >
@@ -112,7 +204,29 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
 
           { /* VISUALIZAÇÃO DA ROTINA CRON */ }
           {
-            !clientSelected.cron
+            isEditing
+            ? (
+              <StyledInput
+                color="primary"
+                label="Cron"
+                name="cron"
+                onChange={ handleEdit }
+                required
+                select
+                size="small"
+                sx={{ width: "100px", mr: 2 }}
+                value={ clientInEditing.cron }
+                variant="outlined"
+              >
+                <MenuItem value="1">
+                  Sim
+                </MenuItem>
+                <MenuItem value="0">
+                  Não
+                </MenuItem>
+              </StyledInput>
+            )
+            : !clientSelected.cron
             ? (
               <Box
                 sx={{
@@ -146,14 +260,36 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
                   width: "120px",
                 }}
               >
-                SIM
+                CRON: SIM
               </Box>
               )
             }
 
-            { /* VISUALIZAÇÃO DA ROTINA STATUS */ }
+            { /* VISUALIZAÇÃO DO STATUS */ }
           {
-            !clientSelected.status
+            isEditing
+            ? (
+              <StyledInput
+                color="primary"
+                label="Status"
+                name="status"
+                onChange={ handleEdit }
+                required
+                select
+                size="small"
+                sx={{ width: "100px", mr: 2 }}
+                value={ clientInEditing.status }
+                variant="outlined"
+              >
+                <MenuItem value="1">
+                  Ativo
+                </MenuItem>
+                <MenuItem value="0">
+                  Inativo
+                </MenuItem>
+              </StyledInput>
+            )
+            : !clientSelected.status
             ? (
               <Box
                 sx={{
@@ -166,7 +302,7 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
                   mr: 2,
                   paddingTop: "8px",
                   textAlign: "center",
-                  width: "120px",
+                  width: "140px",
                 }}
               >
                 STATUS: INATIVO
@@ -198,9 +334,9 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
             ? (
               <ButtonGroup>
                 <Button
-                  color="darkBG"
+                  color="whiteColor"
                   endIcon={ <CancelIcon /> }
-                  // onClick={  }
+                  onClick={ cancelEdit }
                   sx={{ borderRadius: "10px", color:"#b40803", height: "40px" }}
                   type="button"
                   variant="contained"
@@ -208,9 +344,9 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
                   Cancelar
                 </Button>
                 <Button
-                  color="darkBG"
+                  color="whiteColor"
                   endIcon={ <DoneIcon /> }
-                  // onClick={  }
+                  onClick={ submitEdit }
                   sx={{ borderRadius: "10px", color:"#00964f", height: "40px", width: "125px" }}
                   type="button"
                   variant="contained"
@@ -221,12 +357,9 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
             )
             : (
               <Button
-                color="darkBG"
+                color="whiteColor"
                 endIcon={ <EditIcon /> }
-                onClick={ () => {
-                  setIsEditing(true);
-                  setIsSaveAndCancelButtonsDisplayed(true)
-                } }
+                onClick={ startToEditClient }
                 sx={{ borderRadius: "10px", color:"#00964f", height: "40px" }}
                 type="button"
                 variant="contained"
@@ -237,6 +370,8 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
           }
         </Box>
       </DialogTitle>
+
+      { /* CORPO DO MODAL */ }
       <DialogContent sx={{ mb: 0.5 }}>
         <Box
           sx={{
@@ -270,113 +405,227 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
               <Box sx={{ width: "50%" }}>
 
                 { /* DADOS DO CLIENTE */ }
-                <Box>
-                  {
-                    Object.keys(clientSelected).map((key, index) => {
-                      const shouldRender = checkKey(key);
-                      if (
-                        shouldRender
-                        && clientSelected[key] !== null
-                        && index < 14
-                      ) {
+                {
+                  Object.keys(clientSelected).map((key) => {
+                    const shouldRender = checkKey(key);
+                    if (
+                      shouldRender
+                      && clientSelected[key] !== null
+                    ) {
 
-                        // SUBSTITUI UNDERSCORES POR ESPAÇOS E COLOCA LETRA MAIÚSCULA NA PRIMEIRA LETRA DE CADA PALAVRA QUE FORMA A CHAVE
-                        const formattedKey = key.split('_').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-                        return (
-                          <Box
-                            key={ key }
-                            sx={{
-                              backgroundColor: "#efefef",
-                              borderRadius: "10px",
-                              mt: 1,
-                              mx: 1,
-                              p: 2,
-                            }}
-                          >
-                            {
-                              isEditing
-                              ? (
-                                <StyledInput
-                                  color="primary"
-                                  fullWidth
-                                  label={ formattedKey }
-                                  name={ key }
-                                  // onChange={  }
-                                  required
-                                  size="small"
-                                  type="text"
-                                  value={ clientSelected[key] }
-                                  variant="outlined"
-                                />
-                              )
-                              : (
-                                <Typography>
-                                  { !!clientSelected && `${formattedKey}: ${clientSelected[key]}` }
-                                </Typography>
-                              )
-                            }
-                          </Box>
-                        );
-                      };
-                    })
-                  }
-                </Box>
+                      // SUBSTITUI UNDERSCORES POR ESPAÇOS E COLOCA LETRA MAIÚSCULA NA PRIMEIRA LETRA DE CADA PALAVRA QUE FORMA A CHAVE
+                      const formattedKey = key.split('_').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+                      return (
+                        <Box
+                          key={ key }
+                          sx={{
+                            backgroundColor: "#efefef",
+                            borderRadius: "10px",
+                            mt: 1,
+                            mx: 1,
+                            p: 2,
+                          }}
+                        >
+                          {
+                            isEditing
+                            ? (
+                              <StyledInput
+                                color="primary"
+                                fullWidth
+                                label={ formattedKey }
+                                multiline
+                                name={ key }
+                                onChange={ handleEdit }
+                                required
+                                size="small"
+                                type="text"
+                                value={ clientInEditing[key] }
+                                variant="outlined"
+                              />
+                            )
+                            : (
+                              <Typography sx={{ wordWrap: "break-word" }}>
+                                { !!clientSelected && `${formattedKey}: ${clientSelected[key]}` }
+                              </Typography>
+                            )
+                          }
+                        </Box>
+                      );
+                    };
+                  })
+                }
               </Box>
 
               { /* COLUNA 1.2 */ }
               <Box sx={{ width: "50%" }}>
-                { /* DADOS DO CLIENTE */ }
-                <Box>
+                
+                { /* OBSERVAÇÕES */ }
+                <Box
+                  sx={{
+                    backgroundColor: "#efefef",
+                    borderRadius: "10px",
+                    mt: 1,
+                    mx: 1,
+                    p: 2,
+                  }}
+                >
                   {
-                    Object.keys(clientSelected).map((key, index) => {
-                      const shouldRender = checkKey(key);
-                      if (
-                        shouldRender
-                        && clientSelected[key] !== null
-                        && index >= 14
-                      ) {
-
-                        // SUBSTITUI UNDERSCORES POR ESPAÇOS E COLOCA LETRA MAIÚSCULA NA PRIMEIRA LETRA DAS PALAVRAS QUE FORMAM A KEY
-                        const formattedKey = key.split('_').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-                        return (
-                          <Box
-                            key={ key }
-                            sx={{
-                              backgroundColor: "#efefef",
-                              borderRadius: "10px",
-                              mt: 1,
-                              mx: 1,
-                              p: 2,
-                            }}
-                          >
-                            {
-                              isEditing
-                              ? (
-                                <StyledInput
-                                  color="primary"
-                                  fullWidth
-                                  label={ formattedKey }
-                                  name={ key }
-                                  // onChange={  }
-                                  required
-                                  size="small"
-                                  type="text"
-                                  value={ clientSelected[key] }
-                                  variant="outlined"
-                                />
-                              )
-                              : (
-                                <Typography>
-                                  { !!clientSelected && `${formattedKey}: ${clientSelected[key]}` }
-                                </Typography>
-                              )
-                            }
-                          </Box>
-                        );
-                      };
-                    })
+                    isEditing
+                    ? (
+                      <StyledInput
+                        color="primary"
+                        fullWidth
+                        label="Observações"
+                        multiline
+                        name="observacoes"
+                        onChange={ handleEdit }
+                        required
+                        size="small"
+                        type="text"
+                        value={ clientInEditing.observacoes }
+                        variant="outlined"
+                      />
+                    )
+                    : (
+                      <Typography sx={{ wordWrap: "break-word" }}>
+                        { !!clientSelected && `Observações: ${clientSelected.observacoes}` }
+                      </Typography>
+                    )
                   }
                 </Box>
+
+                { /* CHECKBOX PARA ESCOLHA PLANO/PRODUTO/TOMBAMENTO */ }
+                <Box
+                  sx={{
+                    backgroundColor: "#efefef",
+                    borderRadius: "10px",
+                    mt: 1,
+                    mx: 1,
+                    p: 2,
+                  }}
+                >
+                  {
+                    isEditing
+                    ? (
+                      <FormGroup sx={{ mx: 1, px: 1 }}>
+                        <FormControlLabel
+                        control={<Checkbox
+                          checked={ checkboxChecked === 'plano' }
+                          name="plano"
+                          onChange={ handleCheckbox }
+                        />} label="Plano" />
+                        <FormControlLabel control={<Checkbox
+                          checked={ checkboxChecked === 'produto' }
+                          name="produto"
+                          onChange={ handleCheckbox }
+                        />} label="Produto" />
+                        <FormControlLabel control={<Checkbox
+                          checked={ checkboxChecked === 'tombamento' }
+                          name="tombamento"
+                          onChange={ handleCheckbox }
+                        />} label="Tombamento" />
+                      </FormGroup>
+                    )
+                    : (
+                      <FormGroup sx={{ mx: 1, px: 1 }}>
+                        <FormControlLabel
+                        control={<Checkbox
+                          checked={ !!clientSelected.plano }
+                          name="plano"
+                          />} label="Plano" />
+                        <FormControlLabel control={<Checkbox
+                          checked={ !!clientSelected.produto }
+                          name="produto"
+                          />} label="Produto" />
+                        <FormControlLabel control={<Checkbox
+                          checked={ !!clientSelected.tombamento }
+                          name="tombamento"
+                          />} label="Tombamento" />
+                      </FormGroup>
+                    )
+                  }
+                  { /* LISTA DOS VALORES DOS INPUTS RELACIONADOS A PLANO/PRODUTO */ }
+                  {
+                    isEditing
+                    ? (
+                      !!clientSelected[checkboxChecked]
+                      && checkboxChecked !== 'tombamento'
+                      && (
+                        <List dense>
+                          {
+                            clientSelected[checkboxChecked].map((item) => (
+                              <ListItem
+                                key={ item }
+                                secondaryAction={
+                                  <IconButton
+                                    aria-label="delete"
+                                    color="error"
+                                    edge="end"
+                                    name={ item }
+                                    // onClick={ deleteExtraInputValue }
+                                  >
+                                    <DeleteIcon />
+                                  </IconButton>
+                                }
+                                sx={{ backgroundColor: "white", borderRadius: "10px", mb: 1, wordWrap: "break-word" }}
+                              >
+                                <ListItemText primary={ item } />
+                              </ListItem>
+                            ))
+                          }
+                        </List>
+                      )
+                    )
+                    : (
+                      !!clientSelected[checkboxChecked]
+                      && checkboxChecked !== 'tombamento'
+                      && (
+                        <List dense>
+                          {
+                            clientSelected[checkboxChecked].map((item) => (
+                              <ListItem
+                                key={ item }
+                                sx={{ backgroundColor: "white", borderRadius: "10px", mb: 1, wordWrap: "break-word" }}
+                              >
+                                <ListItemText primary={ item } />
+                              </ListItem>
+                            ))
+                          }
+                        </List>
+                      )
+                    )
+                  }
+                </Box>
+
+                { /* INPUT RELACIONADO A PLANO/PRODUTO */ }
+                {/* { 
+                  isExtraInputDisplayed && (
+                    <Box sx={{ display: "flex", justifyContent: "space-between", mt: 1 }}>
+                      <StyledInput
+                        color="primary"
+                        fullWidth
+                        label={ checkboxChecked.charAt(0).toUpperCase() + checkboxChecked.slice(1) }
+                        multiline
+                        name={ checkboxChecked }
+                        onChange={ ({ target: { value } }) => setExtraInputValue(value) }
+                        inputRef={ extraInput }
+                        size="small"
+                        type="text"
+                        value={ extraInputValue }
+                        variant="outlined"
+                      />
+                      <IconButton
+                        aria-label="done"
+                        color="primary"
+                        disabled={ !extraInputValue }
+                        onClick={ submitNewExtraInputValue }
+                        sx={{ ml: 1 }}
+                      >
+                        <CheckCircleIcon />
+                      </IconButton>
+                    </Box>
+                  )
+                } */}
               </Box>
             </Box>
           </Box>
@@ -409,17 +658,18 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
                       color="primary"
                       fullWidth
                       label="Nome"
+                      multiline
                       name="nome"
-                      // onChange={  }
+                      onChange={ handleManagerEdit }
                       required
                       size="small"
                       type="text"
-                      value={ !!clientSelected && clientSelected.responsavel.nome }
+                      value={ !!clientInEditing && clientInEditing.responsavel.nome }
                       variant="outlined"
                     />
                   )
                   : (
-                    <Typography>
+                    <Typography sx={{ wordWrap: "break-word" }}>
                       Nome: { !!clientSelected && clientSelected.responsavel.nome }
                     </Typography>
                   )
@@ -439,24 +689,25 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
                       color="primary"
                       fullWidth
                       label="Email"
+                      multiline
                       name="email"
-                      // onChange={  }
+                      onChange={ handleManagerEdit }
                       required
                       size="small"
                       type="text"
-                      value={ !!clientSelected && clientSelected.responsavel.email }
+                      value={ !!clientInEditing && clientInEditing.responsavel.email }
                       variant="outlined"
                     />
                   )
                   : (
-                    <Typography>
-                      Nome: { !!clientSelected && clientSelected.responsavel.email }
+                    <Typography sx={{ wordWrap: "break-word" }}>
+                      Email: { !!clientSelected && clientSelected.responsavel.email }
                     </Typography>
                   )
                 }
               </Box>
               {
-                !!clientSelected && clientSelected.responsavel.telefone.map((telefone) => (
+                !!clientSelected && clientSelected.responsavel.telefone.map((telefone, index) => (
                   <Box
                     key={ telefone }
                     sx={{
@@ -474,18 +725,19 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
                           color="primary"
                           fullWidth
                           label="Telefone"
+                          multiline
                           name="telefone"
-                          // onChange={  }
+                          onChange={ handleManagerEdit }
                           required
                           size="small"
                           type="text"
-                          value={ telefone }
+                          value={ clientInEditing.responsavel.telefone[index] }
                           variant="outlined"
                         />
                       )
                       : (
-                        <Typography>
-                          Nome: { telefone }
+                        <Typography sx={{ wordWrap: "break-word" }}>
+                          Telefone: { telefone }
                         </Typography>
                       )
                     }
@@ -507,16 +759,34 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
                   <Typography fontWeight="600" sx={{ mb: 2 }}>
                     Anexos
                   </Typography>
-                  <Link href={ clientSelected.anexo } target="_blank" underline="none">
-                    <Button 
-                      color="primary"
-                      sx={{ borderRadius: "10px" }}
-                      type=''
-                      variant="contained"
-                    >
-                      Baixar arquivo
-                    </Button>
-                  </Link>
+                  {
+                    isEditing
+                    ? (
+                      <StyledInput
+                        color="primary"
+                        fullWidth
+                        InputLabelProps={{ shrink: true }}
+                        label="Anexo"
+                        name="anexo"
+                        // onChange={  }
+                        size="small"
+                        type="file"
+                        variant="outlined"
+                      />
+                    )
+                    : (
+                      <Link href={ clientSelected.anexo } target="_blank" underline="none">
+                        <Button 
+                          color="primary"
+                          sx={{ borderRadius: "10px" }}
+                          type=''
+                          variant="contained"
+                        >
+                          Baixar arquivo
+                        </Button>
+                      </Link>
+                    )
+                  }
                 </Box>
               )
             }

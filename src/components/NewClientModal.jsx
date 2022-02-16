@@ -245,6 +245,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
             color="primary"
             fullWidth
             label="Nome do cliente"
+            multiline
             name="nome"
             onChange={ handleInputChanges }
             required
@@ -345,7 +346,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
           { /* LISTA DOS VALORES DOS INPUTS RELACIONADOS A PLANO/PRODUTO */ }
           {
             !!newClientInputs[checkboxChecked]
-            && newClientInputs[checkboxChecked] !== 'tombamento'
+            && checkboxChecked !== 'tombamento'
             && (
               <List dense>
                 {
@@ -363,7 +364,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
                           <DeleteIcon />
                         </IconButton>
                       }
-                      sx={{ backgroundColor: "white", borderRadius: "10px", mb: 1 }}
+                      sx={{ backgroundColor: "white", borderRadius: "10px", mb: 1, wordWrap: "break-word" }}
                     >
                       <ListItemText primary={ item } />
                     </ListItem>
@@ -381,6 +382,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
                   color="primary"
                   fullWidth
                   label={ checkboxChecked.charAt(0).toUpperCase() + checkboxChecked.slice(1) }
+                  multiline
                   name={ checkboxChecked }
                   onChange={ ({ target: { value } }) => setExtraInputValue(value) }
                   inputRef={ extraInput }
@@ -431,6 +433,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
                   color="primary"
                   fullWidth
                   label={ formattedKey }
+                  multiline
                   name={ key }
                   onChange={ handleInputChanges }
                   required
@@ -473,7 +476,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
     );
   };
 
-  // RENDERIZA A TERCEIRA COLUNADE INPUTS
+  // RENDERIZA A TERCEIRA COLUNA DE INPUTS
   const renderClientManagerData = () => {
     return (
       <>
@@ -493,6 +496,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
             color="primary"
             fullWidth
             label="Nome"
+            multiline
             name="nome"
             onChange={ handleManagerChanges }
             required
@@ -515,6 +519,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
             color="primary"
             fullWidth
             label="Email"
+            multiline
             name="email"
             onChange={ handleManagerChanges }
             required
@@ -554,7 +559,12 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
                           <DeleteIcon />
                         </IconButton>
                       }
-                      sx={{ backgroundColor: "white", borderRadius: "10px", mb: 1 }}
+                      sx={{
+                        backgroundColor: "white",
+                        borderRadius: "10px",
+                        mb: 1,
+                        wordWrap: "break-word"
+                      }}
                     >
                       <ListItemText primary={ numero } />
                     </ListItem>
@@ -571,6 +581,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
               fullWidth
               inputRef={ phoneNumberInput }
               label="Telefone"
+              multiline
               name="telefone"
               onChange={ ({ target: { value } }) => setNewPhoneNumber(value) }
               required
@@ -639,7 +650,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
             onSubmit={ handleHeaderSubmit }
           >
             <StyledInput
-              color="darkBG"
+              color="whiteColor"
               label="Categorias"
               name="categories"
               onChange={ ({ target: { value } }) => {
@@ -664,7 +675,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
               }
             </StyledInput>
             <StyledInput
-              color="darkBG"
+              color="whiteColor"
               disabled={ !newClientInputs.categoria_id }
               label="Integração"
               name="integracao"
@@ -695,7 +706,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
               isFinishButtonDisplayed
               ? (
                 <Button
-                  color="darkBG"
+                  color="whiteColor"
                   endIcon={ <DoneIcon /> }
                   onClick={ submitNewClient }
                   sx={{ borderRadius: "10px", color:"#00964f", height: "40px" }}
@@ -707,7 +718,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
               )
               : (
                 <Button
-                  color="darkBG"
+                  color="whiteColor"
                   disabled={ !newClientInputs.integracao_id }
                   endIcon={ <NavigateNextIcon /> }
                   sx={{ borderRadius: "10px", color:"#00964f", height: "40px" }}

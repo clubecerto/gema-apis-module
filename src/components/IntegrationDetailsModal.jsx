@@ -55,6 +55,7 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, integrationId }) => {
               flexGrow: 1,
               display: "flex",
               alignItems: "baseline",
+              wordWrap: "break-word",
             }}
             variant="h4"
           >
@@ -62,7 +63,7 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, integrationId }) => {
             <Typography
               component="p"
               id="transition-modal-title"
-              sx={{ color: "white", ml: 1 }}
+              sx={{ color: "white", ml: 1, wordWrap: "break-word" }}
               variant="subtitle1"
             >
               { !!integrationSelected && categoriesList
@@ -105,7 +106,7 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, integrationId }) => {
                   width: "120px",
                 }}
               >
-                SIM
+                CRON: SIM
               </Box>
             )
           }
@@ -171,7 +172,7 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, integrationId }) => {
             mx: 1,
             p: 2,
           }}>
-            <Typography>
+            <Typography sx={{ wordWrap: "break-word" }}>
               Nome: { !!integrationSelected && integrationSelected.responsavel.nome }
             </Typography>
           </Box>
@@ -182,7 +183,7 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, integrationId }) => {
             mx: 1,
             p: 2,
           }}>
-            <Typography>
+            <Typography sx={{ wordWrap: "break-word" }}>
               Email: { !!integrationSelected && integrationSelected.responsavel.email }
             </Typography>
           </Box>
@@ -198,7 +199,7 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, integrationId }) => {
                   p: 2,
                 }}
               >
-                <Typography>
+                <Typography sx={{ wordWrap: "break-word" }}>
                   Telefone: { telefone }
                 </Typography>
               </Box>
