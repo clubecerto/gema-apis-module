@@ -24,15 +24,16 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, integrationId }) => {
 
   return (
     <StyledDialog
-      open={isOpen}
-      onClose={() => handleClose(integrationId)}
-      scroll={"paper"}
-      maxWidth="md"
-      fullWidth
-      sx={{ borderRadius: "10px" }}
       aria-labelledby="scroll-dialog-title"
       aria-describedby="scroll-dialog-description"
+      fullWidth
+      maxWidth="md"
+      onClose={() => handleClose(integrationId)}
+      open={isOpen}
+      scroll={"paper"}
+      sx={{ borderRadius: "10px" }}
     >
+      { /* HEADER DO MODAL */ }
       <DialogTitle sx={{ mt: 1 }} id="scroll-dialog-title">
         <Box
           sx={{
@@ -154,6 +155,7 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, integrationId }) => {
         </Box>
       </DialogTitle>
 
+      { /* CORPO DO MODAL */ }
       <DialogContent sx={{ mb: 0.5 }}>
         <Box sx={{
           backgroundColor: "white",
@@ -165,6 +167,8 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, integrationId }) => {
           <Typography fontWeight="600" sx={{ mb: 1 }}>
             Responsável
           </Typography>
+
+          { /* NOME DO RESPONSÁVEL */ }
           <Box sx={{
             backgroundColor: "#efefef",
             borderRadius: "10px",
@@ -176,6 +180,8 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, integrationId }) => {
               Nome: { !!integrationSelected && integrationSelected.responsavel.nome }
             </Typography>
           </Box>
+
+          { /* EMAIL DO RESPONSÁVEL */ }
           <Box sx={{
             backgroundColor: "#efefef",
             borderRadius: "10px",
@@ -187,6 +193,8 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, integrationId }) => {
               Email: { !!integrationSelected && integrationSelected.responsavel.email }
             </Typography>
           </Box>
+
+          { /* TELEFONES DO RESPONSÁVEL */ }
           {
             !!integrationSelected && integrationSelected.responsavel.telefone.map((telefone) => (
               <Box

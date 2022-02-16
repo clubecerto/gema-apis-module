@@ -8,6 +8,7 @@ import Grid from '@mui/material/Grid';
 const CategoriesGrid = ({ history: { push } }) => {
   const { categoriesList } = useContext(APIsManagementContext);
 
+  // CLICAR NA CATEGORIA REDIRECIONA PARA SUAS RESPECTIVAS INTEGRAÇÕES
   const handleClickCategory = ({ target: { name } }) => {
     push(`/:${name}`);
   };

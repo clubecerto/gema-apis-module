@@ -28,11 +28,11 @@ import StyledInput from './StyledInput';
 import Typography from '@mui/material/Typography';
 
 const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
+  const [checkboxChecked, setCheckboxChecked] = useState('');
   const [clientSelected, setClientSelected] = useState('');
+  const [clientInEditing, setClientInEditing] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const [isSaveAndCancelButtonsDisplayed, setIsSaveAndCancelButtonsDisplayed] = useState(false);
-  const [clientInEditing, setClientInEditing] = useState({});
-  const [checkboxChecked, setCheckboxChecked] = useState('');
   const [planoProdutoInputValue, setPlanoProdutoInputValue] = useState('');
   const [newPhoneNumber, setNewPhoneNumber] = useState('');
 
@@ -758,6 +758,8 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
               <Typography fontWeight="600" sx={{ mb: 1 }}>
                 Responsável
               </Typography>
+
+              { /* NOME DO RESPONSÁVEL */ }
               <Box sx={{
                 backgroundColor: "#efefef",
                 borderRadius: "10px",
@@ -765,7 +767,6 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
                 mx: 1,
                 p: 2,
               }}>
-                { /* NOME DO RESPONSÁVEL */ }
                 {
                   isEditing
                   ? (
@@ -790,6 +791,7 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
                   )
                 }
               </Box>
+
               { /* EMAIL DO REPONSÁVEL */ }
               <Box sx={{
                 backgroundColor: "#efefef",
@@ -917,47 +919,45 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
 
             { /* ACESSO AO ANEXO */ }
             {
-              !!(clientSelected.anexo) && (
-                <Box sx={{
-                  backgroundColor: "white",
-                  borderRadius: "10px",
-                  boxShadow: "0px 0px 15px 0px rgb(88 88 88 / 20%)",
-                  mt: 2,
-                  p: 2,
-                }}>
-                  <Typography fontWeight="600" sx={{ mb: 2 }}>
-                    Anexos
-                  </Typography>
-                  {
-                    isEditing
-                    ? (
-                      <StyledInput
+              <Box sx={{
+                backgroundColor: "white",
+                borderRadius: "10px",
+                boxShadow: "0px 0px 15px 0px rgb(88 88 88 / 20%)",
+                mt: 2,
+                p: 2,
+              }}>
+                <Typography fontWeight="600" sx={{ mb: 2 }}>
+                  Anexos
+                </Typography>
+                {
+                  isEditing
+                  ? (
+                    <StyledInput
+                      color="primary"
+                      fullWidth
+                      InputLabelProps={{ shrink: true }}
+                      label="Anexo"
+                      name="anexo"
+                      // onChange={  }
+                      size="small"
+                      type="file"
+                      variant="outlined"
+                    />
+                  )
+                  : !!(clientSelected.anexo) && (
+                    <Link href={ clientSelected.anexo } target="_blank" underline="none">
+                      <Button 
                         color="primary"
-                        fullWidth
-                        InputLabelProps={{ shrink: true }}
-                        label="Anexo"
-                        name="anexo"
-                        // onChange={  }
-                        size="small"
-                        type="file"
-                        variant="outlined"
-                      />
-                    )
-                    : (
-                      <Link href={ clientSelected.anexo } target="_blank" underline="none">
-                        <Button 
-                          color="primary"
-                          sx={{ borderRadius: "10px" }}
-                          type=''
-                          variant="contained"
-                        >
-                          Baixar arquivo
-                        </Button>
-                      </Link>
-                    )
-                  }
-                </Box>
-              )
+                        sx={{ borderRadius: "10px" }}
+                        type=''
+                        variant="contained"
+                      >
+                        Baixar arquivo
+                      </Button>
+                    </Link>
+                  )
+                }
+              </Box>
             }
           </Box>
         </Box>

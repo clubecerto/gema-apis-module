@@ -21,6 +21,7 @@ const ClientsList = ({ history: { location: { pathname } } }) => {
   // CAPTURA ID DA INTEGRAÇÃO SELECIONADA POR MEIO DO URL
   const integrationId = pathname.split('/')[2].slice(1);
 
+  // ABRE E FECHA MODAL DE DETALHES DA INTEGRAÇÃO
   const handleDetailsModal = (clientId) => {
     setIsDetailsModalOpen(!isDetailsModalOpen);
     setModalClientId(clientId);
@@ -42,6 +43,8 @@ const ClientsList = ({ history: { location: { pathname } } }) => {
           my: 3,
         }}
       >
+
+        { /* HEADER DA TABELA */ }
         <TableHead>
           <TableRow>
             <TableCell sx={{ fontWeight: "600" }}>Cliente</TableCell>
@@ -52,6 +55,7 @@ const ClientsList = ({ history: { location: { pathname } } }) => {
           </TableRow>
         </TableHead>
 
+        { /* CORPO DA TABELA */ }
         <TableBody>
           {
             clientsList
@@ -77,6 +81,7 @@ const ClientsList = ({ history: { location: { pathname } } }) => {
                       align="center"
                       sx={{ py: 1 }}
                     >
+                      { /* VISUALIZAÇÃO DA ROTINA CRON */ }
                       {
                         !cron
                         ? (
@@ -113,6 +118,7 @@ const ClientsList = ({ history: { location: { pathname } } }) => {
                       align="center"
                       sx={{ py: 1 }}
                     >
+                      { /* VISUALIZAÇÃO DO STATUS */ }
                       {
                         !status
                         ? (

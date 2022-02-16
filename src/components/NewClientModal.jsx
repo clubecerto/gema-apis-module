@@ -41,16 +41,16 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
     tombamento: false,
   };
 
-  const [newClientInputs, setNewClientInputs] = useState(INITIAL_NEW_CLIENT_STATE);
-  const [requiredFields, setRequiredFields] = useState([]);
   const [checkboxChecked, setCheckboxChecked] = useState('');
-  const [isPlanoProdutoInputDisplayed, setIsPlanoProdutoInputDisplayed] = useState(false);
-  const [planoProdutoInputValue, setPlanoProdutoInputValue] = useState('');
-  const [newPhoneNumber, setNewPhoneNumber] = useState('');
   const [isFinishButtonDisplayed, setIsFinishButtonDisplayed] = useState(false);
+  const [isPlanoProdutoInputDisplayed, setIsPlanoProdutoInputDisplayed] = useState(false);
+  const [newClientInputs, setNewClientInputs] = useState(INITIAL_NEW_CLIENT_STATE);
+  const [newPhoneNumber, setNewPhoneNumber] = useState('');
+  const [planoProdutoInputValue, setPlanoProdutoInputValue] = useState('');
+  const [requiredFields, setRequiredFields] = useState([]);
 
-  const planoProdutoInput = useRef();
   const phoneNumberInput = useRef();
+  const planoProdutoInput = useRef();
 
   const { categoriesList, integrationsList, } = useContext(APIsManagementContext);
 
@@ -446,6 +446,8 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
             );
           })
         }
+
+        { /* ANEXO */ }
         {
           (
             <Box
@@ -702,6 +704,8 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
                   ))
               }
             </StyledInput>
+
+            { /* BOTÕES DE CONTINUAR E SALVAR NOVO CLIENTE (OS BOTÕES ALTERNAM ENTRE SI) */ }
             {
               isFinishButtonDisplayed
               ? (
@@ -735,57 +739,59 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
 
       { /* BODY DO MODAL */ }
       <DialogContent sx={{ mb: 0.5 }}>
-        { requiredFields.length > 0 && (
-          <Box
-            fullWidth
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-            }}
-          >
-
+        { 
+          requiredFields.length > 0 && (
             <Box
+              fullWidth
               sx={{
-                backgroundColor: "white",
-                borderRadius: "10px",
-                boxShadow: "0px 0px 15px 0px rgb(88 88 88 / 20%)",
                 display: "flex",
                 justifyContent: "space-between",
-                mt: 1.5,
-                padding: "16px",
-                width: "66%",
               }}
             >
-              { /* COLUNA 1 */ }
-              <Box sx={{ width: "50%" }}>
-                { renderClientData_C1() }
+
+              <Box
+                sx={{
+                  backgroundColor: "white",
+                  borderRadius: "10px",
+                  boxShadow: "0px 0px 15px 0px rgb(88 88 88 / 20%)",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  mt: 1.5,
+                  padding: "16px",
+                  width: "66%",
+                }}
+              >
+                { /* COLUNA 1 */ }
+                <Box sx={{ width: "50%" }}>
+                  { renderClientData_C1() }
+                </Box>
+
+                { /* COLUNA 2 */ }
+                <Box sx={{ width: "50%", pt: 4 }}>
+                  { renderClientData_C2() }
+                </Box>
               </Box>
 
-              { /* COLUNA 2 */ }
-              <Box sx={{ width: "50%", pt: 4 }}>
-                { renderClientData_C2() }
-              </Box>
-            </Box>
-
-            <Box
-              sx={{
-                backgroundColor: "white",
-                borderRadius: "10px",
-                boxShadow: "0px 0px 15px 0px rgb(88 88 88 / 20%)",
-                display: "flex",
-                justifyContent: "space-between",
-                ml: 2,
-                mt: 1.5,
-                padding: "16px",
-                width: "32%",
-              }}
-            >
               { /* COLUNA 3 */ }
-              <Box sx={{ width: "100%" }}>
-                { renderClientManagerData() }
+              <Box
+                sx={{
+                  backgroundColor: "white",
+                  borderRadius: "10px",
+                  boxShadow: "0px 0px 15px 0px rgb(88 88 88 / 20%)",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  ml: 2,
+                  mt: 1.5,
+                  padding: "16px",
+                  width: "32%",
+                }}
+              >
+                <Box sx={{ width: "100%" }}>
+                  { renderClientManagerData() }
+                </Box>
               </Box>
             </Box>
-          </Box>)
+          )
         }
       </DialogContent>
     </StyledDialog>

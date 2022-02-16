@@ -20,14 +20,16 @@ const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
   // CAPTURA ID DA CATEGORIA SELECIONADA POR MEIO DO URL
   const categoryId = pathname.slice(2);
 
+  // CLICAR NA INTEGRAÇÃO REDIRECIONA PARA SEUS RESPECTIVOS CLIENTES
   const handleClickIntegration = ({ target: { name } }) => {
     push(`${pathname}/:${name}`);
   };
 
+  // ABRE E FECHA MODAL DE DETALHES DO CLIENTE
   const handleDetailsModal = (integrationId) => {
     setModalIntegrationId(integrationId)
     setIsDetailsModalOpen(!isDetailsModalOpen);
-  }
+  };
 
   return (
     <>
@@ -45,6 +47,7 @@ const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
           my: 3,
         }}
       >
+        { /* HEADER DA TABELA */ }
         <TableHead>
           <TableRow>
             <TableCell sx={{ fontWeight: "600" }}>API Empresa</TableCell>
@@ -55,6 +58,7 @@ const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
           </TableRow>
         </TableHead>
 
+        { /* CORPO DA TABELA */ }
         <TableBody>
           {
             integrationsList
@@ -96,6 +100,7 @@ const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
                         py: 1,
                       }}
                     >
+                      { /* VISUALIZAÇÃO DA ROTINA CRON */ }
                       {
                         !cron
                         ? (
@@ -134,6 +139,7 @@ const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
                         py: 1,
                       }}
                     >
+                      { /* VISUALIZAÇÃO DO STATUS */ }
                       {
                         !status
                         ? (
