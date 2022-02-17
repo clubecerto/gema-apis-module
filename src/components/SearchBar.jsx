@@ -9,8 +9,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import StyledInput from './StyledInput';
 
 const SearchBar = () => {
-  const [inputClientSearch, setInputClientSearch] = useState('');
   const [inputCategorySearch, setInputCategorySearch] = useState('');
+  const [inputClientSearch, setInputClientSearch] = useState('');
   const [inputIntegrationSearch, setInputIntegrationSearch] = useState('');
 
   const { categoriesList, integrationsList, } = useContext(APIsManagementContext);
@@ -21,7 +21,7 @@ const SearchBar = () => {
   };
 
   return (
-    <Box>
+    <Box sx={{ flexGrow: 1, mr: 3 }}>
       <form
         onSubmit={ handleSubmitClientSearch }
         style={{
@@ -33,7 +33,10 @@ const SearchBar = () => {
           padding: "16px",
         }}
       >
+
+        { /* BUSCA POR NOME DO CLIENTE */ }
         <StyledInput
+          autoFocus
           color="primary"
           label="Buscar cliente"
           name="search-client"
@@ -44,6 +47,8 @@ const SearchBar = () => {
           value={ inputClientSearch }
           variant="outlined"
         />
+
+        { /* FILTRO POR CATEGORIA */ }
         <StyledInput
           color="primary"
           label="Categorias"
@@ -66,6 +71,8 @@ const SearchBar = () => {
             ))
           }
         </StyledInput>
+
+        { /* FILTRO POR INTEGRAÇÃO */ }
         <StyledInput
           color="primary"
           disabled={ !inputCategorySearch }
@@ -91,6 +98,8 @@ const SearchBar = () => {
               ))
           }
         </StyledInput>
+
+        { /* BOTÃO DE SUBMIT */ }
         <Button
           color="primary"
           sx={{ borderRadius: "10px", height: "40px" }}

@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+import NewClientModal from '../components/NewClientModal';
 
 import {
   categoriesList,
@@ -15,11 +17,15 @@ import {
 } from '../services/mock';
 
 import APIsManagementContext from '../context/APIsManagementContext';
+import Box from '@mui/system/Box';
+import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import PageTitle from './PageTitle';
 import SearchBar from './SearchBar';
 
 const APIsManagement = ({ children }) => {
+  const [isNewClientOpen, setIsNewClientOpen] = useState(false);
+
   const context = {
     categoriesList,
     integrationsList,
@@ -34,11 +40,43 @@ const APIsManagement = ({ children }) => {
     client_8,
   };
 
+  const handleNewClientModal = () => {
+    setIsNewClientOpen(!isNewClientOpen);
+  };
+
   return (
     <APIsManagementContext.Provider value={ context }>
+      { !!isNewClientOpen && <NewClientModal
+        handleClose={ handleNewClientModal }
+        isOpen={ isNewClientOpen }
+      /> }
       <Container>
         <PageTitle />
-        <SearchBar />
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <SearchBar/>
+          <Box
+            sx={{
+              backgroundColor: "white",
+              borderRadius: "10px",
+              boxShadow: "0px 0px 15px 0px rgb(88 88 88 / 20%)",
+              margin: "auto",
+              p: 2,
+            }}
+          >
+            <Button
+              onClick={ handleNewClientModal }
+              sx={{ height: "40px", borderRadius: "10px" }}
+              variant="contained"
+            >
+              Cadastrar novo cliente
+            </Button>
+          </Box>
+        </Box>
         { children }
       </Container>
     </APIsManagementContext.Provider>
