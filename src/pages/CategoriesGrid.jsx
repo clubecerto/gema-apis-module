@@ -22,6 +22,7 @@ const CategoriesGrid = ({ history: { push } }) => {
       {
         categoriesList.map(({ categoria_id, categoria_nome }) => (
           <Grid
+            data-testid="category-button"
             item
             key={ categoria_nome }
             xs={4}

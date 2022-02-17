@@ -73,6 +73,7 @@ const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
                     >
                       <Button
                         color="primary"
+                        data-testid="integration-button"
                         fullWidth
                         name={ integracao_id }
                         onClick={ handleClickIntegration }
