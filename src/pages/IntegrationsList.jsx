@@ -18,11 +18,11 @@ const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
   const { integrationsList } = useContext(APIsManagementContext);
 
   // CAPTURA ID DA CATEGORIA SELECIONADA POR MEIO DO URL
-  const categoryId = pathname.slice(2);
+  const categoryId = pathname.slice(1);
 
   // CLICAR NA INTEGRAÇÃO REDIRECIONA PARA SEUS RESPECTIVOS CLIENTES
   const handleClickIntegration = ({ target: { name } }) => {
-    push(`${pathname}/:${name}`);
+    push(`${pathname}/${name}`);
   };
 
   // ABRE E FECHA MODAL DE DETALHES DO CLIENTE
@@ -73,6 +73,7 @@ const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
                     >
                       <Button
                         color="primary"
+                        data-testid="integration-button"
                         fullWidth
                         name={ integracao_id }
                         onClick={ handleClickIntegration }

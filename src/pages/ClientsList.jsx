@@ -19,7 +19,7 @@ const ClientsList = ({ history: { location: { pathname } } }) => {
   const { clientsList } = useContext(APIsManagementContext);
 
   // CAPTURA ID DA INTEGRAÇÃO SELECIONADA POR MEIO DO URL
-  const integrationId = pathname.split('/')[2].slice(1);
+  const integrationId = pathname.split('/')[2];
 
   // ABRE E FECHA MODAL DE DETALHES DA INTEGRAÇÃO
   const handleDetailsModal = (clientId) => {
@@ -65,7 +65,7 @@ const ClientsList = ({ history: { location: { pathname } } }) => {
                     key={ nome }
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
-                    <TableCell sx={{ py: 1 }} >{ nome }</TableCell>
+                    <TableCell sx={{ py: 1 }} data-testid="client-name">{ nome }</TableCell>
                     <TableCell sx={{ py: 1 }}>{ responsavel }</TableCell>
                     <TableCell align="center" sx={{ py: 1 }}>
                       <Button
