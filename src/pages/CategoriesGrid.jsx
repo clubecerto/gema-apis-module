@@ -10,7 +10,7 @@ const CategoriesGrid = ({ history: { push } }) => {
 
   // CLICAR NA CATEGORIA REDIRECIONA PARA SUAS RESPECTIVAS INTEGRAÇÕES
   const handleClickCategory = ({ target: { name } }) => {
-    push(`/:${name}`);
+    push(`/${name}`);
   };
 
   return (

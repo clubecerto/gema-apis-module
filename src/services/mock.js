@@ -216,7 +216,7 @@ export const client_2 = {
   categoria_id: '1',
   responsavel: {
     nome: 'responsável pela conta',
-    email: 'responsavel@email.com',
+    email: 'responsavelteste@email.com',
     telefone: ['999999999', '988888888'],
   },
   host: 'Host',

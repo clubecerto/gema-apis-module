@@ -10,7 +10,7 @@ describe('tela de listagem de integrações', () => {
     it('número de integrações da categoria 1', async () => {
       const { history } = renderWithRouter(<App />);
 
-      history.push('/:1');
+      history.push('/1');
 
       const integrationButtons = await screen.findAllByTestId("integration-button");
       expect(integrationButtons.length).toBe(2);
@@ -19,7 +19,7 @@ describe('tela de listagem de integrações', () => {
     it('primeira integração da categoria 1', async () => {
       const { history } = renderWithRouter(<App />);
 
-      history.push('/:1');
+      history.push('/1');
 
       const integrationButtons = await screen.findAllByTestId("integration-button");
       expect(integrationButtons[0]).toHaveTextContent(/empresa 1/i);
@@ -28,7 +28,7 @@ describe('tela de listagem de integrações', () => {
     it('segunda integração da categoria 1', async () => {
       const { history } = renderWithRouter(<App />);
 
-      history.push('/:1');
+      history.push('/1');
 
       const integrationButtons = await screen.findAllByTestId("integration-button");
       expect(integrationButtons[1]).toHaveTextContent(/empresa 2/i);
@@ -39,7 +39,7 @@ describe('tela de listagem de integrações', () => {
     it('número de integrações da categoria 2', async () => {
       const { history } = renderWithRouter(<App />);
 
-      history.push('/:2');
+      history.push('/2');
 
       const integrationButtons = await screen.findAllByTestId("integration-button");
       expect(integrationButtons.length).toBe(2);
@@ -48,7 +48,7 @@ describe('tela de listagem de integrações', () => {
     it('primeira integração da categoria 2', async () => {
       const { history } = renderWithRouter(<App />);
 
-      history.push('/:2');
+      history.push('/2');
 
       const integrationButtons = await screen.findAllByTestId("integration-button");
       expect(integrationButtons[0]).toHaveTextContent(/empresa 3/i);
@@ -57,7 +57,7 @@ describe('tela de listagem de integrações', () => {
     it('segunda integração da categoria 2', async () => {
       const { history } = renderWithRouter(<App />);
 
-      history.push('/:2');
+      history.push('/2');
 
       const integrationButtons = await screen.findAllByTestId("integration-button");
       expect(integrationButtons[1]).toHaveTextContent(/empresa 4/i);
@@ -68,7 +68,7 @@ describe('tela de listagem de integrações', () => {
     it('segunda integração da categoria 2', async () => {
       const { history } = renderWithRouter(<App />);
 
-      history.push('/:2');
+      history.push('/2');
 
       const integrationDetailsButton = await screen.findAllByText(/ver mais/i);
       userEvent.click(integrationDetailsButton[1]);
