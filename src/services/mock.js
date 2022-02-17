@@ -1,4 +1,4 @@
-// CATEGORIAS
+// API RETORNA TODAS AS CATEGORIAS
 export const categoriesList = [
   {
     categoria_nome: 'Categoria 1',
@@ -10,7 +10,7 @@ export const categoriesList = [
   },
 ];
 
-// INTEGRAÇÕES
+// API RETORNA TODAS AS INTEGRAÇÕES
 export const integrationsList = [
   {
     integracao_id: '1',
@@ -46,6 +46,7 @@ export const integrationsList = [
   },
 ];
 
+// API RETORNA OS DETALHES DE CADA INTEGRAÇÃO, A PARTIR DO ID DA INTEGRAÇÃO
 export const integration_1 = {
   integracao_id: '1',
   api_empresa: 'Empresa 1',
@@ -102,7 +103,7 @@ export const integration_4 = {
   anexo: 'link para o arquivo',
 };
 
-// CLIENTES
+// API RETORNA LISTA DE CLIENTES DE UMA DETERMINADA INTEGRAÇÃO, A PARTIR DO ID DA INTEGRAÇÃO
 export const clientsList = [
   {
     id: '1',
@@ -170,6 +171,7 @@ export const clientsList = [
   },
 ];
 
+// API RETORNA DETALHES DO CLIENTE, A PARIR DO ID DO CLIENTE
 export const client_1 = {
   id: '1',
   nome: 'Cliente 1',
