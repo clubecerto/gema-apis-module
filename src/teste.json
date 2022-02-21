@@ -1,0 +1,363 @@
+{
+	"info": {
+		"_postman_id": "7c56ad67-b201-4a53-8cda-bcaf88eac61c",
+		"name": "gema api-amanger",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Clientes",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "https://clubecerto.com.br/gema/api-manager/clientes",
+					"protocol": "https",
+					"host": [
+						"clubecerto",
+						"com",
+						"br"
+					],
+					"path": [
+						"gema",
+						"api-manager",
+						"clientes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cliente by ID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "https://clubecerto.com.br/gema/api-manager/clientes?id=1",
+					"protocol": "https",
+					"host": [
+						"clubecerto",
+						"com",
+						"br"
+					],
+					"path": [
+						"gema",
+						"api-manager",
+						"clientes"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Categorias",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "https://clubecerto.com.br/gema/api-manager/categorias",
+					"protocol": "https",
+					"host": [
+						"clubecerto",
+						"com",
+						"br"
+					],
+					"path": [
+						"gema",
+						"api-manager",
+						"categorias"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Categorias by ID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "https://clubecerto.com.br/gema/api-manager/categorias?id=1",
+					"protocol": "https",
+					"host": [
+						"clubecerto",
+						"com",
+						"br"
+					],
+					"path": [
+						"gema",
+						"api-manager",
+						"categorias"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Apis",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "https://clubecerto.com.br/gema/api-manager/apis",
+					"protocol": "https",
+					"host": [
+						"clubecerto",
+						"com",
+						"br"
+					],
+					"path": [
+						"gema",
+						"api-manager",
+						"apis"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Apis by ID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "https://clubecerto.com.br/gema/api-manager/apis?id=1",
+					"protocol": "https",
+					"host": [
+						"clubecerto",
+						"com",
+						"br"
+					],
+					"path": [
+						"gema",
+						"api-manager",
+						"apis"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Clientes",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "nome",
+							"value": "nome",
+							"type": "text"
+						},
+						{
+							"key": "status",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "cron",
+							"value": "0",
+							"type": "text"
+						},
+						{
+							"key": "api_id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "host",
+							"value": "host",
+							"type": "text"
+						},
+						{
+							"key": "token",
+							"value": "token",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "username",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "client_id",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "client_secret",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "grant_type",
+							"type": "text"
+						},
+						{
+							"key": "observacoes",
+							"value": "observacoes",
+							"type": "text"
+						},
+						{
+							"key": "responsavel_nome",
+							"value": "responsavel_nome",
+							"type": "text"
+						},
+						{
+							"key": "responsavel_email",
+							"value": "responsavel_email",
+							"type": "text"
+						},
+						{
+							"key": "responsavel_telefone",
+							"value": "responsavel_telefone",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://clubecerto.com.br/gema/api-manager/clientes",
+					"protocol": "https",
+					"host": [
+						"clubecerto",
+						"com",
+						"br"
+					],
+					"path": [
+						"gema",
+						"api-manager",
+						"clientes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Categorias",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "https://clubecerto.com.br/gema/api-manager/categorias",
+					"protocol": "https",
+					"host": [
+						"clubecerto",
+						"com",
+						"br"
+					],
+					"path": [
+						"gema",
+						"api-manager",
+						"categorias"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Apis",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "nome",
+							"value": "nome",
+							"type": "text"
+						},
+						{
+							"key": "categoria_id",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost/gema/api-manager/apis",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"gema",
+						"api-manager",
+						"apis"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
