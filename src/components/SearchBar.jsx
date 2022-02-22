@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 
 import APIsManagementContext from '../context/APIsManagementContext';
+import { getIntegrationsByCategory } from '../services';
 
 import Box from '@mui/system/Box';
 import Button from '@mui/material/Button';
@@ -8,12 +9,26 @@ import MenuItem from '@mui/material/MenuItem';
 import SearchIcon from '@mui/icons-material/Search';
 import StyledInput from './StyledInput';
 
-const SearchBar = () => {
+const SearchBar = ({ history: { location: { pathname } } }) => {
   const [inputCategorySearch, setInputCategorySearch] = useState('');
   const [inputClientSearch, setInputClientSearch] = useState('');
   const [inputIntegrationSearch, setInputIntegrationSearch] = useState('');
+  const [integrationsByCategory, setIntegrationsByCategory] = useState([]);
 
-  const { categoriesList, integrationsList, } = useContext(APIsManagementContext);
+  const { categoriesList } = useContext(APIsManagementContext);
+
+  // CAPTURA ID DA CATEGORIA SELECIONADA POR MEIO DO URL
+  const categoryId = pathname.slice(1);
+
+  // RECUPERA TODAS AS INTEGRAÇÕES DE UMA CATEGORIA E SALVA NO ESTADO
+  const getIntegrationsList = async () => {
+    const integrationsFetched = await getIntegrationsByCategory();
+    // console.log(categoriesFetched);
+    setIntegrationsByCategory(integrationsFetched);
+  };
+
+  // HANDLE CHANGE
+  const 
 
   // BUSCA POR CLIENTE, LÓGICA PENDENTE AGUARDANDO API
   const handleSubmitClientSearch = (event) => {
@@ -61,7 +76,7 @@ const SearchBar = () => {
           variant="outlined"
         >
           {
-            categoriesList.map(({ categoria_id, categoria_nome }) => (
+            !!categoriesList && categoriesList.map(({ categoria_id, categoria_nome }) => (
               <MenuItem
                 key={ categoria_nome }
                 value={ categoria_id }
@@ -86,8 +101,8 @@ const SearchBar = () => {
           variant="outlined"
         >
           {
-            !!inputCategorySearch && integrationsList
-              .filter(({ categoria_id }) => categoria_id === inputCategorySearch)
+            !!inputCategorySearch && integrationsByCategory
+              // .filter(({ categoria_id }) => categoria_id === inputCategorySearch)
               .map(({ integracao_id, api_empresa }) => (
                 <MenuItem
                   key={ api_empresa }

@@ -1,6 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import APIsManagementContext from '../context/APIsManagementContext';
+import { getIntegrationsByCategory } from '../services';
 
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
@@ -14,11 +14,20 @@ import TableRow from '@mui/material/TableRow';
 const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [modalIntegrationId, setModalIntegrationId] = useState('');
+  const [integrationsByCategory, setIntegrationsByCategory] = useState([]);
 
-  const { integrationsList } = useContext(APIsManagementContext);
+  // RECUPERA TODAS AS INTEGRAÇÕES DE UMA CATEGORIA E SALVA NO ESTADO
+  const getIntegrationsList = async (categoryId) => {
+    const integrationsFetched = await getIntegrationsByCategory(categoryId);
+    // console.log(categoriesFetched);
+    setIntegrationsByCategory(integrationsFetched);
+  };
 
-  // CAPTURA ID DA CATEGORIA SELECIONADA POR MEIO DO URL
-  const categoryId = pathname.slice(1);
+  useEffect(() => {
+    // CAPTURA ID DA CATEGORIA SELECIONADA POR MEIO DO URL
+    const categoryId = pathname.slice(1);
+    getIntegrationsList(categoryId);
+  }, []);
 
   // CLICAR NA INTEGRAÇÃO REDIRECIONA PARA SEUS RESPECTIVOS CLIENTES
   const handleClickIntegration = ({ target: { name } }) => {
@@ -61,8 +70,8 @@ const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
         { /* CORPO DA TABELA */ }
         <TableBody>
           {
-            integrationsList
-              .filter(({ categoria_id }) => categoria_id === categoryId)
+            integrationsByCategory
+              // .filter(({ categoria_id }) => categoria_id === categoryId)
               .map(({ integracao_id, api_empresa, responsavel, status, cron }) => (
                 <TableRow
                 key={ api_empresa }

@@ -1,38 +1,45 @@
-import * as mocks from './mock';
+import axios from 'axios';
+// import * as mocks from './mock';
 
-const ALL_CATEGORIES_URL = '';
-const ALL_INTEGRATIONS_URL = '';
-const INTEGRATION_CLIENTS_URL = '';
+const ALL_CATEGORIES_URL = 'https://clubecerto.com.br/gema/api-manager/categorias';
+const INTEGRATIONS_BY_CATEGORY_URL = '';
 const INTEGRATION_DETAILS_URL = '';
+const CLIENTS_BY_INTEGRATION_URL = '';
 const CLIENT_DETAILS_URL = '';
 const EDIT_CLIENT_URL = '';
 const ADD_NEW_CLIENT_URL = '';
 
-export const getIntegration = (integration_id) =>{
-  const integrationSelected = `integration_${integration_id}`;
-  return mocks[integrationSelected];
-};
+// export const getIntegration = (integration_id) =>{
+//   const integrationSelected = `integration_${integration_id}`;
+//   return mocks[integrationSelected];
+// };
 
-export const getClient = (client_id) =>{
-  const clientSelected = `client_${client_id}`;
-  return mocks[clientSelected];
-};
+// export const getClient = (client_id) =>{
+//   const clientSelected = `client_${client_id}`;
+//   return mocks[clientSelected];
+// };
 
 // GET DE TODAS AS CATEGORIAS
 export const getCategories = async () => {
+  const headers = {
+    Accept: '*/*',
+    'Accept-Encoding': 'gzip, deflate, br',
+  };
+
   try {
-    const allCategories = await fetch(ALL_CATEGORIES_URL);
+    const allCategories = await axios.get(ALL_CATEGORIES_URL, { headers });
+    console.log(allCategories);
     return JSON.parse(allCategories);
   } catch (error) {
     console.log(error);
   }
 };
 
-// GET DE TODAS AS INTEGRAÇÕES
-export const getIntegrations = async () => {
+// GET DE TODAS AS INTEGRAÇÕES DE UMA DETERMINADA CATEGORIA
+export const getIntegrationsByCategory = async (categoryId) => {
   try {
-    const integrations = await fetch(ALL_INTEGRATIONS_URL);
-    return JSON.parse(integrations);
+    const integrationsByCategory = await axios.get(INTEGRATIONS_BY_CATEGORY_URL);
+    return JSON.parse(integrationsByCategory);
   } catch (error) {
     console.log(error);
   }
@@ -40,8 +47,14 @@ export const getIntegrations = async () => {
 
 // GET DE DETALHES DE UMA INTEGRAÇÃO
 export const getIntegrationDetails = async (integrationId) => {
+  const routeParams = {
+    params: {
+      id: integrationId,
+    },
+  };
+
   try {
-    const allIntegrationDetails = await fetch(`${INTEGRATION_DETAILS_URL}/${integrationId}`);
+    const allIntegrationDetails = await axios.get(INTEGRATION_DETAILS_URL, routeParams);
     return JSON.parse(allIntegrationDetails);
   } catch (error) {
     console.log(error);
@@ -51,7 +64,7 @@ export const getIntegrationDetails = async (integrationId) => {
 // GET DE TODOS OS CLIENTES DE UMA DETERMINADA INTEGRAÇÃO
 export const getIntegrationClients = async (integrationId) => {
   try {
-    const integrationClients = await fetch(`${INTEGRATION_CLIENTS_URL}/${integrationId}`);
+    const integrationClients = await fetch(`${CLIENTS_BY_INTEGRATION_URL}/${integrationId}`);
     return JSON.parse(integrationClients);
   } catch (error) {
     console.log(error);

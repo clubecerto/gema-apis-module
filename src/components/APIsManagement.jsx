@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-import NewClientModal from '../components/NewClientModal';
+import { getCategories } from '../services';
 
 import {
-  categoriesList,
-  integrationsList,
   clientsList,
   client_1,
   client_2,
@@ -20,15 +18,33 @@ import APIsManagementContext from '../context/APIsManagementContext';
 import Box from '@mui/system/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
+import NewClientModal from '../components/NewClientModal';
 import PageTitle from './PageTitle';
 import SearchBar from './SearchBar';
 
 const APIsManagement = ({ children }) => {
   const [isNewClientOpen, setIsNewClientOpen] = useState(false);
+  const [categoriesList, setCategoriesList] = useState([]);
+
+  // RECUPERA TODAS AS CATEGORIAS E SALVA NO ESTADO
+  const getCategoriesList = async () => {
+    const categoriesFetched = await getCategories();
+    // console.log(categoriesFetched);
+    setCategoriesList(categoriesFetched);
+  };
+
+  useEffect(() => {
+    getCategoriesList();
+  }, [])
+
+  const handleNewClientModal = () => {
+    setIsNewClientOpen(!isNewClientOpen);
+  };
 
   const context = {
     categoriesList,
-    integrationsList,
+    integrationsByCategory,
+    getIntegrationsList,
     clientsList,
     client_1,
     client_2,
@@ -38,10 +54,6 @@ const APIsManagement = ({ children }) => {
     client_6,
     client_7,
     client_8,
-  };
-
-  const handleNewClientModal = () => {
-    setIsNewClientOpen(!isNewClientOpen);
   };
 
   return (

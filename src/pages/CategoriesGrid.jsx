@@ -20,7 +20,7 @@ const CategoriesGrid = ({ history: { push } }) => {
       sx={{ my: 1 }}
     >
       {
-        categoriesList.map(({ categoria_id, categoria_nome }) => (
+        !!categoriesList && categoriesList.map(({ categoria_id, categoria_nome }) => (
           <Grid
             data-testid="category-button"
             item
