@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 
-import { getClient } from '../services';
+import { fetchClientDetails, fetchIntegrationDetails } from '../services';
 
 import APIsManagementContext from '../context/APIsManagementContext';
 
@@ -27,10 +27,11 @@ import StyledDialog from './StyledDialog';
 import StyledInput from './StyledInput';
 import Typography from '@mui/material/Typography';
 
-const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
+const ClientDetailsModal = ({ isOpen, handleClose, clientId, integrationId }) => {
   const [checkboxChecked, setCheckboxChecked] = useState('');
   const [clientSelected, setClientSelected] = useState('');
   const [clientInEditing, setClientInEditing] = useState({});
+  const [clientIntegration, setClientIntegration] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [isSaveAndCancelButtonsDisplayed, setIsSaveAndCancelButtonsDisplayed] = useState(false);
   const [planoProdutoInputValue, setPlanoProdutoInputValue] = useState('');
@@ -39,11 +40,24 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
   const planoProdutoInput = useRef();
   const phoneNumberInput = useRef();
 
-  const { categoriesList, integrationsList } = useContext(APIsManagementContext);
+  const { categoriesList } = useContext(APIsManagementContext);
+
+  // RECUPERA DADOS DA INTEGRAÇÃO ESCOLHIDA E SALVA DO ESTADO
+  const getIntegrationDetails = async () => {
+    const integrationDetailsFetched = await fetchIntegrationDetails(integrationId);
+    setClientIntegration(integrationDetailsFetched);
+  };
+
+  // RECUPERA DADOS DO CLIENTE ESCOLHIDO E SALVA DO ESTADO
+  const getClientDetails = async () => {
+    const clientDetailsFetched = await fetchClientDetails(clientId);
+    setClientSelected(clientDetailsFetched);
+  };
 
   // RECUPERA DADOS DO CLIENTE ESCOLHIDA E SALVA DO ESTADO
   useEffect(() => {
-    setClientSelected(getClient(clientId));
+    getIntegrationDetails();
+    getClientDetails();
   }, []);
 
   // SALVA O NOME DO CHECKBOX DO CLIENTSELECTED QUE TEM CONTEÚDO NO ESTADO CHECKBOXCHECKED
@@ -283,9 +297,7 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId }) => {
               variant="subtitle1"
               sx={{ color: "white", ml: 1 }}
             >
-              { !!clientSelected && integrationsList
-                .find((integration) => integration.integracao_id === clientSelected.integracao_id)
-                .api_empresa }
+              { !!clientIntegration && clientIntegration.api_empresa }
             </Typography>
 
             { /* CATEGORIA DO CLIENTE */ }

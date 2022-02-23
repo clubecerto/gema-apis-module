@@ -5,7 +5,7 @@ import { fetchClientsByIntegration } from '../services';
 
 import Box from '@mui/system/Box';
 import Button from '@mui/material/Button';
-// import ClientDetailsModal from '../components/ClientDetailsModal';
+import ClientDetailsModal from '../components/ClientDetailsModal';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -41,11 +41,12 @@ const ClientsList = () => {
 
   return (
     <>
-      {/* { !!isDetailsModalOpen && <ClientDetailsModal
+      { !!isDetailsModalOpen && <ClientDetailsModal
         clientId={ modalClientId }
         handleClose={ handleDetailsModal }
+        integrationId={ integrationId }
         isOpen={ isDetailsModalOpen }
-      /> } */}
+      /> }
       <Table
         aria-label="client list table"
         sx={{

@@ -3,9 +3,9 @@ import axios from 'axios';
 
 const ALL_CATEGORIES_URL = 'https://clubecerto.com.br/gema/api-manager/categorias';
 const INTEGRATIONS_BY_CATEGORY_URL = 'https://clubecerto.com.br/gema/api-manager/categorias'; // <= LINK ERRADO
-const INTEGRATION_DETAILS_URL = '';
+const INTEGRATION_DETAILS_URL = 'https://clubecerto.com.br/gema/api-manager/categorias'; // <= LINK ERRADO
 const CLIENTS_BY_INTEGRATION_URL = 'https://clubecerto.com.br/gema/api-manager/categorias'; // <= LINK ERRADO
-const CLIENT_DETAILS_URL = '';
+const CLIENT_DETAILS_URL = 'https://clubecerto.com.br/gema/api-manager/categorias'; // <= LINK ERRADO
 const EDIT_CLIENT_URL = '';
 const ADD_NEW_CLIENT_URL = '';
 
@@ -66,10 +66,16 @@ export const fetchClientsByIntegration = async (integrationId) => {
 };
 
 // GET DE DETALHES DE UM CLIENTES
-export const getClientDetails = async (clientId) => {
+export const fetchClientDetails = async (clientId) => {
+  const routeParams = {
+    params: {
+      id: clientId,
+    },
+  };
+
   try {
-    const clientDetails = await fetch(`${CLIENT_DETAILS_URL}/${clientId}`);
-    return JSON.parse(clientDetails);
+    const allClientDetails = await axios.get(CLIENT_DETAILS_URL, routeParams);
+    return allClientDetails.data;
   } catch (error) {
     console.log(error);
   }
