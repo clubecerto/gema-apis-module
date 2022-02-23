@@ -23,7 +23,6 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import Typography from '@mui/material/Typography';
 import StyledInput from './StyledInput';
 import StyledDialog from './StyledDialog';
-import { Token } from '@mui/icons-material';
 
 const NewClientModal = ({ isOpen, handleClose, clientId }) => {
   const INITIAL_NEW_CLIENT_STATE = {

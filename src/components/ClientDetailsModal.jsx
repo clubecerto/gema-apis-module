@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 
-import { fetchClientDetails, fetchIntegrationDetails } from '../services';
+import { fetchClientDetails, fetchIntegrationDetails, addNewClient } from '../services';
 
 import APIsManagementContext from '../context/APIsManagementContext';
 
@@ -240,14 +240,45 @@ const ClientDetailsModal = ({ isOpen, handleClose, clientId, integrationId }) =>
     }));
   };
 
+  // BOTÃO PARA CANCELAR EDIÇÃO
   const cancelEdit = () => {
     setIsEditing(false);
     setIsSaveAndCancelButtonsDisplayed(false);
     setClientInEditing({})
   };
 
+  // BOTÃO DE SALVAR EDIÇÃO
   const submitEdit = () => {
-    cancelEdit();
+    const clientEdited = {
+      nome: clientInEditing.nome || null,
+      status: clientInEditing.status || null,
+      cron: clientInEditing.cron || null,
+      api_id: clientInEditing.integracao_id || null,
+      host: clientInEditing.host || null,
+      token: clientInEditing.token || null,
+      username: clientInEditing.username || null,
+      password: clientInEditing.password || null,
+      client_id: clientInEditing.client_id || null,
+      client_secret: clientInEditing.client_secret || null,
+      grant_type: clientInEditing.grant_type || null,
+      observacoes: clientInEditing.observacoes || null,
+      responsavel_nome: clientInEditing.responsavel.nome || null,
+      responsavel_email: clientInEditing.responsavel.email || null,
+      responsavel_telefone: clientInEditing.responsavel.telefone || null,
+      plano: clientInEditing.plano || null,
+      produto: clientInEditing.produto || null,
+      tombamento: clientInEditing.tombamento || null,
+    };
+
+    addNewClient(clientEdited)
+      .then(() => {
+        window.alert('Dados do cliente alterados com sucesso! :)');
+        setClientInEditing({});
+        handleClose();
+      })
+      .catch(() => {
+        window.alert('Erro! Os dados do cliente não foram alterados! :(');
+      });
   };
 
   return (
