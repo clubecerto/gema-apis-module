@@ -23,7 +23,7 @@ const ClientsList = () => {
   // CAPTURA ID DA INTEGRAÇÃO SELECIONADA POR MEIO DO URL
   const integrationId = pathname.split('/')[2];
 
-  // RECUPERA TODAS AS INTEGRAÇÕES DE UMA CATEGORIA E SALVA NO ESTADO
+  // RECUPERA TODAS OS CLIENTES DE UMA INTEGRAÇÃO E SALVA NO ESTADO
   const getClientsList = async (integrationId) => {
     const clientsFetched = await fetchClientsByIntegration(integrationId);
     setClientsByIntegration(clientsFetched || []);

@@ -18,7 +18,7 @@ import APIsManagementContext from '../context/APIsManagementContext';
 import Box from '@mui/system/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-// import NewClientModal from '../components/NewClientModal';
+import NewClientModal from '../components/NewClientModal';
 import PageTitle from './PageTitle';
 import SearchBar from './SearchBar';
 
@@ -56,10 +56,10 @@ const APIsManagement = ({ children }) => {
 
   return (
     <APIsManagementContext.Provider value={ context }>
-      {/* { !!isNewClientOpen && <NewClientModal
+      { !!isNewClientOpen && <NewClientModal
         handleClose={ handleNewClientModal }
         isOpen={ isNewClientOpen }
-      /> } */}
+      /> }
       <Container>
         <PageTitle />
         <Box

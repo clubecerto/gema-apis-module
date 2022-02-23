@@ -6,8 +6,8 @@ const INTEGRATIONS_BY_CATEGORY_URL = 'https://clubecerto.com.br/gema/api-manager
 const INTEGRATION_DETAILS_URL = 'https://clubecerto.com.br/gema/api-manager/categorias'; // <= LINK ERRADO
 const CLIENTS_BY_INTEGRATION_URL = 'https://clubecerto.com.br/gema/api-manager/categorias'; // <= LINK ERRADO
 const CLIENT_DETAILS_URL = 'https://clubecerto.com.br/gema/api-manager/categorias'; // <= LINK ERRADO
-const EDIT_CLIENT_URL = '';
-const ADD_NEW_CLIENT_URL = '';
+const EDIT_CLIENT_URL = 'https://clubecerto.com.br/gema/api-manager/categorias'; // <= LINK ERRADO
+const ADD_NEW_CLIENT_URL = 'https://clubecerto.com.br/gema/api-manager/categorias'; // <= LINK ERRADO
 
 // export const getIntegration = (integration_id) =>{
 //   const integrationSelected = `integration_${integration_id}`;
@@ -93,7 +93,8 @@ export const editClient = async (client) => {
 // POST PARA ADICIONAR NOVO CLIENTE
 export const addNewClient = async (client) => {
   try {
-
+    const sucessMessage = await axios.post(ADD_NEW_CLIENT_URL, client);
+    return sucessMessage;
   } catch (error) {
     console.log(error);
   }

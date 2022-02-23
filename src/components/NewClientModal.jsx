@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState } from 'react';
 
-import { getClient } from '../services';
+import { fetchClientsByIntegration, fetchIntegrationsByCategory, addNewClient } from '../services';
 
 import APIsManagementContext from '../context/APIsManagementContext';
 
@@ -23,6 +23,7 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import Typography from '@mui/material/Typography';
 import StyledInput from './StyledInput';
 import StyledDialog from './StyledDialog';
+import { Token } from '@mui/icons-material';
 
 const NewClientModal = ({ isOpen, handleClose, clientId }) => {
   const INITIAL_NEW_CLIENT_STATE = {
@@ -48,11 +49,12 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
   const [newPhoneNumber, setNewPhoneNumber] = useState('');
   const [planoProdutoInputValue, setPlanoProdutoInputValue] = useState('');
   const [requiredFields, setRequiredFields] = useState([]);
+  const [integrationsByCategory, setIntegrationsByCategory] = useState([]);
 
   const phoneNumberInput = useRef();
   const planoProdutoInput = useRef();
 
-  const { categoriesList, integrationsList, } = useContext(APIsManagementContext);
+  const { categoriesList } = useContext(APIsManagementContext);
 
   // VERIFICA SE A CHAVE PASSADA É UMA DAS QUE NÃO DEVE SER RENDERIZADA
   const checkKey = (key) => {
@@ -75,10 +77,22 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
       .some((forbiddenKey) => key === forbiddenKey));
   };
 
+  // RECUPERA TODAS AS INTEGRAÇÕES DE UMA CATEGORIA E SALVA NO ESTADO
+  const getIntegrationsList = async (categoryId) => {
+    const integrationsFetched = await fetchIntegrationsByCategory(categoryId);
+    setIntegrationsByCategory(integrationsFetched || []);
+  };
+
+  // RECUPERA O PRIMEIRO CLIENTE DE UMA INTEGRAÇÃO E SALVA NO ESTADO
+  const getFirstIntegrationClient = async () => {
+    const clientsFetched = await fetchClientsByIntegration(newClientInputs.integracao_id);
+    return clientsFetched[0];
+  };
+
   // LIDA COM O BOTÃO CONTINUAR DO HEADER DO MODAL 
-  const handleHeaderSubmit = (event) => {
+  const handleHeaderSubmit = async (event) => {
     event.preventDefault();
-    const firstIntegrationClient = getClient(1); // ALTERAR PARA RECUPERAR O PRIMEIRO CLIENTE DA INTEGRAÇÃO, DE ACORDO COM A API
+    const firstIntegrationClient = await getFirstIntegrationClient();
     const requiredKeys = Object.keys(firstIntegrationClient)
       .filter((key) => (
         !!firstIntegrationClient[key] && checkKey(key)
@@ -610,7 +624,35 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
 
   // SALVA NOVO CLIENTE
   const submitNewClient = () => {
-    console.log(newClientInputs);
+    const newClient = {
+      nome: newClientInputs.nome || null,
+      status: newClientInputs.status || null,
+      cron: newClientInputs.cron || null,
+      api_id: newClientInputs.integracao_id || null,
+      host: newClientInputs.host || null,
+      token: newClientInputs.token || null,
+      username: newClientInputs.username || null,
+      password: newClientInputs.password || null,
+      client_id: newClientInputs.client_id || null,
+      client_secret: newClientInputs.client_secret || null,
+      grant_type: newClientInputs.grant_type || null,
+      observacoes: newClientInputs.observacoes || null,
+      responsavel_nome: newClientInputs.responsavel.nome || null,
+      responsavel_email: newClientInputs.responsavel.email || null,
+      responsavel_telefone: newClientInputs.responsavel.telefone || null,
+      plano: newClientInputs.plano || null,
+      produto: newClientInputs.produto || null,
+      tombamento: newClientInputs.tombamento || null,
+    };
+    addNewClient(newClient)
+      .then(() => {
+        window.alert('Cliente adicionado com sucesso! :)');
+        setNewClientInputs(INITIAL_NEW_CLIENT_STATE);
+        handleClose();
+      })
+      .catch(() => {
+        window.alert('Erro! O cliente não foi adicionado! :(');
+      });
   };
 
   return (
@@ -657,6 +699,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
               name="categories"
               onChange={ ({ target: { value } }) => {
                 setNewClientInputs({ ...newClientInputs, categoria_id: value, integracao_id: '' });
+                getIntegrationsList(value);
                 setIsFinishButtonDisplayed(false);
               } }
               select
@@ -692,8 +735,7 @@ const NewClientModal = ({ isOpen, handleClose, clientId }) => {
               variant="outlined"
             >
               {
-                !!newClientInputs.categoria_id && integrationsList
-                  .filter(({ categoria_id }) => categoria_id === newClientInputs.categoria_id)
+                !!integrationsByCategory && integrationsByCategory
                   .map(({ integracao_id, api_empresa }) => (
                     <MenuItem
                       key={ api_empresa }
