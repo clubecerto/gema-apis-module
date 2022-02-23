@@ -1,12 +1,15 @@
 import React, { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import APIsManagementContext from '../context/APIsManagementContext';
 
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 
-const CategoriesGrid = ({ history: { push } }) => {
+const CategoriesGrid = () => {
   const { categoriesList } = useContext(APIsManagementContext);
+
+  const { push } = useNavigate();
 
   // CLICAR NA CATEGORIA REDIRECIONA PARA SUAS RESPECTIVAS INTEGRAÇÕES
   const handleClickCategory = ({ target: { name } }) => {
@@ -20,7 +23,7 @@ const CategoriesGrid = ({ history: { push } }) => {
       sx={{ my: 1 }}
     >
       {
-        !!categoriesList && categoriesList.map(({ categoria_id, categoria_nome }) => (
+        categoriesList.map(({ categoria_id, categoria_nome }) => (
           <Grid
             data-testid="category-button"
             item

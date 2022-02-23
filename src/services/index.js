@@ -2,9 +2,9 @@ import axios from 'axios';
 // import * as mocks from './mock';
 
 const ALL_CATEGORIES_URL = 'https://clubecerto.com.br/gema/api-manager/categorias';
-const INTEGRATIONS_BY_CATEGORY_URL = '';
+const INTEGRATIONS_BY_CATEGORY_URL = 'https://clubecerto.com.br/gema/api-manager/categorias'; // <= LINK ERRADO
 const INTEGRATION_DETAILS_URL = '';
-const CLIENTS_BY_INTEGRATION_URL = '';
+const CLIENTS_BY_INTEGRATION_URL = 'https://clubecerto.com.br/gema/api-manager/categorias'; // <= LINK ERRADO
 const CLIENT_DETAILS_URL = '';
 const EDIT_CLIENT_URL = '';
 const ADD_NEW_CLIENT_URL = '';
@@ -20,33 +20,27 @@ const ADD_NEW_CLIENT_URL = '';
 // };
 
 // GET DE TODAS AS CATEGORIAS
-export const getCategories = async () => {
-  const headers = {
-    Accept: '*/*',
-    'Accept-Encoding': 'gzip, deflate, br',
-  };
-
+export const fetchCategories = async () => {
   try {
-    const allCategories = await axios.get(ALL_CATEGORIES_URL, { headers });
-    console.log(allCategories);
-    return JSON.parse(allCategories);
+    const allCategories = await axios.get(ALL_CATEGORIES_URL);
+    return allCategories.data;
   } catch (error) {
     console.log(error);
   }
 };
 
 // GET DE TODAS AS INTEGRAÇÕES DE UMA DETERMINADA CATEGORIA
-export const getIntegrationsByCategory = async (categoryId) => {
+export const fetchIntegrationsByCategory = async (categoryId) => {
   try {
     const integrationsByCategory = await axios.get(INTEGRATIONS_BY_CATEGORY_URL);
-    return JSON.parse(integrationsByCategory);
+    return integrationsByCategory.data;
   } catch (error) {
     console.log(error);
   }
 };
 
 // GET DE DETALHES DE UMA INTEGRAÇÃO
-export const getIntegrationDetails = async (integrationId) => {
+export const fetchIntegrationDetails = async (integrationId) => {
   const routeParams = {
     params: {
       id: integrationId,
@@ -55,17 +49,17 @@ export const getIntegrationDetails = async (integrationId) => {
 
   try {
     const allIntegrationDetails = await axios.get(INTEGRATION_DETAILS_URL, routeParams);
-    return JSON.parse(allIntegrationDetails);
+    return allIntegrationDetails.data;
   } catch (error) {
     console.log(error);
   }
 };
 
 // GET DE TODOS OS CLIENTES DE UMA DETERMINADA INTEGRAÇÃO
-export const getIntegrationClients = async (integrationId) => {
+export const fetchClientsByIntegration = async (integrationId) => {
   try {
-    const integrationClients = await fetch(`${CLIENTS_BY_INTEGRATION_URL}/${integrationId}`);
-    return JSON.parse(integrationClients);
+    const clientsByIntegration = await axios.get(CLIENTS_BY_INTEGRATION_URL);
+    return clientsByIntegration.data;
   } catch (error) {
     console.log(error);
   }

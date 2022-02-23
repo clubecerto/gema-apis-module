@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 
-import { getIntegration } from '../services';
+import { fetchIntegrationDetails } from '../services';
 
 import APIsManagementContext from '../context/APIsManagementContext';
 
@@ -18,8 +18,13 @@ const IntegrationDetailsModal = ({ isOpen, handleClose, integrationId }) => {
   const { categoriesList } = useContext(APIsManagementContext);
 
   // RECUPERA DADOS DA INTEGRAÇÃO ESCOLHIDA E SALVA DO ESTADO
+  const getIntegrationDetails = async () => {
+    const integrationDetailsFetched = await fetchIntegrationDetails(integrationId);
+    setIntegrationSelected(integrationDetailsFetched);
+  };
+
   useEffect(() => {
-    setIntegrationSelected(getIntegration(integrationId));
+    getIntegrationDetails();
   }, []);
 
   return (

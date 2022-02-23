@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 
 import APIsManagementContext from '../context/APIsManagementContext';
-import { getIntegrationsByCategory } from '../services';
+import { fetchIntegrationsByCategory } from '../services';
 
 import Box from '@mui/system/Box';
 import Button from '@mui/material/Button';
@@ -9,7 +9,7 @@ import MenuItem from '@mui/material/MenuItem';
 import SearchIcon from '@mui/icons-material/Search';
 import StyledInput from './StyledInput';
 
-const SearchBar = ({ history: { location: { pathname } } }) => {
+const SearchBar = () => {
   const [inputCategorySearch, setInputCategorySearch] = useState('');
   const [inputClientSearch, setInputClientSearch] = useState('');
   const [inputIntegrationSearch, setInputIntegrationSearch] = useState('');
@@ -17,18 +17,17 @@ const SearchBar = ({ history: { location: { pathname } } }) => {
 
   const { categoriesList } = useContext(APIsManagementContext);
 
-  // CAPTURA ID DA CATEGORIA SELECIONADA POR MEIO DO URL
-  const categoryId = pathname.slice(1);
-
   // RECUPERA TODAS AS INTEGRAÇÕES DE UMA CATEGORIA E SALVA NO ESTADO
-  const getIntegrationsList = async () => {
-    const integrationsFetched = await getIntegrationsByCategory();
-    // console.log(categoriesFetched);
-    setIntegrationsByCategory(integrationsFetched);
+  const getIntegrationsList = async (categoryId) => {
+    const integrationsFetched = await fetchIntegrationsByCategory(categoryId);
+    setIntegrationsByCategory(integrationsFetched || []);
   };
 
-  // HANDLE CHANGE
-  const 
+  // HANDLE CATEGORY CHANGE
+  const handleCategoryChange = ({ target: { value } }) => {
+    setInputCategorySearch(value);
+    getIntegrationsList(value);
+  };
 
   // BUSCA POR CLIENTE, LÓGICA PENDENTE AGUARDANDO API
   const handleSubmitClientSearch = (event) => {
@@ -68,7 +67,7 @@ const SearchBar = ({ history: { location: { pathname } } }) => {
           color="primary"
           label="Categorias"
           name="categories"
-          onChange={ ({ target: { value } }) => setInputCategorySearch(value) }
+          onChange={ handleCategoryChange }
           select
           size="small"
           sx={{ width: "200px", mr: 2 }}
@@ -76,7 +75,7 @@ const SearchBar = ({ history: { location: { pathname } } }) => {
           variant="outlined"
         >
           {
-            !!categoriesList && categoriesList.map(({ categoria_id, categoria_nome }) => (
+            categoriesList.map(({ categoria_id, categoria_nome }) => (
               <MenuItem
                 key={ categoria_nome }
                 value={ categoria_id }
@@ -101,9 +100,7 @@ const SearchBar = ({ history: { location: { pathname } } }) => {
           variant="outlined"
         >
           {
-            !!inputCategorySearch && integrationsByCategory
-              // .filter(({ categoria_id }) => categoria_id === inputCategorySearch)
-              .map(({ integracao_id, api_empresa }) => (
+            integrationsByCategory.map(({ integracao_id, api_empresa }) => (
                 <MenuItem
                   key={ api_empresa }
                   value={ integracao_id }

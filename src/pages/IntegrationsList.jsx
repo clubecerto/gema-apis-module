@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-import { getIntegrationsByCategory } from '../services';
+import { fetchIntegrationsByCategory } from '../services';
 
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
@@ -11,16 +12,18 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
+const IntegrationsList = () => {
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [modalIntegrationId, setModalIntegrationId] = useState('');
   const [integrationsByCategory, setIntegrationsByCategory] = useState([]);
 
+  const { push } = useNavigate();
+  const { pathname } = useLocation();
+
   // RECUPERA TODAS AS INTEGRAÇÕES DE UMA CATEGORIA E SALVA NO ESTADO
   const getIntegrationsList = async (categoryId) => {
-    const integrationsFetched = await getIntegrationsByCategory(categoryId);
-    // console.log(categoriesFetched);
-    setIntegrationsByCategory(integrationsFetched);
+    const integrationsFetched = await fetchIntegrationsByCategory(categoryId);
+    setIntegrationsByCategory(integrationsFetched || []);
   };
 
   useEffect(() => {

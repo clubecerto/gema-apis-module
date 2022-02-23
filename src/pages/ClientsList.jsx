@@ -1,10 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
-import APIsManagementContext from '../context/APIsManagementContext';
+import { fetchClientsByIntegration } from '../services';
 
 import Box from '@mui/system/Box';
 import Button from '@mui/material/Button';
-import ClientDetailsModal from '../components/ClientDetailsModal';
+// import ClientDetailsModal from '../components/ClientDetailsModal';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -12,14 +13,25 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
 
-const ClientsList = ({ history: { location: { pathname } } }) => {
+const ClientsList = () => {
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [modalClientId, setModalClientId] = useState('');
+  const [clientsByIntegration, setClientsByIntegration] = useState([]);
 
-  const { clientsList } = useContext(APIsManagementContext);
+  const { pathname } = useLocation();
 
   // CAPTURA ID DA INTEGRAÇÃO SELECIONADA POR MEIO DO URL
   const integrationId = pathname.split('/')[2];
+
+  // RECUPERA TODAS AS INTEGRAÇÕES DE UMA CATEGORIA E SALVA NO ESTADO
+  const getClientsList = async (integrationId) => {
+    const clientsFetched = await fetchClientsByIntegration(integrationId);
+    setClientsByIntegration(clientsFetched || []);
+  };
+
+  useEffect(() => {
+    getClientsList(integrationId);
+  }, []);
 
   // ABRE E FECHA MODAL DE DETALHES DA INTEGRAÇÃO
   const handleDetailsModal = (clientId) => {
@@ -29,11 +41,11 @@ const ClientsList = ({ history: { location: { pathname } } }) => {
 
   return (
     <>
-      { !!isDetailsModalOpen && <ClientDetailsModal
+      {/* { !!isDetailsModalOpen && <ClientDetailsModal
         clientId={ modalClientId }
         handleClose={ handleDetailsModal }
         isOpen={ isDetailsModalOpen }
-      /> }
+      /> } */}
       <Table
         aria-label="client list table"
         sx={{
@@ -58,7 +70,7 @@ const ClientsList = ({ history: { location: { pathname } } }) => {
         { /* CORPO DA TABELA */ }
         <TableBody>
           {
-            clientsList
+            clientsByIntegration
               .filter(({ integracao_id }) => integracao_id === integrationId)
                 .map(({ nome, status, cron, responsavel, id }) => (
                   <TableRow

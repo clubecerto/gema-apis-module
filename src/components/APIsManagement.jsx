@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { getCategories } from '../services';
+import { fetchCategories } from '../services';
 
 import {
   clientsList,
@@ -18,7 +18,7 @@ import APIsManagementContext from '../context/APIsManagementContext';
 import Box from '@mui/system/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import NewClientModal from '../components/NewClientModal';
+// import NewClientModal from '../components/NewClientModal';
 import PageTitle from './PageTitle';
 import SearchBar from './SearchBar';
 
@@ -28,23 +28,21 @@ const APIsManagement = ({ children }) => {
 
   // RECUPERA TODAS AS CATEGORIAS E SALVA NO ESTADO
   const getCategoriesList = async () => {
-    const categoriesFetched = await getCategories();
-    // console.log(categoriesFetched);
-    setCategoriesList(categoriesFetched);
+    const categoriesFetched = await fetchCategories();
+    setCategoriesList(categoriesFetched || []);
   };
 
   useEffect(() => {
     getCategoriesList();
   }, [])
 
+  // ABRE E FECHA MODAL DE NOVO CLIENTE
   const handleNewClientModal = () => {
     setIsNewClientOpen(!isNewClientOpen);
   };
 
   const context = {
     categoriesList,
-    integrationsByCategory,
-    getIntegrationsList,
     clientsList,
     client_1,
     client_2,
@@ -58,10 +56,10 @@ const APIsManagement = ({ children }) => {
 
   return (
     <APIsManagementContext.Provider value={ context }>
-      { !!isNewClientOpen && <NewClientModal
+      {/* { !!isNewClientOpen && <NewClientModal
         handleClose={ handleNewClientModal }
         isOpen={ isNewClientOpen }
-      /> }
+      /> } */}
       <Container>
         <PageTitle />
         <Box
