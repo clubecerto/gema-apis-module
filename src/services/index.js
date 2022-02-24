@@ -1,87 +1,102 @@
-import * as mocks from './mock';
+import axios from 'axios';
+// import * as mocks from './mock';
 
-const ALL_CATEGORIES_URL = '';
-const ALL_INTEGRATIONS_URL = '';
-const INTEGRATION_CLIENTS_URL = '';
-const INTEGRATION_DETAILS_URL = '';
-const CLIENT_DETAILS_URL = '';
-const EDIT_CLIENT_URL = '';
-const ADD_NEW_CLIENT_URL = '';
+const ALL_CATEGORIES_URL = 'https://clubecerto.com.br/gema/api-manager/categorias';
+const INTEGRATIONS_BY_CATEGORY_URL = 'https://clubecerto.com.br/gema/api-manager/categorias'; // <= LINK ERRADO
+const INTEGRATION_DETAILS_URL = 'https://clubecerto.com.br/gema/api-manager/categorias'; // <= LINK ERRADO
+const CLIENTS_BY_INTEGRATION_URL = 'https://clubecerto.com.br/gema/api-manager/categorias'; // <= LINK ERRADO
+const CLIENT_DETAILS_URL = 'https://clubecerto.com.br/gema/api-manager/categorias'; // <= LINK ERRADO
+const ADD_NEW_CLIENT_URL = 'https://clubecerto.com.br/gema/api-manager/categorias'; // <= LINK ERRADO
+// const EDIT_CLIENT_URL = 'https://clubecerto.com.br/gema/api-manager/categorias'; // <= LINK ERRADO
 
-export const getIntegration = (integration_id) =>{
-  const integrationSelected = `integration_${integration_id}`;
-  return mocks[integrationSelected];
-};
+// export const getIntegration = (integration_id) =>{
+//   const integrationSelected = `integration_${integration_id}`;
+//   return mocks[integrationSelected];
+// };
 
-export const getClient = (client_id) =>{
-  const clientSelected = `client_${client_id}`;
-  return mocks[clientSelected];
-};
+// export const getClient = (client_id) =>{
+//   const clientSelected = `client_${client_id}`;
+//   return mocks[clientSelected];
+// };
 
 // GET DE TODAS AS CATEGORIAS
-export const getCategories = async () => {
+export const fetchCategories = async () => {
   try {
-    const allCategories = await fetch(ALL_CATEGORIES_URL);
-    return JSON.parse(allCategories);
+    const allCategories = await axios.get(ALL_CATEGORIES_URL);
+    return allCategories.data;
   } catch (error) {
     console.log(error);
   }
 };
 
-// GET DE TODAS AS INTEGRAÇÕES
-export const getIntegrations = async () => {
+// GET DE TODAS AS INTEGRAÇÕES DE UMA DETERMINADA CATEGORIA
+export const fetchIntegrationsByCategory = async (categoryId) => {
   try {
-    const integrations = await fetch(ALL_INTEGRATIONS_URL);
-    return JSON.parse(integrations);
+    const integrationsByCategory = await axios.get(INTEGRATIONS_BY_CATEGORY_URL);
+    return integrationsByCategory.data;
   } catch (error) {
     console.log(error);
   }
 };
 
 // GET DE DETALHES DE UMA INTEGRAÇÃO
-export const getIntegrationDetails = async (integrationId) => {
+export const fetchIntegrationDetails = async (integrationId) => {
+  const routeParams = {
+    params: {
+      id: integrationId,
+    },
+  };
+
   try {
-    const allIntegrationDetails = await fetch(`${INTEGRATION_DETAILS_URL}/${integrationId}`);
-    return JSON.parse(allIntegrationDetails);
+    const allIntegrationDetails = await axios.get(INTEGRATION_DETAILS_URL, routeParams);
+    return allIntegrationDetails.data;
   } catch (error) {
     console.log(error);
   }
 };
 
 // GET DE TODOS OS CLIENTES DE UMA DETERMINADA INTEGRAÇÃO
-export const getIntegrationClients = async (integrationId) => {
+export const fetchClientsByIntegration = async (integrationId) => {
   try {
-    const integrationClients = await fetch(`${INTEGRATION_CLIENTS_URL}/${integrationId}`);
-    return JSON.parse(integrationClients);
+    const clientsByIntegration = await axios.get(CLIENTS_BY_INTEGRATION_URL);
+    return clientsByIntegration.data;
   } catch (error) {
     console.log(error);
   }
 };
 
 // GET DE DETALHES DE UM CLIENTES
-export const getClientDetails = async (clientId) => {
+export const fetchClientDetails = async (clientId) => {
+  const routeParams = {
+    params: {
+      id: clientId,
+    },
+  };
+
   try {
-    const clientDetails = await fetch(`${CLIENT_DETAILS_URL}/${clientId}`);
-    return JSON.parse(clientDetails);
+    const allClientDetails = await axios.get(CLIENT_DETAILS_URL, routeParams);
+    return allClientDetails.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// POST PARA ADICIONAR NOVO CLIENTE (TAMBÉM SERÁ USADO PARA EDITAR)
+export const addNewClient = async (client) => {
+  try {
+    const sucessMessage = await axios.post(ADD_NEW_CLIENT_URL, client);
+    return sucessMessage;
   } catch (error) {
     console.log(error);
   }
 };
 
 // PATCH PARA EDITAR NOVO CLIENTE
-export const editClient = async (client) => {
-  try {
-
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-// POST PARA ADICIONAR NOVO CLIENTE
-export const addNewClient = async (client) => {
-  try {
-
-  } catch (error) {
-    console.log(error);
-  }
-};
+// export const editClient = async (client) => {
+//   try {
+//     const sucessMessage = await axios.post(ADD_NEW_CLIENT_URL, client);
+//     return sucessMessage;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };

@@ -1,6 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-import APIsManagementContext from '../context/APIsManagementContext';
+import { fetchIntegrationsByCategory } from '../services';
 
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
@@ -11,14 +12,25 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
+const IntegrationsList = () => {
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [modalIntegrationId, setModalIntegrationId] = useState('');
+  const [integrationsByCategory, setIntegrationsByCategory] = useState([]);
 
-  const { integrationsList } = useContext(APIsManagementContext);
+  const { push } = useNavigate();
+  const { pathname } = useLocation();
 
-  // CAPTURA ID DA CATEGORIA SELECIONADA POR MEIO DO URL
-  const categoryId = pathname.slice(1);
+  // RECUPERA TODAS AS INTEGRAÇÕES DE UMA CATEGORIA E SALVA NO ESTADO
+  const getIntegrationsList = async (categoryId) => {
+    const integrationsFetched = await fetchIntegrationsByCategory(categoryId);
+    setIntegrationsByCategory(integrationsFetched || []);
+  };
+
+  useEffect(() => {
+    // CAPTURA ID DA CATEGORIA SELECIONADA POR MEIO DO URL
+    const categoryId = pathname.slice(1);
+    getIntegrationsList(categoryId);
+  }, []);
 
   // CLICAR NA INTEGRAÇÃO REDIRECIONA PARA SEUS RESPECTIVOS CLIENTES
   const handleClickIntegration = ({ target: { name } }) => {
@@ -61,8 +73,8 @@ const IntegrationsList = ({ history: { push, location: { pathname } } }) => {
         { /* CORPO DA TABELA */ }
         <TableBody>
           {
-            integrationsList
-              .filter(({ categoria_id }) => categoria_id === categoryId)
+            integrationsByCategory
+              // .filter(({ categoria_id }) => categoria_id === categoryId)
               .map(({ integracao_id, api_empresa, responsavel, status, cron }) => (
                 <TableRow
                 key={ api_empresa }

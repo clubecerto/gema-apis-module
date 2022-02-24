@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 
 import APIsManagementContext from '../context/APIsManagementContext';
+import { fetchIntegrationsByCategory } from '../services';
 
 import Box from '@mui/system/Box';
 import Button from '@mui/material/Button';
@@ -12,8 +13,21 @@ const SearchBar = () => {
   const [inputCategorySearch, setInputCategorySearch] = useState('');
   const [inputClientSearch, setInputClientSearch] = useState('');
   const [inputIntegrationSearch, setInputIntegrationSearch] = useState('');
+  const [integrationsByCategory, setIntegrationsByCategory] = useState([]);
 
-  const { categoriesList, integrationsList, } = useContext(APIsManagementContext);
+  const { categoriesList } = useContext(APIsManagementContext);
+
+  // RECUPERA TODAS AS INTEGRAÇÕES DE UMA CATEGORIA E SALVA NO ESTADO
+  const getIntegrationsList = async (categoryId) => {
+    const integrationsFetched = await fetchIntegrationsByCategory(categoryId);
+    setIntegrationsByCategory(integrationsFetched || []);
+  };
+
+  // HANDLE CATEGORY CHANGE
+  const handleCategoryChange = ({ target: { value } }) => {
+    setInputCategorySearch(value);
+    getIntegrationsList(value);
+  };
 
   // BUSCA POR CLIENTE, LÓGICA PENDENTE AGUARDANDO API
   const handleSubmitClientSearch = (event) => {
@@ -53,7 +67,7 @@ const SearchBar = () => {
           color="primary"
           label="Categorias"
           name="categories"
-          onChange={ ({ target: { value } }) => setInputCategorySearch(value) }
+          onChange={ handleCategoryChange }
           select
           size="small"
           sx={{ width: "200px", mr: 2 }}
@@ -86,9 +100,7 @@ const SearchBar = () => {
           variant="outlined"
         >
           {
-            !!inputCategorySearch && integrationsList
-              .filter(({ categoria_id }) => categoria_id === inputCategorySearch)
-              .map(({ integracao_id, api_empresa }) => (
+            integrationsByCategory.map(({ integracao_id, api_empresa }) => (
                 <MenuItem
                   key={ api_empresa }
                   value={ integracao_id }
