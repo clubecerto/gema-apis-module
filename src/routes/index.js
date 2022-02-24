@@ -16,7 +16,7 @@ const AppRoutes = () => {
       <Route exact path='/' element={ <CategoriesGrid /> } />
       <Route exact path='/:categoryId' element={ <IntegrationsList /> } />
       <Route path='/:categoryId/:integrationId' element={ <ClientsList /> } />
-      <Route path='/search' element={ () => <ClientsList searchResults={ searchResults } /> } />
+      <Route path='/search' element={ <ClientsList searchResults={ searchResults } /> } />
     </Routes>
   );
 };

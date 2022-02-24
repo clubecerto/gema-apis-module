@@ -13,7 +13,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
 
-const ClientsList = (searchResults) => {
+const ClientsList = ({ searchResults }) => {
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [modalClientId, setModalClientId] = useState('');
   const [clientsByIntegration, setClientsByIntegration] = useState([]);
@@ -172,7 +172,7 @@ const ClientsList = (searchResults) => {
         { /* CORPO DA TABELA */ }
         <TableBody>
         {
-          (searchResults || clientsByIntegration)
+          (searchResults.length > 0 ? searchResults : clientsByIntegration)
             .map(({ nome, status, cron, responsavel, id }) => (
               <TableRow
                 key={ nome }
