@@ -5,6 +5,7 @@ const ALL_CATEGORIES_URL = 'https://clubecerto.com.br/gema/api-manager/categoria
 const INTEGRATIONS_BY_CATEGORY_URL = 'https://clubecerto.com.br/gema/api-manager/categorias'; // <= LINK ERRADO
 const INTEGRATION_DETAILS_URL = 'https://clubecerto.com.br/gema/api-manager/categorias'; // <= LINK ERRADO
 const CLIENTS_BY_INTEGRATION_URL = 'https://clubecerto.com.br/gema/api-manager/categorias'; // <= LINK ERRADO
+const CLIENTS_BY_SEARCH_URL = 'https://clubecerto.com.br/gema/api-manager/categorias'; // <= LINK ERRADO
 const CLIENT_DETAILS_URL = 'https://clubecerto.com.br/gema/api-manager/categorias'; // <= LINK ERRADO
 const ADD_NEW_CLIENT_URL = 'https://clubecerto.com.br/gema/api-manager/categorias'; // <= LINK ERRADO
 // const EDIT_CLIENT_URL = 'https://clubecerto.com.br/gema/api-manager/categorias'; // <= LINK ERRADO
@@ -86,6 +87,16 @@ export const addNewClient = async (client) => {
   try {
     const sucessMessage = await axios.post(ADD_NEW_CLIENT_URL, client);
     return sucessMessage;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// GET DE TODOS OS CLIENTES FILTRADOS PELA BUSCA (NOME, INTEGRAÇÃO E CATEGORIA)
+export const fetchClientsBySearch = async (searchInputs) => {
+  try {
+    const clientsBySearch = await axios.get(CLIENTS_BY_SEARCH_URL);
+    return clientsBySearch.data;
   } catch (error) {
     console.log(error);
   }

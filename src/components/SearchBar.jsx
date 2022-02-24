@@ -10,12 +10,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import StyledInput from './StyledInput';
 
 const SearchBar = () => {
-  const [inputCategorySearch, setInputCategorySearch] = useState('');
-  const [inputClientSearch, setInputClientSearch] = useState('');
-  const [inputIntegrationSearch, setInputIntegrationSearch] = useState('');
   const [integrationsByCategory, setIntegrationsByCategory] = useState([]);
 
-  const { categoriesList } = useContext(APIsManagementContext);
+  const { categoriesList, searchInput, setSearchInput, handleSubmitClientSearch } = useContext(APIsManagementContext);
 
   // RECUPERA TODAS AS INTEGRAÇÕES DE UMA CATEGORIA E SALVA NO ESTADO
   const getIntegrationsList = async (categoryId) => {
@@ -25,13 +22,8 @@ const SearchBar = () => {
 
   // HANDLE CATEGORY CHANGE
   const handleCategoryChange = ({ target: { value } }) => {
-    setInputCategorySearch(value);
+    setSearchInput((current) => ({ ...current, categoryId: value }));
     getIntegrationsList(value);
-  };
-
-  // BUSCA POR CLIENTE, LÓGICA PENDENTE AGUARDANDO API
-  const handleSubmitClientSearch = (event) => {
-    event.preventDefault();
   };
 
   return (
@@ -54,11 +46,11 @@ const SearchBar = () => {
           color="primary"
           label="Buscar cliente"
           name="search-client"
-          onChange={ ({ target: { value } }) => setInputClientSearch(value) }
+          onChange={ ({ target: { value } }) => setSearchInput((current) => ({ ...current, clientName: value })) }
           size="small"
           sx={{ flexGrow: 1, mr: 2 }}
           type="text"
-          value={ inputClientSearch }
+          value={ searchInput.clientName }
           variant="outlined"
         />
 
@@ -71,7 +63,7 @@ const SearchBar = () => {
           select
           size="small"
           sx={{ width: "200px", mr: 2 }}
-          value={ inputCategorySearch }
+          value={ searchInput.categoryId }
           variant="outlined"
         >
           {
@@ -89,14 +81,14 @@ const SearchBar = () => {
         { /* FILTRO POR INTEGRAÇÃO */ }
         <StyledInput
           color="primary"
-          disabled={ !inputCategorySearch }
+          disabled={ !searchInput.categoryId }
           label="Integração"
           name="integracao"
-          onChange={ ({ target: { value } }) => setInputIntegrationSearch(value) }
+          onChange={ ({ target: { value } }) => setSearchInput((current) => ({ ...current, integrationId: value })) }
           select
           size="small"
           sx={{ width: "200px", mr: 2 }}
-          value={ inputIntegrationSearch }
+          value={ searchInput.integrationId }
           variant="outlined"
         >
           {
