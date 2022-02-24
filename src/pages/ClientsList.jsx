@@ -13,7 +13,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
 
-const ClientsList = () => {
+const ClientsList = ({ searchResults }) => {
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [modalClientId, setModalClientId] = useState('');
   const [clientsByIntegration, setClientsByIntegration] = useState([]);
@@ -38,6 +38,107 @@ const ClientsList = () => {
     setIsDetailsModalOpen(!isDetailsModalOpen);
     setModalClientId(clientId);
   };
+
+  // const renderTableBody = () => (
+  //   <TableBody>
+  //   {
+  //     (searchResults || clientsByIntegration)
+  //       .map(({ nome, status, cron, responsavel, id }) => (
+  //         <TableRow
+  //           key={ nome }
+  //           sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+  //         >
+  //           <TableCell sx={{ py: 1 }} data-testid="client-name">{ nome }</TableCell>
+  //           <TableCell sx={{ py: 1 }}>{ responsavel }</TableCell>
+  //           <TableCell align="center" sx={{ py: 1 }}>
+  //             <Button
+  //               color="primary"
+  //               variant="contained"
+  //               onClick={ () => handleDetailsModal(id) }
+  //               sx={{ borderRadius: "10px" }}
+  //             >
+  //               Ver mais
+  //             </Button>
+  //           </TableCell>
+  //           <TableCell
+  //             align="center"
+  //             sx={{ py: 1 }}
+  //           >
+  //             { /* VISUALIZAÇÃO DA ROTINA CRON */ }
+  //             {
+  //               !cron
+  //               ? (
+  //                 <Box
+  //                   sx={{
+  //                     backgroundColor: "#b40803",
+  //                     borderRadius: "20px",
+  //                     color: "white",
+  //                     height: "36px",
+  //                     paddingTop: "8px",
+  //                     width: "90px",
+  //                   }}
+  //                 >
+  //                   NÃO
+  //                 </Box>
+  //               )
+  //               : (
+  //                 <Box
+  //                   sx={{
+  //                     backgroundColor: "#00964f",
+  //                     borderRadius: "20px",
+  //                     color: "white",
+  //                     height: "36px",
+  //                     paddingTop: "8px",
+  //                     width: "90px",
+  //                   }}
+  //                 >
+  //                   SIM
+  //                 </Box>
+  //               )
+  //             }
+  //           </TableCell>
+  //           <TableCell
+  //             align="center"
+  //             sx={{ py: 1 }}
+  //           >
+  //             { /* VISUALIZAÇÃO DO STATUS */ }
+  //             {
+  //               !status
+  //               ? (
+  //                 <Box
+  //                   sx={{
+  //                     backgroundColor: "#b40803",
+  //                     borderRadius: "20px",
+  //                     color: "white",
+  //                     height: "36px",
+  //                     paddingTop: "8px",
+  //                     width: "90px",
+  //                   }}
+  //                 >
+  //                   INATIVO
+  //                 </Box>
+  //               )
+  //               : (
+  //                 <Box
+  //                   sx={{
+  //                     backgroundColor: "#00964f",
+  //                     borderRadius: "20px",
+  //                     color: "white",
+  //                     height: "36px",
+  //                     paddingTop: "8px",
+  //                     width: "90px",
+  //                   }}
+  //                 >
+  //                   ATIVO
+  //                 </Box>
+  //               )
+  //             }
+  //           </TableCell>
+  //         </TableRow>
+  //     ))
+  //   }
+  //   </TableBody>
+  // );
 
   return (
     <>
@@ -70,103 +171,102 @@ const ClientsList = () => {
 
         { /* CORPO DA TABELA */ }
         <TableBody>
-          {
-            clientsByIntegration
-              .filter(({ integracao_id }) => integracao_id === integrationId)
-                .map(({ nome, status, cron, responsavel, id }) => (
-                  <TableRow
-                    key={ nome }
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+        {
+          (searchResults.length > 0 ? searchResults : clientsByIntegration)
+            .map(({ nome, status, cron, responsavel, id }) => (
+              <TableRow
+                key={ nome }
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                <TableCell sx={{ py: 1 }} data-testid="client-name">{ nome }</TableCell>
+                <TableCell sx={{ py: 1 }}>{ responsavel }</TableCell>
+                <TableCell align="center" sx={{ py: 1 }}>
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    onClick={ () => handleDetailsModal(id) }
+                    sx={{ borderRadius: "10px" }}
                   >
-                    <TableCell sx={{ py: 1 }} data-testid="client-name">{ nome }</TableCell>
-                    <TableCell sx={{ py: 1 }}>{ responsavel }</TableCell>
-                    <TableCell align="center" sx={{ py: 1 }}>
-                      <Button
-                        color="primary"
-                        variant="contained"
-                        onClick={ () => handleDetailsModal(id) }
-                        sx={{ borderRadius: "10px" }}
+                    Ver mais
+                  </Button>
+                </TableCell>
+                <TableCell
+                  align="center"
+                  sx={{ py: 1 }}
+                >
+                  { /* VISUALIZAÇÃO DA ROTINA CRON */ }
+                  {
+                    !cron
+                    ? (
+                      <Box
+                        sx={{
+                          backgroundColor: "#b40803",
+                          borderRadius: "20px",
+                          color: "white",
+                          height: "36px",
+                          paddingTop: "8px",
+                          width: "90px",
+                        }}
                       >
-                        Ver mais
-                      </Button>
-                    </TableCell>
-                    <TableCell
-                      align="center"
-                      sx={{ py: 1 }}
-                    >
-                      { /* VISUALIZAÇÃO DA ROTINA CRON */ }
-                      {
-                        !cron
-                        ? (
-                          <Box
-                            sx={{
-                              backgroundColor: "#b40803",
-                              borderRadius: "20px",
-                              color: "white",
-                              height: "36px",
-                              paddingTop: "8px",
-                              width: "90px",
-                            }}
-                          >
-                            NÃO
-                          </Box>
-                        )
-                        : (
-                          <Box
-                            sx={{
-                              backgroundColor: "#00964f",
-                              borderRadius: "20px",
-                              color: "white",
-                              height: "36px",
-                              paddingTop: "8px",
-                              width: "90px",
-                            }}
-                          >
-                            SIM
-                          </Box>
-                        )
-                      }
-                    </TableCell>
-                    <TableCell
-                      align="center"
-                      sx={{ py: 1 }}
-                    >
-                      { /* VISUALIZAÇÃO DO STATUS */ }
-                      {
-                        !status
-                        ? (
-                          <Box
-                            sx={{
-                              backgroundColor: "#b40803",
-                              borderRadius: "20px",
-                              color: "white",
-                              height: "36px",
-                              paddingTop: "8px",
-                              width: "90px",
-                            }}
-                          >
-                            INATIVO
-                          </Box>
-                        )
-                        : (
-                          <Box
-                            sx={{
-                              backgroundColor: "#00964f",
-                              borderRadius: "20px",
-                              color: "white",
-                              height: "36px",
-                              paddingTop: "8px",
-                              width: "90px",
-                            }}
-                          >
-                            ATIVO
-                          </Box>
-                        )
-                      }
-                    </TableCell>
-                  </TableRow>
-              ))
-          }
+                        NÃO
+                      </Box>
+                    )
+                    : (
+                      <Box
+                        sx={{
+                          backgroundColor: "#00964f",
+                          borderRadius: "20px",
+                          color: "white",
+                          height: "36px",
+                          paddingTop: "8px",
+                          width: "90px",
+                        }}
+                      >
+                        SIM
+                      </Box>
+                    )
+                  }
+                </TableCell>
+                <TableCell
+                  align="center"
+                  sx={{ py: 1 }}
+                >
+                  { /* VISUALIZAÇÃO DO STATUS */ }
+                  {
+                    !status
+                    ? (
+                      <Box
+                        sx={{
+                          backgroundColor: "#b40803",
+                          borderRadius: "20px",
+                          color: "white",
+                          height: "36px",
+                          paddingTop: "8px",
+                          width: "90px",
+                        }}
+                      >
+                        INATIVO
+                      </Box>
+                    )
+                    : (
+                      <Box
+                        sx={{
+                          backgroundColor: "#00964f",
+                          borderRadius: "20px",
+                          color: "white",
+                          height: "36px",
+                          paddingTop: "8px",
+                          width: "90px",
+                        }}
+                      >
+                        ATIVO
+                      </Box>
+                    )
+                  }
+                </TableCell>
+              </TableRow>
+          ))
+        }
         </TableBody>
       </Table>
     </>

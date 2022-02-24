@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
-import { fetchCategories } from '../services';
+import { fetchCategories, fetchClientsBySearch } from '../services';
 
 import {
-  clientsList,
   client_1,
   client_2,
   client_3,
@@ -21,10 +20,21 @@ import Container from '@mui/material/Container';
 import NewClientModal from '../components/NewClientModal';
 import PageTitle from './PageTitle';
 import SearchBar from './SearchBar';
+import { useNavigate } from 'react-router-dom';
 
 const APIsManagement = ({ children }) => {
+  const INITIAL_SEARCH_INPUT_STATE = {
+    categoryId: '',
+    integrationId: '',
+    clientName: '',
+  };
+
   const [isNewClientOpen, setIsNewClientOpen] = useState(false);
   const [categoriesList, setCategoriesList] = useState([]);
+  const [searchInput, setSearchInput] = useState(INITIAL_SEARCH_INPUT_STATE);
+  const [searchResults, setSearchResults] = useState([]);
+
+  const { push } = useNavigate();
 
   // RECUPERA TODAS AS CATEGORIAS E SALVA NO ESTADO
   const getCategoriesList = async () => {
@@ -41,9 +51,20 @@ const APIsManagement = ({ children }) => {
     setIsNewClientOpen(!isNewClientOpen);
   };
 
+  // BUSCA POR CLIENTE, LÓGICA PENDENTE AGUARDANDO API
+  const handleSubmitClientSearch = async (event) => {
+    event.preventDefault();
+    const results = await fetchClientsBySearch(searchInput);
+    setSearchResults(results);
+    push('/search');
+  };
+
   const context = {
     categoriesList,
-    clientsList,
+    searchResults,
+    searchInput,
+    setSearchInput,
+    handleSubmitClientSearch,
     client_1,
     client_2,
     client_3,
